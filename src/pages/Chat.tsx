@@ -3,14 +3,16 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send } from "lucide-react";
+import { Send, Loader2 } from "lucide-react";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { createApp, getMessages, sendMessage } from "@/services/api";
 import { Message } from "@/types/api";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Progress } from "@/components/ui/progress";
 
 const Chat = () => {
   const [message, setMessage] = useState("");
+  const [isCreatingApp, setIsCreatingApp] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const navigate = useNavigate();
@@ -25,10 +27,13 @@ const Chat = () => {
     const initApp = async () => {
       if (!appId) {
         try {
+          setIsCreatingApp(true);
           const app = await createApp();
           navigate(`/chat?appId=${app.id}`, { replace: true });
         } catch (error) {
           console.error('Failed to create app:', error);
+        } finally {
+          setIsCreatingApp(false);
         }
       }
     };
@@ -44,7 +49,7 @@ const Chat = () => {
   });
 
   // Send message mutation
-  const { mutate: submitMessage } = useMutation({
+  const { mutate: submitMessage, isPending: isSending } = useMutation({
     mutationFn: async ({ message, appId }: { message: string; appId: string }) => {
       return sendMessage(message, appId);
     },
@@ -55,7 +60,7 @@ const Chat = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!message.trim() || !appId) return;
+    if (!message.trim() || !appId || isSending) return;
     
     submitMessage({ message, appId });
     setMessage("");
@@ -85,6 +90,15 @@ const Chat = () => {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+
+  if (isCreatingApp) {
+    return (
+      <div className="h-screen flex items-center justify-center flex-col gap-4">
+        <Progress value={100} className="w-[60%] animate-pulse" />
+        <p className="text-sm text-muted-foreground">Creating your app...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen flex flex-col md:flex-row">
@@ -121,9 +135,14 @@ const Chat = () => {
                 placeholder="Describe your website..."
                 className="flex-1 min-h-[44px] max-h-[200px] resize-none"
                 rows={1}
+                disabled={isSending}
               />
-              <Button type="submit" size="icon" className="h-11 w-11">
-                <Send className="h-4 w-4" />
+              <Button type="submit" size="icon" className="h-11 w-11" disabled={isSending}>
+                {isSending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Send className="h-4 w-4" />
+                )}
               </Button>
             </form>
           </div>
