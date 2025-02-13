@@ -1,13 +1,14 @@
 
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Send } from "lucide-react";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 
 const Chat = () => {
   const [message, setMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,6 +16,25 @@ const Chat = () => {
     
     // Handle message submission here
     setMessage("");
+    
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e);
+    }
+  };
+
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(e.target.value);
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
   };
 
   return (
@@ -31,14 +51,17 @@ const Chat = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            <form onSubmit={handleSubmit} className="flex items-center gap-2 pt-4">
-              <Input
+            <form onSubmit={handleSubmit} className="flex items-end gap-2 pt-4">
+              <Textarea
+                ref={textareaRef}
                 value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                onChange={handleTextareaChange}
+                onKeyDown={handleKeyDown}
                 placeholder="Describe your website..."
-                className="flex-1"
+                className="flex-1 min-h-[44px] max-h-[200px] resize-none"
+                rows={1}
               />
-              <Button type="submit" size="icon">
+              <Button type="submit" size="icon" className="h-11 w-11">
                 <Send className="h-4 w-4" />
               </Button>
             </form>
