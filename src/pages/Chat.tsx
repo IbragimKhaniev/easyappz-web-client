@@ -1,20 +1,63 @@
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send } from "lucide-react";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import { createApp, getMessages, sendMessage } from "@/services/api";
+import { Message } from "@/types/api";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const Chat = () => {
   const [message, setMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const queryClient = useQueryClient();
+
+  const searchParams = new URLSearchParams(location.search);
+  const appId = searchParams.get('appId');
+
+  // Create app if no appId
+  useEffect(() => {
+    const initApp = async () => {
+      if (!appId) {
+        try {
+          const app = await createApp();
+          navigate(`/chat?appId=${app.id}`, { replace: true });
+        } catch (error) {
+          console.error('Failed to create app:', error);
+        }
+      }
+    };
+
+    initApp();
+  }, [appId, navigate]);
+
+  // Fetch messages
+  const { data: messages = [] } = useQuery({
+    queryKey: ['messages', appId],
+    queryFn: () => appId ? getMessages(appId) : Promise.resolve([]),
+    enabled: !!appId,
+  });
+
+  // Send message mutation
+  const { mutate: submitMessage } = useMutation({
+    mutationFn: async ({ message, appId }: { message: string; appId: string }) => {
+      return sendMessage(message, appId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['messages', appId] });
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!message.trim()) return;
+    if (!message.trim() || !appId) return;
     
-    // Handle message submission here
+    submitMessage({ message, appId });
     setMessage("");
     
     if (textareaRef.current) {
@@ -37,6 +80,12 @@ const Chat = () => {
     }
   };
 
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   return (
     <div className="h-screen flex flex-col md:flex-row">
       <ResizablePanelGroup direction="horizontal" className="min-h-screen rounded-lg">
@@ -48,6 +97,18 @@ const Chat = () => {
                   Start describing your website and I'll help you build it.
                 </p>
               </div>
+
+              {messages.map((msg: Message, index: number) => (
+                <div
+                  key={index}
+                  className={`glass rounded-lg p-4 animate-in ${
+                    msg.from === 'user' ? 'ml-auto max-w-[80%] bg-primary/10' : 'mr-auto max-w-[80%]'
+                  }`}
+                >
+                  <p className="text-sm whitespace-pre-wrap">{msg.message}</p>
+                </div>
+              ))}
+              
               <div ref={messagesEndRef} />
             </div>
 
