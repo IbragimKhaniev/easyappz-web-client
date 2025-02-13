@@ -22,10 +22,10 @@ const Index = () => {
           className="space-y-2"
         >
           <span className="px-3 py-1 text-sm rounded-full bg-primary/5 text-primary inline-block">
-            Website Builder
+            Конструктор веб-сайтов
           </span>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
-            Create beautiful websites through chat
+            Творите свои самые безумные идеи
           </h1>
         </motion.div>
         
@@ -35,8 +35,8 @@ const Index = () => {
           transition={{ delay: 0.3 }}
           className="text-lg text-muted-foreground max-w-xl mx-auto"
         >
-          Build your next website effortlessly using natural language. 
-          No coding required - just describe what you want.
+          Создайте свой следующий веб-сайт без особых усилий, используя естественный язык. 
+          Кодирование не требуется - просто опишите, что вы хотите.
         </motion.p>
 
         <motion.div
@@ -49,7 +49,7 @@ const Index = () => {
             onClick={() => navigate("/chat")}
             className="group h-12 px-8 hover:bg-primary/90 transition-all"
           >
-            Start Building
+            Начать творить
             <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Button>
         </motion.div>

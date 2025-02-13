@@ -15,6 +15,16 @@ export const createApp = async (): Promise<App> => {
   return response.json();
 };
 
+export const getApp = async (appId: string): Promise<App> => {
+  const response = await fetch(`${API_BASE_URL}/apps/${appId}`);
+  
+  if (!response.ok) {
+    throw new Error('Failed to fetch messages');
+  }
+  
+  return response.json();
+};
+
 export const getMessages = async (appId: string): Promise<Message[]> => {
   const response = await fetch(`${API_BASE_URL}/messages/${appId}`);
   

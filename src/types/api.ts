@@ -1,8 +1,8 @@
 
 export interface App {
-  id: string;
-  name?: string;
-  description?: string;
+  _id: string;
+  name: string;
+  dir: string;
 }
 
 export interface Message {
