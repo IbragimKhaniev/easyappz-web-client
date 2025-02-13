@@ -93,7 +93,7 @@ const Chat = () => {
 
   if (isCreatingApp) {
     return (
-      <div className="h-screen flex items-center justify-center flex-col gap-4">
+      <div className="h-screen flex items-center justify-center flex-col gap-4 bg-background">
         <Progress value={100} className="w-[60%] animate-pulse" />
         <p className="text-sm text-muted-foreground">Creating your app...</p>
       </div>
@@ -101,11 +101,20 @@ const Chat = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col md:flex-row">
+    <div className="h-screen flex flex-col md:flex-row bg-background">
       <ResizablePanelGroup direction="horizontal" className="min-h-screen rounded-lg">
         <ResizablePanel defaultSize={50} minSize={30}>
-          <div className="h-screen flex flex-col p-4 bg-background">
-            <div className="flex-1 overflow-y-auto space-y-4 pb-4">
+          <div className="h-screen flex flex-col bg-background">
+            <div className="border-b border-border/40 p-4">
+              <div className="flex items-center gap-2">
+                <img src="/logo.svg" alt="EaseAppz" className="h-8 w-8" />
+                <h1 className="text-lg font-semibold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
+                  EaseAppz
+                </h1>
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto space-y-4 p-4">
               <div className="glass rounded-lg p-4">
                 <p className="text-sm text-muted-foreground">
                   Start describing your website and I'll help you build it.
@@ -116,7 +125,9 @@ const Chat = () => {
                 <div
                   key={index}
                   className={`glass rounded-lg p-4 animate-in ${
-                    msg.from === 'user' ? 'ml-auto max-w-[80%] bg-primary/10' : 'mr-auto max-w-[80%]'
+                    msg.from === 'user' 
+                      ? 'ml-auto max-w-[80%] bg-primary/5 border-primary/20' 
+                      : 'mr-auto max-w-[80%]'
                   }`}
                 >
                   <p className="text-sm whitespace-pre-wrap">{msg.message}</p>
@@ -126,33 +137,40 @@ const Chat = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            <form onSubmit={handleSubmit} className="flex items-end gap-2 pt-4">
-              <Textarea
-                ref={textareaRef}
-                value={message}
-                onChange={handleTextareaChange}
-                onKeyDown={handleKeyDown}
-                placeholder="Describe your website..."
-                className="flex-1 min-h-[44px] max-h-[200px] resize-none"
-                rows={1}
-                disabled={isSending}
-              />
-              <Button type="submit" size="icon" className="h-11 w-11" disabled={isSending}>
-                {isSending ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Send className="h-4 w-4" />
-                )}
-              </Button>
-            </form>
+            <div className="border-t border-border/40 p-4">
+              <form onSubmit={handleSubmit} className="flex items-end gap-2">
+                <Textarea
+                  ref={textareaRef}
+                  value={message}
+                  onChange={handleTextareaChange}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Describe your website..."
+                  className="flex-1 min-h-[44px] max-h-[200px] resize-none bg-secondary/50"
+                  rows={1}
+                  disabled={isSending}
+                />
+                <Button 
+                  type="submit" 
+                  size="icon" 
+                  className="h-11 w-11 bg-primary/10 hover:bg-primary/20" 
+                  disabled={isSending}
+                >
+                  {isSending ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Send className="h-4 w-4" />
+                  )}
+                </Button>
+              </form>
+            </div>
           </div>
         </ResizablePanel>
         
         <ResizableHandle className="w-2 bg-muted" />
         
         <ResizablePanel defaultSize={50}>
-          <div className="h-screen bg-muted p-4">
-            <div className="w-full h-full rounded-lg bg-background">
+          <div className="h-screen bg-muted/20 p-4">
+            <div className="w-full h-full rounded-lg bg-background border border-border/40">
               {/* Preview will be rendered here */}
             </div>
           </div>
