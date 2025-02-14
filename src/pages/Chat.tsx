@@ -135,12 +135,12 @@ const Chat = () => {
                 <div
                   key={index}
                   className={`glass rounded-lg p-4 animate-in ${
-                    msg.from === 'user' 
+                    msg.role === 'user' 
                       ? 'ml-auto max-w-[80%] bg-primary/5 border-primary/20' 
                       : 'mr-auto max-w-[80%]'
                   }`}
                 >
-                  <p className="text-sm whitespace-pre-wrap">{msg.message}</p>
+                  <p className="text-sm whitespace-pre-wrap">{msg.role === 'user' ? msg.content : 'Сделано!'}</p>
                 </div>
               ))}
               
@@ -184,7 +184,7 @@ const Chat = () => {
               {/* Preview will be rendered here */}
               {app && (
                 // <iframe src={`http://localhost:8080/?page=${app.dir}`} width="100%" height="100%"></iframe>
-                <iframe key={keyIframe} src={`http://localhost:5000/vanilla/appz/${app.dir}/index.html`} width="100%" height="100%"></iframe>
+                <iframe key={keyIframe} src={`http://localhost:5000/${app.dir}/index.html`} width="100%" height="100%"></iframe>
               )}
             </div>
             {isPendingApp || isCreatingApp || isSendingMessage && (

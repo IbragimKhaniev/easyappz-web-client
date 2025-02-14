@@ -4,7 +4,7 @@ import type { App, Message } from '@/types/api';
 const API_BASE_URL = 'http://localhost:3000/api';
 
 export const createApp = async (): Promise<App> => {
-  const response = await fetch(`${API_BASE_URL}/apps`, {
+  const response = await fetch(`${API_BASE_URL}/applicationZs`, {
     method: 'POST',
   });
   
@@ -16,7 +16,7 @@ export const createApp = async (): Promise<App> => {
 };
 
 export const getApp = async (appId: string): Promise<App> => {
-  const response = await fetch(`${API_BASE_URL}/apps/${appId}`);
+  const response = await fetch(`${API_BASE_URL}/applicationZs/${appId}`);
   
   if (!response.ok) {
     throw new Error('Failed to fetch messages');
@@ -26,24 +26,23 @@ export const getApp = async (appId: string): Promise<App> => {
 };
 
 export const getMessages = async (appId: string): Promise<Message[]> => {
-  const response = await fetch(`${API_BASE_URL}/messages/${appId}`);
+  const response = await fetch(`${API_BASE_URL}/applicationZs/${appId}/messages`);
   
   if (!response.ok) {
     throw new Error('Failed to fetch messages');
   }
-  
+
   return response.json();
 };
 
 export const sendMessage = async (message: string, appId: string): Promise<Message> => {
-  const response = await fetch(`${API_BASE_URL}/messages`, {
+  const response = await fetch(`${API_BASE_URL}/applicationZs/${appId}/messages`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       message,
-      app: appId,
     }),
   });
   
