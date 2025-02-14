@@ -35,14 +35,14 @@ export const getMessages = async (appId: string): Promise<Message[]> => {
   return response.json();
 };
 
-export const sendMessage = async (message: string, appId: string): Promise<Message> => {
+export const sendMessage = async (content: string, appId: string): Promise<Message> => {
   const response = await fetch(`${API_BASE_URL}/applicationZs/${appId}/messages`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      message,
+      content,
     }),
   });
   
