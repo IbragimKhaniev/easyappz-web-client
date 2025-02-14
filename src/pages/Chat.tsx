@@ -18,6 +18,7 @@ const Chat = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryClient = useQueryClient();
+  const [keyIframe, setKeyIframe] = useState(0);
 
   const searchParams = new URLSearchParams(location.search);
   const appId = searchParams.get('appId');
@@ -55,7 +56,7 @@ const Chat = () => {
   });
 
   // Send message mutation
-  const { mutate: submitMessage, isPending: isSending } = useMutation({
+  const { mutate: submitMessage, isPending: isSendingMessage } = useMutation({
     mutationFn: async ({ message, appId }: { message: string; appId: string }) => {
       return sendMessage(message, appId);
     },
@@ -66,7 +67,7 @@ const Chat = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!message.trim() || !appId || isSending) return;
+    if (!message.trim() || !appId || isSendingMessage) return;
     
     submitMessage({ message, appId });
     setMessage("");
@@ -95,6 +96,10 @@ const Chat = () => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
+
+    setTimeout(() => {
+      setKeyIframe((currentKeyIframe) => currentKeyIframe + 1);
+    }, 1000);
   }, [messages]);
 
   if (isCreatingApp) {
@@ -152,15 +157,15 @@ const Chat = () => {
                   placeholder="Что вы хотите сотворить?"
                   className="flex-1 min-h-[44px] max-h-[200px] resize-none bg-secondary/50"
                   rows={1}
-                  disabled={isSending}
+                  disabled={isSendingMessage}
                 />
                 <Button 
                   type="submit" 
                   size="icon" 
                   className="h-11 w-11" 
-                  disabled={isSending}
+                  disabled={isSendingMessage}
                 >
-                  {isSending ? (
+                  {isSendingMessage ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     <Send className="h-4 w-4" />
@@ -174,19 +179,20 @@ const Chat = () => {
         <ResizableHandle className="w-2 bg-muted" />
 
         <ResizablePanel defaultSize={70}>
-          <div className="h-screen">
+          <div className="h-screen relative">
             <div className="w-full h-full bg-background">
               {/* Preview will be rendered here */}
-              {app ? (
+              {app && (
                 // <iframe src={`http://localhost:8080/?page=${app.dir}`} width="100%" height="100%"></iframe>
-                <iframe src={`http://localhost:5000/vanilla/appz/${app.dir}/index.html`} width="100%" height="100%"></iframe>
-              ) : (
-                <div className="h-screen flex items-center justify-center flex-col gap-4 bg-background">
-                  <Progress value={100} className="w-[60%] animate-pulse" />
-                  <p className="text-sm text-muted-foreground">Загрузка вашего приложения...</p>
-                </div>
+                <iframe key={keyIframe} src={`http://localhost:5000/vanilla/appz/${app.dir}/index.html`} width="100%" height="100%"></iframe>
               )}
             </div>
+            {isPendingApp || isCreatingApp || isSendingMessage && (
+              <div className="absolute top-0 right-0 flex items-center justify-center flex-col gap-4 bg-background w-full h-screen opacity-30">
+                <Progress value={100} className="w-[60%] animate-pulse" />
+                <p className="text-sm text-muted-foreground">Загрузка вашего приложения...</p>
+              </div>
+            )}
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>
