@@ -9,6 +9,8 @@ import { HomePage } from "./pages/Home";
 import { ChatPage } from "./pages/Chat";
 import { MarketplacePage } from "./pages/Marketplace";
 
+import { ROUTES } from "./shared/config/routes";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -16,9 +18,9 @@ const App = () => (
     <TooltipProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/chat" element={<ChatPage />} />
-          <Route path="/marketplace" element={<MarketplacePage />} />
+          <Route path={ROUTES.HOME} element={<HomePage />} />
+          <Route path={ROUTES.CHAT} element={<ChatPage />} />
+          <Route path={ROUTES.MARKETPLACE} element={<MarketplacePage />} />
         </Routes>
       </BrowserRouter>
       <Toaster />

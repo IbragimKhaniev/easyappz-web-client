@@ -1,7 +1,7 @@
 
 export const ROUTES = {
   HOME: '/',
-  CHAT: '/chat',
+  CHAT: '/chat/:chatId',
   MARKETPLACE: '/marketplace',
   ABOUT: '/about'
 } as const;

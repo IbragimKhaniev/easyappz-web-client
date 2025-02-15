@@ -5,17 +5,28 @@ import { Button } from "@/shared/ui/button/Button";
 import { Navbar } from "@/shared/ui/navbar/Navbar";
 import { ROUTES } from "@/shared/config/routes";
 import { cn } from "@/lib/utils";
+import { generatePath } from "react-router-dom";
+
+import { usePostApiApplicationzs } from "@/api/core";
 
 export const HomePage = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  const { mutate: createApplicationz, isPending } = usePostApiApplicationzs({
+    mutation: {
+      onSuccess(data) {
+        const path = generatePath(ROUTES.CHAT, { chatId: data._id });
+
+        navigate(path);
+      }
+    },
+  });
+
   const handleStart = useCallback(async () => {
-    setIsLoading(true);
-    // Simulate loading
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    navigate(ROUTES.CHAT);
-  }, [navigate]);
+    createApplicationz({
+      data: {},
+    });
+  }, [createApplicationz]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -33,8 +44,8 @@ export const HomePage = () => {
             <Button
               size="lg"
               onClick={handleStart}
-              isLoading={isLoading}
-              className={cn("mt-8 rounded-[100px]", isLoading && "!w-12 !h-12 !p-0 !rounded-full")}
+              isLoading={isPending}
+              className={cn("mt-8 rounded-[100px]", isPending && "!w-12 !h-12 !p-0 !rounded-full")}
             >
               Начать
             </Button>
