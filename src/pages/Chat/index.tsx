@@ -6,6 +6,8 @@ import { ROUTES } from "@/shared/config/routes";
 import { ChatInput } from "./ui/ChatInput";
 import { LoadingCircle } from "./ui/LoadingCircle";
 
+import { useGetApiApplicationzsId } from "@/api/core";
+
 interface Message {
   id: number;
   text: string;
@@ -18,6 +20,8 @@ export const ChatPage = () => {
   const [messages, setMessages] = useState<Message[]>([]);
 
   const { chatId } = useParams();
+
+  const { data: applicationZ } = useGetApiApplicationzsId(chatId);
 
   const handleSendMessage = useCallback(async (message: string) => {
     setIsLoading(true);
@@ -59,7 +63,22 @@ export const ChatPage = () => {
       >
         <ArrowLeft className="h-6 w-6" />
       </Link>
-      
+
+      {applicationZ && (
+        <div style={{
+          width: '100vw',
+          height: '100vh',
+        }}>
+          <iframe
+            src={`http://localhost:5000/${applicationZ.dir}/index.html`}
+            style={{
+              width: '100%',
+              height: '100%',
+            }}
+          />
+        </div>
+      )}
+
       {isLoading && (
         <div className="fixed top-2/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
           <LoadingCircle progress={progress} />
