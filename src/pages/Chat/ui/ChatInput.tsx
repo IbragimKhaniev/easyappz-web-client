@@ -11,10 +11,11 @@ interface ChatInputProps {
   onSendMessage: (message: string) => void;
   isLoading: boolean;
   messages: GetApiApplicationzsApplicationzIdMessages200Item[];
+  isExpanded: boolean;
+  toggleExpanded: () => void;
 }
 
-export const ChatInput = ({ onSendMessage, isLoading, messages }: ChatInputProps) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+export const ChatInput = ({ onSendMessage, isLoading, isExpanded, toggleExpanded, messages }: ChatInputProps) => {
   const [message, setMessage] = useState("");
 
   const handleSubmit = useCallback((e: React.FormEvent) => {
@@ -24,10 +25,6 @@ export const ChatInput = ({ onSendMessage, isLoading, messages }: ChatInputProps
       setMessage("");
     }
   }, [message, isLoading, onSendMessage]);
-
-  const toggleExpanded = useCallback(() => {
-    setIsExpanded(prev => !prev);
-  }, []);
 
   return (
     <div

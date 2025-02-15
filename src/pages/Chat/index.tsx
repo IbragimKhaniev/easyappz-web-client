@@ -10,6 +10,7 @@ import { useGetApiApplicationzsId, useGetApiApplicationzsApplicationzIdMessages,
 
 export const ChatPage = () => {
   const [keyIframe, setKeyIframe] = useState(1);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const { chatId } = useParams();
 
@@ -58,8 +59,13 @@ export const ChatPage = () => {
     // }]);
   }, [applicationZ, createMessage]);
 
+  const toggleExpanded = useCallback(() => {
+    setIsExpanded(prev => !prev);
+  }, []);
+
   useEffect(() => {
     if (!applicationZ?.pending) {
+      setIsExpanded(true);
       setKeyIframe((currentKeyIframe) => currentKeyIframe + 1);
     }
   }, [applicationZ]);
@@ -82,6 +88,7 @@ export const ChatPage = () => {
           top: 0,
         }}>
           <iframe
+            key={keyIframe}
             src={`http://localhost:5000/${applicationZ.dir}/index.html`}
             style={{
               width: '100%',
@@ -105,6 +112,8 @@ export const ChatPage = () => {
         onSendMessage={handleSendMessage} 
         isLoading={isCommonLoading}
         messages={messages}
+        isExpanded={isExpanded}
+        toggleExpanded={toggleExpanded}
       />
     </div>
   );
