@@ -1,59 +1,68 @@
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { ROUTES } from "@/shared/config/routes";
 import { ChatInput } from "./ui/ChatInput";
 import { LoadingCircle } from "./ui/LoadingCircle";
 
-import { useGetApiApplicationzsId } from "@/api/core";
-
-interface Message {
-  id: number;
-  text: string;
-  isUser: boolean;
-}
+import { useGetApiApplicationzsId, useGetApiApplicationzsApplicationzIdMessages, usePostApiApplicationzsApplicationzIdMessages } from "@/api/core";
 
 export const ChatPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [keyIframe, setKeyIframe] = useState(1);
 
   const { chatId } = useParams();
 
-  const { data: applicationZ } = useGetApiApplicationzsId(chatId);
+  const {
+    data: applicationZ,
+    isLoading: isLoadingApplicationZ,
+  } = useGetApiApplicationzsId(chatId, {
+    query: {
+      refetchInterval: 3000,
+    }
+  });
+
+  const {
+    data: messages,
+    isLoading: isLoadingMessage,
+  } = useGetApiApplicationzsApplicationzIdMessages(chatId, {
+    query: {
+      refetchInterval: 3000,
+    }
+  });
+
+  const { mutate: createMessage, isPending: isPendingCreateMessage } = usePostApiApplicationzsApplicationzIdMessages();
+
+  const isCommonLoading = useMemo(() => (
+    isLoadingApplicationZ
+    || isLoadingMessage
+    || isPendingCreateMessage
+    || Boolean(applicationZ?.pending)
+  ), [isLoadingApplicationZ, isLoadingMessage, isPendingCreateMessage, applicationZ]);
 
   const handleSendMessage = useCallback(async (message: string) => {
-    setIsLoading(true);
-    setProgress(0);
-    
-    // Add user message
-    setMessages(prev => [...prev, {
-      id: Date.now(),
-      text: message,
-      isUser: true
-    }]);
+    if (!applicationZ) return;
 
-    // Simulate AI response
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setIsLoading(false);
-          
-          // Add AI response
-          setMessages(prev => [...prev, {
-            id: Date.now(),
-            text: "Thank you for your message! I'm here to help you create amazing web applications.",
-            isUser: false
-          }]);
-          
-          return 100;
-        }
-        return prev + 10;
-      });
-    }, 300);
-  }, []);
+    createMessage({
+      applicationzId: applicationZ._id,
+      data: {
+        content: message,
+      }
+    });
+
+    // Add user message
+    // setMessages(prev => [...prev, {
+    //   id: Date.now(),
+    //   text: message,
+    //   isUser: true
+    // }]);
+  }, [applicationZ, createMessage]);
+
+  useEffect(() => {
+    if (!applicationZ?.pending) {
+      setKeyIframe((currentKeyIframe) => currentKeyIframe + 1);
+    }
+  }, [applicationZ]);
 
   return (
     <div className="min-h-screen">
@@ -68,6 +77,9 @@ export const ChatPage = () => {
         <div style={{
           width: '100vw',
           height: '100vh',
+          position: 'fixed',
+          left: 0,
+          top: 0,
         }}>
           <iframe
             src={`http://localhost:5000/${applicationZ.dir}/index.html`}
@@ -79,19 +91,19 @@ export const ChatPage = () => {
         </div>
       )}
 
-      {isLoading && (
+      {applicationZ && applicationZ.pending && (
         <div className="fixed top-2/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
-          <LoadingCircle progress={progress} />
+          <LoadingCircle progress={applicationZ?.pendingPercent || 0} />
         </div>
       )}
-      
+
       <div className="w-full h-screen bg-secondary">
         {/* Preview iframe would go here */}
       </div>
       
       <ChatInput 
         onSendMessage={handleSendMessage} 
-        isLoading={isLoading}
+        isLoading={isCommonLoading}
         messages={messages}
       />
     </div>

@@ -4,17 +4,13 @@ import { Button } from "@/shared/ui/button/Button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { ChevronUp, ChevronDown, Send } from "lucide-react";
+import { GetApiApplicationzsApplicationzIdMessages200Item } from "@/api/core";
 
-interface Message {
-  id: number;
-  text: string;
-  isUser: boolean;
-}
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
   isLoading: boolean;
-  messages: Message[];
+  messages: GetApiApplicationzsApplicationzIdMessages200Item[];
 }
 
 export const ChatInput = ({ onSendMessage, isLoading, messages }: ChatInputProps) => {
@@ -53,15 +49,15 @@ export const ChatInput = ({ onSendMessage, isLoading, messages }: ChatInputProps
           <div className="flex-1 overflow-y-auto mb-4 p-4 bg-white/50 rounded-xl">
             {messages.map((msg) => (
               <div
-                key={msg.id}
+                key={msg._id}
                 className={cn(
                   "mb-2 p-3 rounded-xl max-w-[80%]",
-                  msg.isUser 
+                  msg.role === 'user' 
                     ? "bg-primary text-white ml-auto" 
-                    : "bg-white mr-auto"
+                    : "bg-secondary mr-auto"
                 )}
               >
-                {msg.text}
+                {msg.content}
               </div>
             ))}
           </div>

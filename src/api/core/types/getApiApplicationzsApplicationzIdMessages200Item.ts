@@ -8,9 +8,11 @@
 
 export type GetApiApplicationzsApplicationzIdMessages200Item = {
   _id?: string;
-  message?: string;
-  app?: string;
-  from?: string;
+  content?: string;
+  applicationz?: string;
+  role?: string;
+  chatgptId?: string;
+  chatgptThreadId?: string;
   createdAt?: string;
   updatedAt?: string;
 };

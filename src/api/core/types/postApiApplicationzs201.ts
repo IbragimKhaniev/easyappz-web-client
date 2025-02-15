@@ -8,9 +8,14 @@
 
 export type PostApiApplicationzs201 = {
   _id?: string;
+  name?: string;
+  dir?: string;
   template?: string;
   pending?: boolean;
   pendingPercent?: number;
+  error?: boolean;
+  errorText?: string;
+  chatgptThreadId?: string;
   createdAt?: string;
   updatedAt?: string;
 };
