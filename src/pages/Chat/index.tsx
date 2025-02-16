@@ -82,7 +82,8 @@ export const ChatPage = () => {
   }, [applicationZ]);
 
   useEffect(() => {
-    if (messages?.length) {
+    const roleLastMessage = messages?.[messages?.length - 1]?.role;
+    if (roleLastMessage === 'assistant') {
       setIsExpanded(true);
     }
   }, [messages]);
