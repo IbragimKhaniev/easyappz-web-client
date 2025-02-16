@@ -1,5 +1,5 @@
 
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { ROUTES } from "@/shared/config/routes";
@@ -7,8 +7,11 @@ import { ChatInput } from "./ui/ChatInput";
 import { LoadingCircle } from "./ui/LoadingCircle";
 
 import { useGetApiApplicationzsId, useGetApiApplicationzsApplicationzIdMessages, usePostApiApplicationzsApplicationzIdMessages } from "@/api/core";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const ChatPage = () => {
+  const queryClient = useQueryClient();
+
   const [keyIframe, setKeyIframe] = useState(1);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -20,6 +23,7 @@ export const ChatPage = () => {
   } = useGetApiApplicationzsId(chatId, {
     query: {
       refetchInterval: 3000,
+      queryKey: ['getApplicationZ', chatId],
     }
   });
 
@@ -29,10 +33,18 @@ export const ChatPage = () => {
   } = useGetApiApplicationzsApplicationzIdMessages(chatId, {
     query: {
       refetchInterval: 3000,
+      queryKey: ['getMessagesKey', chatId],
     }
   });
 
-  const { mutate: createMessage, isPending: isPendingCreateMessage } = usePostApiApplicationzsApplicationzIdMessages();
+  const { mutate: createMessage, isPending: isPendingCreateMessage } = usePostApiApplicationzsApplicationzIdMessages({
+    mutation: {
+      onSettled() {
+        queryClient.invalidateQueries({ queryKey: ['getMessagesKey', chatId], });
+        queryClient.invalidateQueries({ queryKey: ['getApplicationZ', chatId], });
+      }
+    }
+  });
 
   const isCommonLoading = useMemo(() => (
     isLoadingApplicationZ
@@ -65,10 +77,15 @@ export const ChatPage = () => {
 
   useEffect(() => {
     if (!applicationZ?.pending) {
-      setIsExpanded(true);
       setKeyIframe((currentKeyIframe) => currentKeyIframe + 1);
     }
   }, [applicationZ]);
+
+  useEffect(() => {
+    if (messages?.length) {
+      setIsExpanded(true);
+    }
+  }, [messages]);
 
   return (
     <div className="min-h-screen">
@@ -111,7 +128,7 @@ export const ChatPage = () => {
       <ChatInput 
         onSendMessage={handleSendMessage} 
         isLoading={isCommonLoading}
-        messages={messages}
+        messages={messages || []}
         isExpanded={isExpanded}
         toggleExpanded={toggleExpanded}
       />

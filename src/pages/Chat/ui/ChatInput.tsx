@@ -1,5 +1,5 @@
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/shared/ui/button/Button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
@@ -18,6 +18,8 @@ interface ChatInputProps {
 export const ChatInput = ({ onSendMessage, isLoading, isExpanded, toggleExpanded, messages }: ChatInputProps) => {
   const [message, setMessage] = useState("");
 
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
   const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     if (message.trim() && !isLoading) {
@@ -25,6 +27,12 @@ export const ChatInput = ({ onSendMessage, isLoading, isExpanded, toggleExpanded
       setMessage("");
     }
   }, [message, isLoading, onSendMessage]);
+
+  useEffect(() => {
+    if (isExpanded && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [isExpanded]);
 
   return (
     <div
@@ -36,7 +44,7 @@ export const ChatInput = ({ onSendMessage, isLoading, isExpanded, toggleExpanded
     >
       <button
         onClick={toggleExpanded}
-        className="absolute -top-[32px] left-[35px] transform -translate-x-1/2 bg-white rounded-t-xl p-2"
+        className="absolute -top-[32px] left-[35px] transform -translate-x-1/2 bg-white/50 rounded-t-xl p-2"
       >
         {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronUp className="h-4 w-4" />}
       </button>
@@ -44,7 +52,7 @@ export const ChatInput = ({ onSendMessage, isLoading, isExpanded, toggleExpanded
       <form onSubmit={handleSubmit} className="h-full flex flex-col p-4">
         {isExpanded && (
           <div className="flex-1 overflow-y-auto mb-4 p-4 bg-white/50 rounded-xl">
-            {messages.map((msg) => (
+            {messages.map((msg, index) => (
               <div
                 key={msg._id}
                 className={cn(
@@ -53,6 +61,7 @@ export const ChatInput = ({ onSendMessage, isLoading, isExpanded, toggleExpanded
                     ? "bg-primary text-white ml-auto" 
                     : "bg-secondary mr-auto"
                 )}
+                ref={messages.length - 1 === index ? messagesEndRef : undefined}
               >
                 {msg.content}
               </div>
