@@ -9,6 +9,8 @@ import { LoadingCircle } from "./ui/LoadingCircle";
 import { useGetApiApplicationzsId, useGetApiApplicationzsApplicationzIdMessages, usePostApiApplicationzsApplicationzIdMessages } from "@/api/core";
 import { useQueryClient } from "@tanstack/react-query";
 
+import { BASE_URL } from "@/api/axios";
+
 export const ChatPage = () => {
   const queryClient = useQueryClient();
 
@@ -102,7 +104,7 @@ export const ChatPage = () => {
         }}>
           <iframe
             key={keyIframe}
-            src={`http://localhost:5000/${applicationZ.dir}/index.html`}
+            src={`${BASE_URL}/${applicationZ.dir}/index.html`}
             style={{
               width: '100%',
               height: '100%',
