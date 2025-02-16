@@ -37,7 +37,7 @@ export const ChatInput = ({ onSendMessage, isLoading, isExpanded, toggleExpanded
   return (
     <div
       className={cn(
-        "fixed left-1/2 transform -translate-x-1/2 glass transition-all duration-300",
+        "fixed left-1/2 transform -translate-x-1/2 glass transition-all duration-300 shadow-[0_0_50px_rgba(0,0,0,0.1)]",
         "w-[600px] max-w-[90vw] rounded-2xl mb-[50px]",
         isExpanded ? "h-80 bottom-0" : "h-24 bottom-0"
       )}

@@ -63,12 +63,7 @@ export const ChatPage = () => {
       }
     });
 
-    // Add user message
-    // setMessages(prev => [...prev, {
-    //   id: Date.now(),
-    //   text: message,
-    //   isUser: true
-    // }]);
+    setIsExpanded(false);
   }, [applicationZ, createMessage]);
 
   const toggleExpanded = useCallback(() => {
