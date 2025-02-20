@@ -13,9 +13,11 @@ interface ChatInputProps {
   messages: GetApiApplicationzsApplicationzIdMessages200Item[];
   isExpanded: boolean;
   toggleExpanded: () => void;
+
+  errorText?: string;
 }
 
-export const ChatInput = ({ onSendMessage, isLoading, isExpanded, toggleExpanded, messages }: ChatInputProps) => {
+export const ChatInput = ({ onSendMessage, isLoading, isExpanded, toggleExpanded, messages, errorText }: ChatInputProps) => {
   const [message, setMessage] = useState("");
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -63,9 +65,22 @@ export const ChatInput = ({ onSendMessage, isLoading, isExpanded, toggleExpanded
                 )}
                 ref={messages.length - 1 === index ? messagesEndRef : undefined}
               >
-                {msg.content}
+                <div>{msg.content}</div>
+                {msg.status === 'processing' && (
+                  <div>Обрабатывается ...</div>
+                )}
               </div>
             ))}
+            {errorText && (
+              <div
+                className={cn(
+                  "mb-2 p-3 rounded-xl max-w-[80%]",
+                  "bg-secondary mr-auto"
+                )}
+              >
+                {errorText}
+              </div>
+            )}
           </div>
         )}
         

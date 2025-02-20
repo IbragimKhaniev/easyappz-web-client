@@ -161,6 +161,12 @@ export const ChatPage = () => {
         {/* Preview iframe would go here */}
       </div>
 
+
+      {applicationZ && applicationZ.error && (
+        <div className="fixed top-2/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
+          Ошибка в приложении {applicationZ.errorText}
+        </div>
+      )}
       <HideShow hidden={isPreviewSiteFocused}>
         <ChatInput 
           onSendMessage={handleSendMessage} 
