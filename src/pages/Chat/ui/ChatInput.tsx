@@ -14,10 +14,13 @@ interface ChatInputProps {
   isExpanded: boolean;
   toggleExpanded: () => void;
 
+  selectedService: string;
+  setSelectedService: (selectedService: string) => void;
+
   errorText?: string;
 }
 
-export const ChatInput = ({ onSendMessage, isLoading, isExpanded, toggleExpanded, messages, errorText }: ChatInputProps) => {
+export const ChatInput = ({ onSendMessage, isLoading, isExpanded, toggleExpanded, messages, errorText, selectedService, setSelectedService }: ChatInputProps) => {
   const [message, setMessage] = useState("");
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -44,6 +47,18 @@ export const ChatInput = ({ onSendMessage, isLoading, isExpanded, toggleExpanded
         isExpanded ? "h-80 bottom-0" : "h-24 bottom-0"
       )}
     >
+      <div className="absolute -top-[56px] left-[160px] transform -translate-x-1/2 bg-white/50 rounded-t-xl p-2">
+        <select
+          value={selectedService}
+          onChange={(e) => setSelectedService(e.target.value)}
+          className="transform z-50 p-2 bg-white rounded-md border"
+        >
+          <option value="grok-chat">Grok Chat</option>
+          <option value="gpt-4o-mini-chat">GPT-4o Mini Chat</option>
+          <option value="gpt-4o-mini-thread">GPT-4o Mini Thread</option>
+        </select>
+      </div>
+
       <button
         onClick={toggleExpanded}
         className="absolute -top-[32px] left-[35px] transform -translate-x-1/2 bg-white/50 rounded-t-xl p-2"

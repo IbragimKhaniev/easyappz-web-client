@@ -1,4 +1,3 @@
-
 import { useState, useCallback, useEffect, useMemo, useRef, ReactHTMLElement, RefObject } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
@@ -21,8 +20,8 @@ export const ChatPage = () => {
 
   const [keyIframe, setKeyIframe] = useState(1);
   const [isExpanded, setIsExpanded] = useState(false);
-
   const [isPreviewSiteFocused, setIsPreviewSiteFocused] = useState(false);
+  const [selectedService, setSelectedService] = useState<string>("grok-chat"); // Добавлено состояние для сервиса
 
   const iframe = useDetectClickOutside({
     onTriggered: () => {
@@ -75,11 +74,12 @@ export const ChatPage = () => {
       applicationzId: applicationZ._id,
       data: {
         content: message,
+        service: selectedService, // Добавлен сервис в данные сообщения
       }
     });
 
     setIsExpanded(false);
-  }, [applicationZ, createMessage]);
+  }, [applicationZ, createMessage, selectedService]); // Добавлена зависимость selectedService
 
   const toggleExpanded = useCallback(() => {
     setIsExpanded(prev => !prev);
@@ -98,17 +98,12 @@ export const ChatPage = () => {
     }
   }, [messages]);
 
-  /**
-   * Загрузка нового превью-iframe
-   */
   const onLoadIframe = useCallback(() => {
     let timer: ReturnType<typeof setTimeout> = undefined;
 
     const handleClick = () => {
       clearTimeout(timer);
-
       setIsPreviewSiteFocused(true);
-
       timer = setTimeout(() => {
         setIsPreviewSiteFocused(false);
       }, DEFAULT_INTERVAL_INACTIVE_IFRAME);
@@ -161,12 +156,12 @@ export const ChatPage = () => {
         {/* Preview iframe would go here */}
       </div>
 
-
       {applicationZ && applicationZ.error && (
         <div className="fixed top-2/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
           Ошибка в приложении {applicationZ.errorText}
         </div>
       )}
+      
       <HideShow hidden={isPreviewSiteFocused}>
         <ChatInput 
           onSendMessage={handleSendMessage} 
@@ -174,6 +169,8 @@ export const ChatPage = () => {
           messages={messages || []}
           isExpanded={isExpanded}
           toggleExpanded={toggleExpanded}
+          selectedService={selectedService}
+          setSelectedService={setSelectedService}
         />
       </HideShow>
     </div>
