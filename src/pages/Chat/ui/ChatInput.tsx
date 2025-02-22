@@ -47,15 +47,15 @@ export const ChatInput = ({ onSendMessage, isLoading, isExpanded, toggleExpanded
         isExpanded ? "h-80 bottom-0" : "h-24 bottom-0"
       )}
     >
-      <div className="absolute -top-[56px] left-[160px] transform -translate-x-1/2 bg-white/50 rounded-t-xl p-2">
+      <div className="absolute -top-[56px] left-[200px] transform -translate-x-1/2 bg-white/50 rounded-t-xl p-2">
         <select
           value={selectedService}
           onChange={(e) => setSelectedService(e.target.value)}
           className="transform z-50 p-2 bg-white rounded-md border"
         >
-          <option value="grok-chat">Grok Chat</option>
-          <option value="gpt-4o-mini-chat">GPT-4o Mini Chat</option>
-          <option value="gpt-4o-mini-thread">GPT-4o Mini Thread</option>
+          <option value="grok-chat">Grok-2-vision-1212</option>
+          <option value="gpt-4o-mini-chat">GPT-4o-mini</option>
+          <option value="gpt-4o-mini-thread">GPT-4o-mini code interpreter</option>
         </select>
       </div>
 
@@ -80,7 +80,7 @@ export const ChatInput = ({ onSendMessage, isLoading, isExpanded, toggleExpanded
                 )}
                 ref={messages.length - 1 === index ? messagesEndRef : undefined}
               >
-                <div>{msg.content}</div>
+                <div>{msg.previewContent || msg.content}</div>
                 {msg.status === 'processing' && (
                   <div>Обрабатывается ...</div>
                 )}

@@ -15,5 +15,6 @@ export type GetApiApplicationzsApplicationzIdMessages200Item = {
   chatgptThreadId?: string;
   createdAt?: string;
   updatedAt?: string;
+  previewContent?: string;
   status: string;
 };
