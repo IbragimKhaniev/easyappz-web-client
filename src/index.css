@@ -5,81 +5,89 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.75rem;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --radius: 1rem;
   }
-}
 
-@layer base {
   * {
-    @apply border-border;
+    @apply border-border selection:bg-white/10 selection:text-white;
   }
+  
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply text-foreground antialiased;
+    background: transparent;
+  }
+
+  html {
+    @apply scroll-smooth;
+    position: relative;
+    background: rgb(10, 10, 12);
+  }
+
+  html::before {
+    content: '';
+    position: fixed;
+    inset: -75px -25px -25px -25px;
+    background: radial-gradient(
+      circle at center,
+      rgba(212, 173, 252, 0.15) 0%,
+      rgb(10, 10, 12) 50%
+    );
+    filter: blur(45px) contrast(150%) brightness(120%);
+    z-index: 0;
+  }
+
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Стилизация скроллбара для всего приложения */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Для Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
   }
 }
 
 @layer utilities {
-  .glass {
-    @apply bg-white/80 backdrop-blur-md border border-white/20;
-  }
-  
-  .transition-all-200 {
-    @apply transition-all duration-200;
-  }
-  
-  .loading-circle {
-    @apply relative inline-flex;
-  }
-  
-  .loading-circle-svg {
-    @apply animate-spin;
-    transform-origin: center;
-  }
-}
-
-.fade-in {
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-.slide-up {
-  animation: slideUp 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
+  .glass-effect {
+    @apply bg-black/20 backdrop-blur-xl border border-white/10 rounded-2xl;
   }
 }

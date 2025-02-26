@@ -13,7 +13,8 @@ export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
   return AXIOS_INSTANCE({...config, cancelToken: source.token}).then(response => {
     if (response.status === 400) {
       // throw new Error(JSON.stringify(response.data));
-    } else if (response.status > 400) {
+    } else if (response.status > 401) {
+      window.location.pathname = '/';
       // костыль, чтобы при логине не обновляло страницу
       // TODO переделать страницу error
       // if (window.location.pathname === '/') {
