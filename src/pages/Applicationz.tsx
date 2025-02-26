@@ -24,7 +24,7 @@ import {
 import { ROUTES } from '@/constants/routes';
 import { useQueryClient } from '@tanstack/react-query';
 
-const Applicationz = memo(() => {
+const Applicationz = () => {
   const navigate = useNavigate();
   const { applicationzId } = useParams();
   const queryClient = useQueryClient();
@@ -46,7 +46,7 @@ const Applicationz = memo(() => {
   const { data: messages, isLoading: isLoadingMessages } = useGetApplicationZsApplicationzIdMessages(applicationzId, {
     query: {
       enabled: Boolean(applicationzId),
-      queryKey: ['getMessagesKey'],
+      queryKey: ['getMessagesKey', applicationzId],
       refetchInterval: 3000,
     }
   });
@@ -54,7 +54,7 @@ const Applicationz = memo(() => {
   const { data: applicationZ } = useGetApplicationZsId(applicationzId, {
     query: {
       enabled: Boolean(applicationzId),
-      queryKey: ['getApplicationZKey'],
+      queryKey: ['getApplicationZKey', applicationzId],
       refetchInterval: 3000,
     }
   });
@@ -249,7 +249,7 @@ const Applicationz = memo(() => {
       </ResizablePanelGroup>
     </div>
   );
-});
+};
 
 Applicationz.displayName = 'Applicationz';
 
