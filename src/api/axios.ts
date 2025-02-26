@@ -5,7 +5,8 @@ export const BASE_URL = import.meta.env.VITE_API_URL;
 export const baseURL = BASE_URL;
 export const AXIOS_INSTANCE = axios.create({
   timeout: 30000,
-  baseURL
+  baseURL,
+  withCredentials: true,
 });
 
 export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
