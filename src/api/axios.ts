@@ -7,6 +7,7 @@ export const AXIOS_INSTANCE = axios.create({
   timeout: 30000,
   baseURL,
   withCredentials: true,
+  withXSRFToken: true,
 });
 
 export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
