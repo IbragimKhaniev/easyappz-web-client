@@ -13,8 +13,11 @@ export const PreviewPanel = memo(({
   isMobileView,
   toggleMobileView,
   handleReloadDemo,
-  handleOpenInNewWindow
 }: PreviewPanelProps) => {
+  const handleOpenInNewWindow = useCallback(() => {
+    window.open(`${import.meta.env.VITE_HOST_URL}/${dir}/index.html`, '_blank');
+  }, [dir]);
+
   const renderButton = useCallback((icon: React.ReactNode, onClick: () => void, title: string, isActive?: boolean) => (
     <Button
       variant="ghost"

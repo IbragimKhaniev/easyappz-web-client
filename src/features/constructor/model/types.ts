@@ -11,7 +11,6 @@ export interface PreviewPanelProps {
   isMobileView: boolean;
   toggleMobileView: () => void;
   handleReloadDemo: () => void;
-  handleOpenInNewWindow: () => void;
 }
 
 export interface ChatInputProps {

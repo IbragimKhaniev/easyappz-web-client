@@ -118,10 +118,6 @@ const Applicationz = () => {
     }
   }, [applicationZ, handleReloadDemo]);
 
-  const handleOpenInNewWindow = useCallback(() => {
-    window.open('https://preview.example.com', '_blank');
-  }, []);
-
   /**
    * При указании нужных настроек создаем приложение
    */
@@ -242,7 +238,6 @@ const Applicationz = () => {
               isMobileView={isMobileView} 
               toggleMobileView={toggleMobileView} 
               handleReloadDemo={handleReloadDemo} 
-              handleOpenInNewWindow={handleOpenInNewWindow} 
             />
           )}
         </ResizablePanel>
