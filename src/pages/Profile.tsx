@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ROUTES } from "@/constants/routes";
 import { Plus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 import { useGetUser } from "@/api/core";
 import { useGetApplicationZs } from "@/api/core";
@@ -21,12 +22,15 @@ const Profile = () => {
       <div className="w-full max-w-[1024px] space-y-8 animate-fadeIn">
         <div className="flex justify-between items-center">
           <h1 className="text-4xl font-semibold text-white">EasyappZ</h1>
-          <button
-            onClick={() => navigate(ROUTES.HOME)}
-            className="bg-[#ea384c] hover:bg-[#d1293c] text-white font-medium px-4 py-2 rounded-xl transition-colors duration-200"
-          >
-            Выйти
-          </button>
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <button
+              onClick={() => navigate(ROUTES.HOME)}
+              className="bg-[#ea384c] hover:bg-[#d1293c] text-white font-medium px-4 py-2 rounded-xl transition-colors duration-200"
+            >
+              Выйти
+            </button>
+          </div>
         </div>
 
         <Tabs defaultValue="profile" className="w-full">

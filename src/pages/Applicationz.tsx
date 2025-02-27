@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useRef, useCallback, memo } from 'react';
-import { Menu, User, LogOut } from 'lucide-react';
+import { Menu, User, LogOut, Monitor, Moon } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
@@ -11,6 +11,7 @@ import { ChatInput } from "@/features/constructor/ui/ChatInput/ChatInput";
 import { PreviewPanel } from "@/features/constructor/ui/PreviewPanel/PreviewPanel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToggle } from '@/shared/lib/hooks/useToggle';
+import { useTheme } from "@/hooks/use-theme";
 
 import { 
   usePostPromtsAnalyze,
@@ -28,6 +29,7 @@ const Applicationz = () => {
   const navigate = useNavigate();
   const { applicationzId } = useParams();
   const queryClient = useQueryClient();
+  const { theme, setTheme } = useTheme();
 
   const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -156,6 +158,10 @@ const Applicationz = () => {
     });
   }, [applicationzId, handleFirstMessage, postMessages]);
 
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "gray" : "dark");
+  };
+
   return (
     <div className="h-screen w-full p-4">
       {showConfig && promtSettings && config && (
@@ -191,6 +197,13 @@ const Applicationz = () => {
                           >
                             <User size={16} />
                             <span>Профиль</span>
+                          </button>
+                          <button 
+                            onClick={toggleTheme} 
+                            className="flex items-center gap-2 text-white/60 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-colors duration-200 whitespace-nowrap"
+                          >
+                            {theme === "dark" ? <Monitor size={16} /> : <Moon size={16} />}
+                            <span>{theme === "dark" ? "Серая тема" : "Тёмная тема"}</span>
                           </button>
                         </div>
                       </AccordionContent>

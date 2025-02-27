@@ -2,8 +2,8 @@
 import { memo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogOut } from 'lucide-react';
-import { Button } from '@/shared/ui/button/Button';
-import { ROUTES } from '@/shared/config/routes';
+import { Button } from '@/components/ui/button';
+import { ROUTES } from '@/constants/routes';
 
 export const LogoutButton = memo(() => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ export const LogoutButton = memo(() => {
 
   return (
     <Button
-      variant="danger"
+      variant="destructive"
       onClick={handleLogout}
       className="flex items-center gap-2 font-medium"
     >
