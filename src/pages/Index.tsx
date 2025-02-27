@@ -1,5 +1,5 @@
 
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { generatePath, useNavigate } from "react-router-dom";
 import { EmailInput } from "@/components/EmailConfirmation/EmailInput";
 import { OTPVerification } from "@/components/Auth/OTPVerification";
@@ -7,6 +7,7 @@ import { ROUTES } from "@/constants/routes";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/hooks/use-toast";
 import { useMobile } from "@/hooks/use-mobile";
+import { useTheme } from "@/hooks/use-theme";
 
 import { usePostUser, usePostUserLogin } from "@/api/core";
 
@@ -14,6 +15,7 @@ const Index = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const isMobile = useMobile();
+  const { theme, setTheme } = useTheme();
 
   const [email, setEmail] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);

@@ -9,7 +9,7 @@ export const LogoutButton = memo(() => {
   const navigate = useNavigate();
   
   const handleLogout = useCallback(() => {
-    navigate(ROUTES.HOME);
+    navigate(ROUTES.WELCOME);
   }, [navigate]);
 
   return (
