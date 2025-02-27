@@ -15,20 +15,26 @@ export const AXIOS_INSTANCE = axios.create({
 export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
   const source = axios.CancelToken.source();
   return AXIOS_INSTANCE({...config, cancelToken: source.token}).then(response => {
-    if (response.status === 400) {
-      // throw new Error(JSON.stringify(response.data));
-    } else if (response.status === 401) {
-      window.location.pathname = '/';
-      // костыль, чтобы при логине не обновляло страницу
-      // TODO переделать страницу error
-      // if (window.location.pathname === '/') {
-      //   throw new Error(JSON.stringify(response.data));
-      // } else {
-      //   // window.location.pathname = `${ROUTES.ERROR}/${response.status}`;
-      // }
-    } else {
-      return response.data;
+    if (response.status === 401) {
+      window.location.href = '/';
     }
+
+    // if (response.status === 400) {
+    //   // throw new Error(JSON.stringify(response.data));
+    // } else if (response.status === 401) {
+    //   window.location.pathname = '/';
+    //   // костыль, чтобы при логине не обновляло страницу
+    //   // TODO переделать страницу error
+    //   // if (window.location.pathname === '/') {
+    //   //   throw new Error(JSON.stringify(response.data));
+    //   // } else {
+    //   //   // window.location.pathname = `${ROUTES.ERROR}/${response.status}`;
+    //   // }
+    // } else {
+    //   return response.data;
+    // }
+
+    return response.data;
   });
 };
 
