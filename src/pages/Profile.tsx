@@ -102,6 +102,13 @@ const Profile = () => {
                   >
                     <h3 className="text-xl font-medium text-white">{app.name}</h3>
                     <p className="text-gray-400 mt-2">{app.description}</p>
+                    <p className="text-gray-400 mt-2">Модель ИИ: {app.service}</p>
+                    {app.pending && (
+                      <p className="text-gray-400 mt-2">Обрабатывается ({(app.pendingPercent || 0)}%)...</p>
+                    )}
+                    {app.error && (
+                      <p className="text-gray-400 mt-2">Ошибка: {app.errorText}</p>
+                    )}
                   </button>
                 ))
               )}

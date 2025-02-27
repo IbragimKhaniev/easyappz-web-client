@@ -53,7 +53,7 @@ export const ChatInput = memo(({
           {isProcessing ? (
             <>
               <Loader2 size={16} className="animate-spin text-white" />
-              <span className="absolute -top-8 right-0 text-xs text-white/70 whitespace-nowrap bg-black/50 px-2 py-1 rounded-md">
+              <span className="absolute -top-10 right-0 text-xs text-white/70 whitespace-nowrap bg-black/50 px-2 py-1 rounded-md">
                 Обрабатывается...
               </span>
             </>

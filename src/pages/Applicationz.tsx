@@ -242,7 +242,7 @@ const Applicationz = () => {
                     <>
                       <ChatMessage text="Привет! Я помогу вам создать веб-приложение. Что бы вы хотели сделать?" isAI />
                       {messages?.map((msg, index) => <ChatMessage key={index} text={msg.previewContent || msg.content} isAI={msg.role === 'assistant'}  />)}
-                      {(isPendingPostMessages || applicationZ?.pending) && <LoadingMessage />}
+                      {(isPendingPostMessages || applicationZ?.pending) && <LoadingMessage loadingPercent={applicationZ?.pendingPercent} />}
                       <div ref={messagesEndRef} />
                     </>
                   )}

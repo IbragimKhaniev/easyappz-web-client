@@ -19,11 +19,15 @@ export const ChatMessage = memo(({ text, isAI }: ChatMessageType) => (
 
 ChatMessage.displayName = 'ChatMessage';
 
-export const LoadingMessage = memo(() => (
+interface ILoadingMessageProps {
+  loadingPercent?: number;
+}
+
+export const LoadingMessage = memo((props: ILoadingMessageProps) => (
   <div className="flex justify-start">
     <div className="flex items-center gap-2 bg-white/5 text-white/90 p-3 rounded-2xl">
       <Loader2 size={16} className="animate-spin" />
-      <span>Обрабатывается...</span>
+      <span>Обрабатывается ({props.loadingPercent ||0}%)...</span>
     </div>
   </div>
 ));
