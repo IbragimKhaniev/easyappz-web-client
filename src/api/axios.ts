@@ -16,7 +16,7 @@ export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
   const source = axios.CancelToken.source();
   return AXIOS_INSTANCE({...config, cancelToken: source.token}).then(response => {
     if (response.status === 401) {
-      window.location.href = '/';
+      window.location.href = '/welcome';
     }
 
     // if (response.status === 400) {

@@ -26,7 +26,7 @@ const Profile = () => {
           <div className="flex items-center gap-4">
             <ThemeToggle />
             <button
-              onClick={() => navigate(ROUTES.HOME)}
+              onClick={() => navigate(ROUTES.WELCOME)}
               className="bg-[#ea384c] hover:bg-[#d1293c] text-white font-medium px-4 py-2 rounded-xl transition-colors duration-200"
             >
               Выйти

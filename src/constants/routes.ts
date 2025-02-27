@@ -1,7 +1,6 @@
 
 export const ROUTES = {
-  HOME: '/',
-  LOGIN: '/login',
+  WELCOME: '/welcome',
   PROFILE: '/profile',
   VERIFY: '/verify',
   APPLICATIONZ: '/applicationz/:applicationzId?',
