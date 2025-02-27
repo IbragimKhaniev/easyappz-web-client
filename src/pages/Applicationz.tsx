@@ -199,25 +199,25 @@ const Applicationz = () => {
         <ResizablePanelGroup direction="horizontal" className="h-full rounded-lg overflow-hidden">
           <ResizablePanel defaultSize={33} minSize={25}>
             <div className="h-full flex flex-col">
-              <div className="glass-effect flex-1 overflow-hidden flex flex-col">
-                <div className="flex items-center p-4 border-b border-white/5">
+              <div className="bg-[#2A3042] bg-opacity-90 flex-1 overflow-hidden flex flex-col rounded-lg shadow-lg">
+                <div className="flex items-center p-4 border-b border-white/10">
                   <div className="relative mr-4">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <button className="glass-effect p-2 rounded-lg hover:bg-white/5 transition-colors duration-200">
-                          <Menu size={20} className="text-white/70" />
+                        <button className="bg-[#3A4055] p-2 rounded-lg hover:bg-[#4A5065] transition-colors duration-200">
+                          <Menu size={20} className="text-white/80" />
                         </button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="start" className="w-[200px] p-2 bg-[#1A1F2C] rounded-lg mt-1 border border-white/10">
+                      <DropdownMenuContent align="start" className="w-[200px] p-2 bg-[#2A3042] rounded-lg mt-1 border border-white/10">
                         <DropdownMenuItem 
-                          className="flex items-center gap-2 text-white/60 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-colors duration-200 cursor-pointer"
+                          className="flex items-center gap-2 text-white/70 hover:text-white py-2 px-3 rounded-lg hover:bg-[#3A4055] transition-colors duration-200 cursor-pointer"
                           onClick={() => navigate(ROUTES.PROFILE)}
                         >
                           <User size={16} />
                           <span>Профиль</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem 
-                          className="flex items-center gap-2 text-white/60 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-colors duration-200 cursor-pointer"
+                          className="flex items-center gap-2 text-white/70 hover:text-white py-2 px-3 rounded-lg hover:bg-[#3A4055] transition-colors duration-200 cursor-pointer"
                           onClick={toggleTheme}
                         >
                           {theme === "dark" ? <Monitor size={16} /> : <Moon size={16} />}
@@ -226,17 +226,17 @@ const Applicationz = () => {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
-                  <h2 className="text-xl font-medium text-white/90">Чат с ИИ</h2>
+                  <h2 className="text-xl font-medium text-white/95">Чат с ИИ</h2>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#2A3042]">
                   {isLoadingMessages ? (
                     <>
-                      <Skeleton className="h-[60px] w-[80%]" />
+                      <Skeleton className="h-[60px] w-[80%] bg-[#3A4055]" />
                       <div className="flex justify-end">
-                        <Skeleton className="h-[40px] w-[60%]" />
+                        <Skeleton className="h-[40px] w-[60%] bg-[#3A4055]" />
                       </div>
-                      <Skeleton className="h-[60px] w-[70%]" />
+                      <Skeleton className="h-[60px] w-[70%] bg-[#3A4055]" />
                     </>
                   ) : (
                     <>
@@ -291,25 +291,25 @@ const Applicationz = () => {
       )}
       
       {/* Переключатель между чатом и превью */}
-      <div className="glass-effect mb-2 p-2 flex justify-between items-center">
+      <div className="bg-[#2A3042] bg-opacity-90 mb-2 p-2 flex justify-between items-center rounded-lg shadow-md">
         <div className="flex items-center">
           <div className="relative mr-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="glass-effect p-2 rounded-lg hover:bg-white/5 transition-colors duration-200">
-                  <Menu size={20} className="text-white/70" />
+                <button className="bg-[#3A4055] p-2 rounded-lg hover:bg-[#4A5065] transition-colors duration-200">
+                  <Menu size={20} className="text-white/80" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-[200px] p-2 bg-[#1A1F2C] rounded-lg mt-1 border border-white/10">
+              <DropdownMenuContent align="start" className="w-[200px] p-2 bg-[#2A3042] rounded-lg mt-1 border border-white/10">
                 <DropdownMenuItem 
-                  className="flex items-center gap-2 text-white/60 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-colors duration-200 cursor-pointer"
+                  className="flex items-center gap-2 text-white/70 hover:text-white py-2 px-3 rounded-lg hover:bg-[#3A4055] transition-colors duration-200 cursor-pointer"
                   onClick={() => navigate(ROUTES.PROFILE)}
                 >
                   <User size={16} />
                   <span>Профиль</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem 
-                  className="flex items-center gap-2 text-white/60 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-colors duration-200 cursor-pointer"
+                  className="flex items-center gap-2 text-white/70 hover:text-white py-2 px-3 rounded-lg hover:bg-[#3A4055] transition-colors duration-200 cursor-pointer"
                   onClick={toggleTheme}
                 >
                   {theme === "dark" ? <Monitor size={16} /> : <Moon size={16} />}
@@ -318,21 +318,21 @@ const Applicationz = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <h2 className="text-lg font-medium text-white/90">EasyappZ</h2>
+          <h2 className="text-lg font-medium text-white/95">EasyappZ</h2>
         </div>
         <button
           onClick={toggleView}
-          className="glass-effect p-2 rounded-lg hover:bg-white/5 transition-colors duration-200 flex items-center gap-1"
+          className="bg-[#3A4055] p-2 rounded-lg hover:bg-[#4A5065] transition-colors duration-200 flex items-center gap-1"
         >
           {showChat ? (
             <>
-              <span className="text-sm text-white/70 mr-1">Превью</span>
-              <ChevronRight size={16} className="text-white/70" />
+              <span className="text-sm text-white/80 mr-1">Превью</span>
+              <ChevronRight size={16} className="text-white/80" />
             </>
           ) : (
             <>
-              <ChevronLeft size={16} className="text-white/70" />
-              <span className="text-sm text-white/70 ml-1">Чат</span>
+              <ChevronLeft size={16} className="text-white/80" />
+              <span className="text-sm text-white/80 ml-1">Чат</span>
             </>
           )}
         </button>
@@ -342,15 +342,15 @@ const Applicationz = () => {
       <div className="h-[calc(100vh-66px)]">
         {showChat && (
           <div className="h-full flex flex-col">
-            <div className="glass-effect flex-1 overflow-hidden flex flex-col">
+            <div className="bg-[#2A3042] bg-opacity-90 flex-1 overflow-hidden flex flex-col rounded-lg shadow-lg">
               <div className="flex-1 overflow-y-auto p-3 space-y-3">
                 {isLoadingMessages ? (
                   <>
-                    <Skeleton className="h-[60px] w-[80%]" />
+                    <Skeleton className="h-[60px] w-[80%] bg-[#3A4055]" />
                     <div className="flex justify-end">
-                      <Skeleton className="h-[40px] w-[60%]" />
+                      <Skeleton className="h-[40px] w-[60%] bg-[#3A4055]" />
                     </div>
-                    <Skeleton className="h-[60px] w-[70%]" />
+                    <Skeleton className="h-[60px] w-[70%] bg-[#3A4055]" />
                   </>
                 ) : (
                   <>
