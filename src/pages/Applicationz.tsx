@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useRef, useCallback, memo } from 'react';
-import { Menu, User, LogOut, Monitor, Moon } from 'lucide-react';
+import { Menu, User, LogOut, Monitor, Moon, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
@@ -12,6 +12,13 @@ import { PreviewPanel } from "@/features/constructor/ui/PreviewPanel/PreviewPane
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToggle } from '@/shared/lib/hooks/useToggle';
 import { useTheme } from "@/hooks/use-theme";
+import { useMobile } from "@/hooks/use-mobile";
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
 
 import { 
   usePostPromtsAnalyze,
@@ -30,6 +37,7 @@ const Applicationz = () => {
   const { applicationzId } = useParams();
   const queryClient = useQueryClient();
   const { theme, setTheme } = useTheme();
+  const isMobile = useMobile();
 
   const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -37,6 +45,8 @@ const Applicationz = () => {
   const [showConfig, setShowConfig] = useState(false);
   const [firstMessage, setFirstMessage] = useState<string | null>();
   const [keyIframe, setKeyIframe] = useState<number>(0);
+  const [showChat, setShowChat] = useState(!isMobile);
+  const [showPreview, setShowPreview] = useState(isMobile);
 
   /**
    * Характеристики основанные первом сообщении
@@ -156,64 +166,181 @@ const Applicationz = () => {
         content: value,
       }
     });
-  }, [applicationzId, handleFirstMessage, postMessages]);
+
+    // Автоматически переключаемся на превью на мобильных устройствах
+    if (isMobile) {
+      setShowChat(false);
+      setShowPreview(true);
+    }
+  }, [applicationzId, handleFirstMessage, postMessages, isMobile]);
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "gray" : "dark");
   };
 
+  const toggleView = () => {
+    setShowChat(!showChat);
+    setShowPreview(!showPreview);
+  };
+
+  // Используем ResizablePanelGroup только на десктопах
+  if (!isMobile) {
+    return (
+      <div className="h-screen w-full p-4">
+        {showConfig && promtSettings && config && (
+          <ConfigurationDialog 
+            open={showConfig} 
+            settings={promtSettings}
+            config={config}
+            onOpenChange={setShowConfig} 
+            onSubmit={handleConfigSubmit} 
+          />
+        )}
+        <ResizablePanelGroup direction="horizontal" className="h-full rounded-lg overflow-hidden">
+          <ResizablePanel defaultSize={33} minSize={25}>
+            <div className="h-full flex flex-col">
+              <div className="glass-effect flex-1 overflow-hidden flex flex-col">
+                <div className="flex items-center p-4 border-b border-white/5">
+                  <div className="relative mr-4">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button className="glass-effect p-2 rounded-lg hover:bg-white/5 transition-colors duration-200">
+                          <Menu size={20} className="text-white/70" />
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start" className="w-[200px] p-2 bg-[#1A1F2C] rounded-lg mt-1 border border-white/10">
+                        <DropdownMenuItem 
+                          className="flex items-center gap-2 text-white/60 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-colors duration-200 cursor-pointer"
+                          onClick={() => navigate(ROUTES.PROFILE)}
+                        >
+                          <User size={16} />
+                          <span>Профиль</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem 
+                          className="flex items-center gap-2 text-white/60 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-colors duration-200 cursor-pointer"
+                          onClick={toggleTheme}
+                        >
+                          {theme === "dark" ? <Monitor size={16} /> : <Moon size={16} />}
+                          <span>{theme === "dark" ? "Серая тема" : "Тёмная тема"}</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                  <h2 className="text-xl font-medium text-white/90">Чат с ИИ</h2>
+                </div>
+
+                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                  {isLoadingMessages ? (
+                    <>
+                      <Skeleton className="h-[60px] w-[80%]" />
+                      <div className="flex justify-end">
+                        <Skeleton className="h-[40px] w-[60%]" />
+                      </div>
+                      <Skeleton className="h-[60px] w-[70%]" />
+                    </>
+                  ) : (
+                    <>
+                      <ChatMessage text="Привет! Я помогу вам создать веб-приложение. Что бы вы хотели сделать?" isAI />
+                      {messages?.map((msg, index) => <ChatMessage key={index} text={msg.previewContent || msg.content} isAI={msg.role === 'assistant'}  />)}
+                      {(isPendingPostMessages || applicationZ?.pending) && <LoadingMessage />}
+                      <div ref={messagesEndRef} />
+                    </>
+                  )}
+                </div>
+
+                <ChatInput 
+                  handleSendMessage={handleSendMessage} 
+                  isProcessing={isPendingPostMessages || isPendingPostApplicationZs || isLoadingMessages || applicationZ?.pending} 
+                />
+              </div>
+            </div>
+          </ResizablePanel>
+
+          <ResizableHandle withHandle className="bg-transparent" />
+
+          <ResizablePanel defaultSize={67} minSize={30}>
+            {applicationZ && (
+              <PreviewPanel
+                dir={applicationZ.dir}
+                keyIframe={keyIframe}
+                isMobileView={isMobileView} 
+                toggleMobileView={toggleMobileView} 
+                handleReloadDemo={handleReloadDemo} 
+              />
+            )}
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </div>
+    );
+  }
+
+  // Мобильная версия использует переключение между чатом и превью
   return (
-    <div className="h-screen w-full p-4">
+    <div className="h-screen w-full p-2">
       {showConfig && promtSettings && config && (
         <ConfigurationDialog 
           open={showConfig} 
-
           settings={promtSettings}
           config={config}
-
           onOpenChange={setShowConfig} 
-
           onSubmit={handleConfigSubmit} 
         />
       )}
-      <ResizablePanelGroup direction="horizontal" className="h-full rounded-lg overflow-hidden">
-        <ResizablePanel defaultSize={33} minSize={25}>
+      
+      {/* Переключатель между чатом и превью */}
+      <div className="glass-effect mb-2 p-2 flex justify-between items-center">
+        <div className="flex items-center">
+          <div className="relative mr-4">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="glass-effect p-2 rounded-lg hover:bg-white/5 transition-colors duration-200">
+                  <Menu size={20} className="text-white/70" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-[200px] p-2 bg-[#1A1F2C] rounded-lg mt-1 border border-white/10">
+                <DropdownMenuItem 
+                  className="flex items-center gap-2 text-white/60 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-colors duration-200 cursor-pointer"
+                  onClick={() => navigate(ROUTES.PROFILE)}
+                >
+                  <User size={16} />
+                  <span>Профиль</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  className="flex items-center gap-2 text-white/60 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-colors duration-200 cursor-pointer"
+                  onClick={toggleTheme}
+                >
+                  {theme === "dark" ? <Monitor size={16} /> : <Moon size={16} />}
+                  <span>{theme === "dark" ? "Серая тема" : "Тёмная тема"}</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          <h2 className="text-lg font-medium text-white/90">EasyappZ</h2>
+        </div>
+        <button
+          onClick={toggleView}
+          className="glass-effect p-2 rounded-lg hover:bg-white/5 transition-colors duration-200 flex items-center gap-1"
+        >
+          {showChat ? (
+            <>
+              <span className="text-sm text-white/70 mr-1">Превью</span>
+              <ChevronRight size={16} className="text-white/70" />
+            </>
+          ) : (
+            <>
+              <ChevronLeft size={16} className="text-white/70" />
+              <span className="text-sm text-white/70 ml-1">Чат</span>
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* Содержимое будет переключаться между чатом и превью */}
+      <div className="h-[calc(100vh-66px)]">
+        {showChat && (
           <div className="h-full flex flex-col">
             <div className="glass-effect flex-1 overflow-hidden flex flex-col">
-              <div className="flex items-center p-4 border-b border-white/5">
-                <div className="relative mr-4">
-                  <Accordion type="single" collapsible>
-                    <AccordionItem value="menu" className="border-none">
-                      <AccordionTrigger className="p-0 hover:no-underline [&[data-state=open]>svg]:hidden [&[data-state=closed]>svg]:hidden">
-                        <div className="glass-effect p-2 rounded-lg hover:bg-white/5 transition-colors duration-200">
-                          <Menu size={20} className="text-white/70" />
-                        </div>
-                      </AccordionTrigger>
-                      <AccordionContent className="absolute top-full left-4 w-[200px] z-50">
-                        <div className="flex flex-col gap-2 p-2 bg-[#1A1F2C] rounded-lg mt-2 border border-white/10">
-                          <button 
-                            onClick={() => navigate(ROUTES.PROFILE)} 
-                            className="flex items-center gap-2 text-white/60 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-colors duration-200 whitespace-nowrap"
-                          >
-                            <User size={16} />
-                            <span>Профиль</span>
-                          </button>
-                          <button 
-                            onClick={toggleTheme} 
-                            className="flex items-center gap-2 text-white/60 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-colors duration-200 whitespace-nowrap"
-                          >
-                            {theme === "dark" ? <Monitor size={16} /> : <Moon size={16} />}
-                            <span>{theme === "dark" ? "Серая тема" : "Тёмная тема"}</span>
-                          </button>
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </div>
-                <h2 className="text-xl font-medium text-white/90">Чат с ИИ</h2>
-              </div>
-
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              <div className="flex-1 overflow-y-auto p-3 space-y-3">
                 {isLoadingMessages ? (
                   <>
                     <Skeleton className="h-[60px] w-[80%]" />
@@ -238,23 +365,21 @@ const Applicationz = () => {
               />
             </div>
           </div>
-        </ResizablePanel>
+        )}
 
-        <ResizableHandle withHandle className="bg-transparent" />
-
-        <ResizablePanel defaultSize={67} minSize={30}>
-          {applicationZ && (
+        {showPreview && applicationZ && (
+          <div className="h-full">
             <PreviewPanel
               dir={applicationZ.dir}
               keyIframe={keyIframe}
-
-              isMobileView={isMobileView} 
-              toggleMobileView={toggleMobileView} 
-              handleReloadDemo={handleReloadDemo} 
+              isMobileView={true} 
+              toggleMobileView={() => {}} 
+              handleReloadDemo={handleReloadDemo}
+              isMobileDisplay={true}
             />
-          )}
-        </ResizablePanel>
-      </ResizablePanelGroup>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

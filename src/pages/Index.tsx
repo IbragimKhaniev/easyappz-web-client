@@ -6,12 +6,14 @@ import { OTPVerification } from "@/components/Auth/OTPVerification";
 import { ROUTES } from "@/constants/routes";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/hooks/use-toast";
+import { useMobile } from "@/hooks/use-mobile";
 
 import { usePostUser, usePostUserLogin } from "@/api/core";
 
 const Index = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const isMobile = useMobile();
 
   const [email, setEmail] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
@@ -109,7 +111,7 @@ const Index = () => {
         {!isVerifying ? (
           <>
             <div className="text-center space-y-3">
-              <h1 className="text-4xl font-semibold text-foreground">
+              <h1 className={`${isMobile ? 'text-3xl' : 'text-4xl'} font-semibold text-foreground`}>
                 Творите свои безумные идеи прямо здесь
               </h1>
               <p className="text-muted-foreground text-sm">

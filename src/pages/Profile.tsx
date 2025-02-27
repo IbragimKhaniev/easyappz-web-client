@@ -6,22 +6,23 @@ import { ROUTES } from "@/constants/routes";
 import { Plus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useMobile } from "@/hooks/use-mobile";
 
 import { useGetUser } from "@/api/core";
 import { useGetApplicationZs } from "@/api/core";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const isMobile = useMobile();
 
   const { data: user, isLoading: isLoadingUser } = useGetUser();
-
   const { data: applicationZs, isLoading: isLoadingApplicationZs } = useGetApplicationZs();
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center px-4 py-8">
       <div className="w-full max-w-[1024px] space-y-8 animate-fadeIn">
-        <div className="flex justify-between items-center">
-          <h1 className="text-4xl font-semibold text-white">EasyappZ</h1>
+        <div className={`flex ${isMobile ? 'flex-col gap-4' : 'justify-between'} items-center`}>
+          <h1 className={`${isMobile ? 'text-3xl' : 'text-4xl'} font-semibold text-white`}>EasyappZ</h1>
           <div className="flex items-center gap-4">
             <ThemeToggle />
             <button
@@ -33,21 +34,23 @@ const Profile = () => {
           </div>
         </div>
 
-        <Tabs defaultValue="profile" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 lg:w-[400px]">
-            <TabsTrigger value="profile">Профиль</TabsTrigger>
-            <TabsTrigger value="apps">Мои приложения</TabsTrigger>
-          </TabsList>
+        <Tabs defaultValue="profile" className="w-full mt-8">
+          <div className="bg-[#1A1F2C]/80 rounded-md p-2 max-w-md">
+            <TabsList className="grid w-full grid-cols-2 bg-transparent">
+              <TabsTrigger value="profile" className="text-white py-2.5">Профиль</TabsTrigger>
+              <TabsTrigger value="apps" className="text-white py-2.5">Мои приложения</TabsTrigger>
+            </TabsList>
+          </div>
           
           <TabsContent value="profile" className="mt-6">
-            <div className="glass-effect p-6 space-y-4">
+            <div className="glass-effect p-6 rounded-lg">
               {isLoadingUser ? (
                 <>
                   <div className="space-y-2">
                     <Skeleton className="h-4 w-20" />
                     <Skeleton className="h-6 w-48" />
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-2 mt-4">
                     <Skeleton className="h-4 w-20" />
                     <Skeleton className="h-6 w-36" />
                   </div>
@@ -56,9 +59,9 @@ const Profile = () => {
                 <>
                   <div className="space-y-2">
                     <label className="text-sm text-gray-400">Email</label>
-                    <p className="text-white text-lg">{user?.email}</p>
+                    <p className="text-white text-lg break-all">{user?.email}</p>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-2 mt-4">
                     <label className="text-sm text-gray-400">Username</label>
                     <p className="text-white text-lg">{user?.name}</p>
                   </div>
@@ -75,16 +78,16 @@ const Profile = () => {
                     applicationzId: '',
                   }));
                 }}
-                className="w-full glass-effect p-6 flex items-center justify-center gap-2 text-white/70 hover:text-white transition-colors duration-200 group border border-dashed border-white/20 hover:border-white/40"
+                className="w-full glass-effect p-5 flex items-center justify-center gap-2 text-white hover:bg-white/10 transition-colors duration-200 rounded-lg"
               >
-                <Plus size={20} className="group-hover:scale-110 transition-transform duration-200" />
-                <span>Создать новое приложение</span>
+                <Plus size={24} />
+                <span className="text-base">Создать новое приложение</span>
               </button>
 
               {isLoadingApplicationZs ? (
                 <>
-                  <Skeleton className="h-[100px] w-full" />
-                  <Skeleton className="h-[100px] w-full" />
+                  <Skeleton className="h-[100px] w-full rounded-lg" />
+                  <Skeleton className="h-[100px] w-full rounded-lg" />
                 </>
               ) : (
                 applicationZs?.applications.map((app) => (
@@ -95,10 +98,10 @@ const Profile = () => {
                         applicationzId: app._id,
                       }));
                     }}
-                    className="w-full text-left glass-effect p-6 hover:bg-white/5 transition-colors duration-200"
+                    className="w-full text-left glass-effect p-5 hover:bg-white/10 transition-colors duration-200 rounded-lg"
                   >
-                    <h3 className="text-xl font-medium text-white mb-2">{app.name}</h3>
-                    <p className="text-gray-400">{app.description}</p>
+                    <h3 className="text-xl font-medium text-white">{app.name}</h3>
+                    <p className="text-gray-400 mt-2">{app.description}</p>
                   </button>
                 ))
               )}

@@ -9,10 +9,10 @@ import { Button } from '@/shared/ui/button/Button';
 export const PreviewPanel = memo(({
   dir,
   keyIframe,
-
   isMobileView,
   toggleMobileView,
   handleReloadDemo,
+  isMobileDisplay = false,
 }: PreviewPanelProps) => {
   const handleOpenInNewWindow = useCallback(() => {
     window.open(`${import.meta.env.VITE_HOST_URL}/${dir}/index.html`, '_blank');
@@ -34,20 +34,17 @@ export const PreviewPanel = memo(({
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex justify-between items-center mb-4 mx-[10px]">
+      <div className={cn("flex justify-between items-center mb-4", isMobileDisplay ? "mx-0 mt-1" : "mx-[10px]")}>
         <div className="flex gap-2">
           {renderButton(<RefreshCw className="w-5 h-5 text-white" />, handleReloadDemo, "Reload preview")}
           {renderButton(<ExternalLink className="w-5 h-5 text-white" />, handleOpenInNewWindow, "Open in new window")}
-          {renderButton(<Smartphone className="w-5 h-5 text-white" />, toggleMobileView, "Toggle mobile view", isMobileView)}
+          {!isMobileDisplay && renderButton(<Smartphone className="w-5 h-5 text-white" />, toggleMobileView, "Toggle mobile view", isMobileView)}
         </div>
       </div>
  
-      <div className={cn(UI_ELEMENTS.GLASS_EFFECT, 'flex-1 overflow-hidden ml-2')}>
+      <div className={cn(UI_ELEMENTS.GLASS_EFFECT, 'flex-1 overflow-hidden', isMobileDisplay ? "ml-0" : "ml-2")}>
         <div
-          className={`w-full h-full transition-all duration-300 ${isMobileView ? 'max-w-[375px] mx-auto' : ''}`}
-          style={{
-            // backgroundColor: '#f2f2f2',
-          }}
+          className={`w-full h-full transition-all duration-300 ${isMobileView || isMobileDisplay ? 'max-w-[375px] mx-auto' : ''}`}
         >
           <iframe
             key={keyIframe}
