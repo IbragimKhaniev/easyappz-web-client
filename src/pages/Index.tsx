@@ -7,7 +7,6 @@ import { ROUTES } from "@/constants/routes";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/hooks/use-toast";
 import { useMobile } from "@/hooks/use-mobile";
-import { useTheme } from "@/hooks/use-theme";
 
 import { usePostUser, usePostUserLogin } from "@/api/core";
 
@@ -15,7 +14,6 @@ const Index = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const isMobile = useMobile();
-  const { theme, setTheme } = useTheme();
 
   const [email, setEmail] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
@@ -23,9 +21,7 @@ const Index = () => {
   const { mutate: postUser, isPending: isPendingPostUser, isSuccess: isSuccessPostUser } = usePostUser({
     mutation: {
       onSuccess() {
-        /**
-         * Даем отобразиться анимации с галочкой
-         */
+        // Delay to show the checkmark animation
         setTimeout(() => {
           setIsVerifying(true);
         }, 1000);
@@ -135,7 +131,6 @@ const Index = () => {
             onBack={handleBack}
             onResendCode={handleSubmitResend}
             onSubmit={handleSubmitVerifyCode}
-
             isLoadingVerify={isPendingPostUserLogin}
             isLoadingResend={isPendingPostUserResend}
           />

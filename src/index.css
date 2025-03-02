@@ -27,28 +27,6 @@
     --radius: 1rem;
   }
   
-  .gray {
-    --background: 220 10% 20%;
-    --foreground: 220 10% 98%;
-    --card: 220 10% 20%;
-    --card-foreground: 220 10% 98%;
-    --popover: 220 10% 20%;
-    --popover-foreground: 220 10% 98%;
-    --primary: 220 10% 98%;
-    --primary-foreground: 220 10% 10%;
-    --secondary: 220 10% 30%;
-    --secondary-foreground: 220 10% 98%;
-    --muted: 220 10% 30%;
-    --muted-foreground: 220 10% 80%;
-    --accent: 220 10% 30%;
-    --accent-foreground: 220 10% 98%;
-    --destructive: 0 62.8% 40.6%;
-    --destructive-foreground: 220 10% 98%;
-    --border: 220 10% 30%;
-    --input: 220 10% 30%;
-    --ring: 220 10% 80%;
-  }
-
   * {
     @apply border-border selection:bg-white/10 selection:text-white;
   }
@@ -61,7 +39,7 @@
   html {
     @apply scroll-smooth;
     position: relative;
-    background: rgb(10, 10, 12);
+    background: rgb(20, 20, 30);
   }
 
   html::before {
@@ -71,18 +49,10 @@
     background: radial-gradient(
       circle at center,
       rgba(212, 173, 252, 0.15) 0%,
-      rgb(10, 10, 12) 50%
+      rgb(20, 20, 30) 50%
     );
     filter: blur(45px) contrast(150%) brightness(120%);
     z-index: 0;
-  }
-
-  html.gray {
-    background: rgb(60, 65, 75);
-  }
-
-  html.gray::before {
-    content: none;
   }
 
   #root {
@@ -90,7 +60,35 @@
     z-index: 1;
   }
 
-  /* Стилизация скроллбара для всего приложения */
+  /* Profile/applicationz page styling */
+  .profile-page, .applicationz-page {
+    background: #141414;
+    color: #ffffff;
+  }
+
+  .profile-card, .applicationz-card {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .profile-text, .applicationz-text {
+    color: #ffffff;
+  }
+
+  .profile-label, .applicationz-label {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .profile-tab-header, .applicationz-tab-header {
+    background: rgba(26, 31, 44, 0.8);
+  }
+
+  .profile-tab-trigger, .applicationz-tab-trigger {
+    color: #ffffff;
+  }
+
+  /* Scrollbar styling for the entire application */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -109,7 +107,7 @@
     background: rgba(255, 255, 255, 0.3);
   }
 
-  /* Для Firefox */
+  /* For Firefox */
   * {
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.2) transparent;

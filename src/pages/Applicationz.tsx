@@ -1,8 +1,5 @@
-
 import { useState, useEffect, useRef, useCallback, memo } from 'react';
-import { Menu, User, LogOut, Monitor, Moon, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
+import { Menu, User, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { useToast } from "@/hooks/use-toast";
 import { ConfigurationDialog } from "@/components/ConfigurationDialog";
@@ -11,7 +8,6 @@ import { ChatInput } from "@/features/constructor/ui/ChatInput/ChatInput";
 import { PreviewPanel } from "@/features/constructor/ui/PreviewPanel/PreviewPanel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToggle } from '@/shared/lib/hooks/useToggle';
-import { useTheme } from "@/hooks/use-theme";
 import { useMobile } from "@/hooks/use-mobile";
 import { 
   DropdownMenu,
@@ -31,12 +27,12 @@ import {
 } from '@/api/core';
 import { ROUTES } from '@/constants/routes';
 import { useQueryClient } from '@tanstack/react-query';
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 
 const Applicationz = () => {
   const navigate = useNavigate();
   const { applicationzId } = useParams();
   const queryClient = useQueryClient();
-  const { theme, setTheme } = useTheme();
   const isMobile = useMobile();
 
   const { toast } = useToast();
@@ -174,10 +170,6 @@ const Applicationz = () => {
     }
   }, [applicationzId, handleFirstMessage, postMessages, isMobile]);
 
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "gray" : "dark");
-  };
-
   const toggleView = () => {
     setShowChat(!showChat);
     setShowPreview(!showPreview);
@@ -186,7 +178,7 @@ const Applicationz = () => {
   // Используем ResizablePanelGroup только на десктопах
   if (!isMobile) {
     return (
-      <div className="h-screen w-full p-4">
+      <div className="h-screen w-full p-4 applicationz-page">
         {showConfig && promtSettings && config && (
           <ConfigurationDialog 
             open={showConfig} 
@@ -199,7 +191,7 @@ const Applicationz = () => {
         <ResizablePanelGroup direction="horizontal" className="h-full rounded-lg overflow-hidden">
           <ResizablePanel defaultSize={33} minSize={25}>
             <div className="h-full flex flex-col">
-              <div className="bg-[#2A3042] bg-opacity-90 flex-1 overflow-hidden flex flex-col rounded-lg shadow-lg">
+              <div className="bg-[#282828e6] bg-opacity-90 flex-1 overflow-hidden flex flex-col rounded-lg shadow-lg">
                 <div className="flex items-center p-4 border-b border-white/10">
                   <div className="relative mr-4">
                     <DropdownMenu>
@@ -208,7 +200,7 @@ const Applicationz = () => {
                           <Menu size={20} className="text-white/80" />
                         </button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="start" className="w-[200px] p-2 bg-[#2A3042] rounded-lg mt-1 border border-white/10">
+                      <DropdownMenuContent align="start" className="w-[200px] p-2 bg-[#282828e6] rounded-lg mt-1 border border-white/10">
                         <DropdownMenuItem 
                           className="flex items-center gap-2 text-white/70 hover:text-white py-2 px-3 rounded-lg hover:bg-[#3A4055] transition-colors duration-200 cursor-pointer"
                           onClick={() => navigate(ROUTES.PROFILE)}
@@ -216,20 +208,13 @@ const Applicationz = () => {
                           <User size={16} />
                           <span>Профиль</span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem 
-                          className="flex items-center gap-2 text-white/70 hover:text-white py-2 px-3 rounded-lg hover:bg-[#3A4055] transition-colors duration-200 cursor-pointer"
-                          onClick={toggleTheme}
-                        >
-                          {theme === "dark" ? <Monitor size={16} /> : <Moon size={16} />}
-                          <span>{theme === "dark" ? "Серая тема" : "Тёмная тема"}</span>
-                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
                   <h2 className="text-xl font-medium text-white/95">Чат с ИИ</h2>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#2A3042]">
+                <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#282828e6]">
                   {isLoadingMessages ? (
                     <>
                       <Skeleton className="h-[60px] w-[80%] bg-[#3A4055]" />
@@ -262,15 +247,13 @@ const Applicationz = () => {
           <ResizableHandle withHandle className="bg-transparent" />
 
           <ResizablePanel defaultSize={67} minSize={30}>
-            {applicationZ && (
-              <PreviewPanel
-                dir={applicationZ.dir}
-                keyIframe={keyIframe}
-                isMobileView={isMobileView} 
-                toggleMobileView={toggleMobileView} 
-                handleReloadDemo={handleReloadDemo} 
-              />
-            )}
+            <PreviewPanel
+              dir={applicationZ?.dir}
+              keyIframe={keyIframe}
+              isMobileView={isMobileView} 
+              toggleMobileView={toggleMobileView} 
+              handleReloadDemo={handleReloadDemo} 
+            />
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>
@@ -279,7 +262,7 @@ const Applicationz = () => {
 
   // Мобильная версия использует переключение между чатом и превью
   return (
-    <div className="h-screen w-full p-2">
+    <div className="h-screen w-full p-2 applicationz-page">
       {showConfig && promtSettings && config && (
         <ConfigurationDialog 
           open={showConfig} 
@@ -291,7 +274,7 @@ const Applicationz = () => {
       )}
       
       {/* Переключатель между чатом и превью */}
-      <div className="bg-[#2A3042] bg-opacity-90 mb-2 p-2 flex justify-between items-center rounded-lg shadow-md">
+      <div className="bg-[#282828e6] bg-opacity-90 mb-2 p-2 flex justify-between items-center rounded-lg shadow-md">
         <div className="flex items-center">
           <div className="relative mr-4">
             <DropdownMenu>
@@ -300,20 +283,13 @@ const Applicationz = () => {
                   <Menu size={20} className="text-white/80" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-[200px] p-2 bg-[#2A3042] rounded-lg mt-1 border border-white/10">
+              <DropdownMenuContent align="start" className="w-[200px] p-2 bg-[#282828e6] rounded-lg mt-1 border border-white/10">
                 <DropdownMenuItem 
                   className="flex items-center gap-2 text-white/70 hover:text-white py-2 px-3 rounded-lg hover:bg-[#3A4055] transition-colors duration-200 cursor-pointer"
                   onClick={() => navigate(ROUTES.PROFILE)}
                 >
                   <User size={16} />
                   <span>Профиль</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                  className="flex items-center gap-2 text-white/70 hover:text-white py-2 px-3 rounded-lg hover:bg-[#3A4055] transition-colors duration-200 cursor-pointer"
-                  onClick={toggleTheme}
-                >
-                  {theme === "dark" ? <Monitor size={16} /> : <Moon size={16} />}
-                  <span>{theme === "dark" ? "Серая тема" : "Тёмная тема"}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -342,7 +318,7 @@ const Applicationz = () => {
       <div className="h-[calc(100vh-66px)]">
         {showChat && (
           <div className="h-full flex flex-col">
-            <div className="bg-[#2A3042] bg-opacity-90 flex-1 overflow-hidden flex flex-col rounded-lg shadow-lg">
+            <div className="bg-[#282828e6] bg-opacity-90 flex-1 overflow-hidden flex flex-col rounded-lg shadow-lg">
               <div className="flex-1 overflow-y-auto p-3 space-y-3">
                 {isLoadingMessages ? (
                   <>

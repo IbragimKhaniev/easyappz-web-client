@@ -5,7 +5,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ROUTES } from "@/constants/routes";
 import { Plus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { useMobile } from "@/hooks/use-mobile";
 
 import { useGetUser } from "@/api/core";
@@ -19,12 +18,11 @@ const Profile = () => {
   const { data: applicationZs, isLoading: isLoadingApplicationZs } = useGetApplicationZs();
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center px-4 py-8">
+    <div className="min-h-screen w-full flex flex-col items-center px-4 py-8 profile-page">
       <div className="w-full max-w-[1024px] space-y-8 animate-fadeIn">
         <div className={`flex ${isMobile ? 'flex-col gap-4' : 'justify-between'} items-center`}>
-          <h1 className={`${isMobile ? 'text-3xl' : 'text-4xl'} font-semibold text-white`}>EasyappZ</h1>
+          <h1 className={`${isMobile ? 'text-3xl' : 'text-4xl'} font-semibold profile-text`}>EasyappZ</h1>
           <div className="flex items-center gap-4">
-            <ThemeToggle />
             <button
               onClick={() => navigate(ROUTES.WELCOME)}
               className="bg-[#ea384c] hover:bg-[#d1293c] text-white font-medium px-4 py-2 rounded-xl transition-colors duration-200"
@@ -35,15 +33,15 @@ const Profile = () => {
         </div>
 
         <Tabs defaultValue="profile" className="w-full mt-8">
-          <div className="bg-[#1A1F2C]/80 rounded-md p-2 max-w-md">
+          <div className="profile-tab-header rounded-md p-2 max-w-md">
             <TabsList className="grid w-full grid-cols-2 bg-transparent">
-              <TabsTrigger value="profile" className="text-white py-2.5">Профиль</TabsTrigger>
-              <TabsTrigger value="apps" className="text-white py-2.5">Мои приложения</TabsTrigger>
+              <TabsTrigger value="profile" className="profile-tab-trigger py-2.5">Профиль</TabsTrigger>
+              <TabsTrigger value="apps" className="profile-tab-trigger py-2.5">Мои приложения</TabsTrigger>
             </TabsList>
           </div>
           
           <TabsContent value="profile" className="mt-6">
-            <div className="glass-effect p-6 rounded-lg">
+            <div className="profile-card p-6 rounded-lg">
               {isLoadingUser ? (
                 <>
                   <div className="space-y-2">
@@ -58,12 +56,12 @@ const Profile = () => {
               ) : (
                 <>
                   <div className="space-y-2">
-                    <label className="text-sm text-gray-400">Email</label>
-                    <p className="text-white text-lg break-all">{user?.email}</p>
+                    <label className="text-sm profile-label">Email</label>
+                    <p className="profile-text text-lg break-all">{user?.email}</p>
                   </div>
                   <div className="space-y-2 mt-4">
-                    <label className="text-sm text-gray-400">Username</label>
-                    <p className="text-white text-lg">{user?.name}</p>
+                    <label className="text-sm profile-label">Username</label>
+                    <p className="profile-text text-lg">{user?.name}</p>
                   </div>
                 </>
               )}
@@ -78,7 +76,7 @@ const Profile = () => {
                     applicationzId: '',
                   }));
                 }}
-                className="w-full glass-effect p-5 flex items-center justify-center gap-2 text-white hover:bg-white/10 transition-colors duration-200 rounded-lg"
+                className="w-full profile-card p-5 flex items-center justify-center gap-2 profile-text hover:bg-white/10 transition-colors duration-200 rounded-lg"
               >
                 <Plus size={24} />
                 <span className="text-base">Создать новое приложение</span>
@@ -98,16 +96,16 @@ const Profile = () => {
                         applicationzId: app._id,
                       }));
                     }}
-                    className="w-full text-left glass-effect p-5 hover:bg-white/10 transition-colors duration-200 rounded-lg"
+                    className="w-full text-left profile-card p-5 hover:bg-white/10 transition-colors duration-200 rounded-lg"
                   >
-                    <h3 className="text-xl font-medium text-white">{app.name}</h3>
-                    <p className="text-gray-400 mt-2">{app.description}</p>
-                    <p className="text-gray-400 mt-2">Модель ИИ: {app.service}</p>
+                    <h3 className="text-xl font-medium profile-text">{app.name}</h3>
+                    <p className="profile-label mt-2">{app.description}</p>
+                    <p className="profile-label mt-2">Модель ИИ: {app.service}</p>
                     {app.pending && (
-                      <p className="text-gray-400 mt-2">Обрабатывается ({(app.pendingPercent || 0)}%)...</p>
+                      <p className="profile-label mt-2">Обрабатывается ({(app.pendingPercent || 0)}%)...</p>
                     )}
                     {app.error && (
-                      <p className="text-gray-400 mt-2">Ошибка: {app.errorText}</p>
+                      <p className="profile-label mt-2">Ошибка: {app.errorText}</p>
                     )}
                   </button>
                 ))

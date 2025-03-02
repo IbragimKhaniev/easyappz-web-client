@@ -9,27 +9,32 @@ import Profile from "./pages/Profile";
 import Applicationz from "./pages/Applicationz";
 import NotFound from "./pages/NotFound";
 import { ROUTES } from "./constants/routes";
-import { ThemeProvider } from "./hooks/use-theme";
 
-const queryClient = new QueryClient();
+// Create a new QueryClient instance
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider>
+    <BrowserRouter>
       <TooltipProvider>
+        <Routes>
+          <Route path="/" element={<Navigate to={ROUTES.WELCOME} replace />} />
+          <Route path={ROUTES.WELCOME} element={<Index />} />
+          <Route path={ROUTES.PROFILE} element={<Profile />} />
+          <Route path={ROUTES.APPLICATIONZ} element={<Applicationz />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Navigate to={ROUTES.PROFILE} replace />} />
-            <Route path={ROUTES.WELCOME} element={<Index />} />
-            <Route path={ROUTES.PROFILE} element={<Profile />} />
-            <Route path={ROUTES.APPLICATIONZ} element={<Applicationz />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
       </TooltipProvider>
-    </ThemeProvider>
+    </BrowserRouter>
   </QueryClientProvider>
 );
 
