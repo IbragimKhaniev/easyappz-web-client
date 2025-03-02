@@ -10,10 +10,11 @@ export interface ChatInputProps {
 }
 
 export interface PreviewPanelProps {
-  dir: string;
   keyIframe: number;
   isMobileView: boolean;
   toggleMobileView: () => void;
   handleReloadDemo: () => void;
   isMobileDisplay?: boolean;
+
+  dir?: string;
 }

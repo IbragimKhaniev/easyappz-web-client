@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, memo } from 'react';
+import { useState, useEffect, useRef, useCallback, memo, useMemo } from 'react';
 import { Menu, User, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { useToast } from "@/hooks/use-toast";
@@ -72,6 +72,13 @@ const Applicationz = () => {
       onSuccess(data) {
         setPromtSettings(data);
         setShowConfig(true);
+      },
+      onError(errorData) {
+        toast({
+          variant: "destructive",
+          title: "Ошибка",
+          description: errorData?.message,
+        });
       }
     }
   });
@@ -81,6 +88,13 @@ const Applicationz = () => {
       onSuccess() {
         queryClient.invalidateQueries({ queryKey: ['getMessagesKey'], });
         queryClient.invalidateQueries({ queryKey: ['getApplicationZKey'], });
+      },
+      onError(errorData) {
+        toast({
+          variant: "destructive",
+          title: "Ошибка",
+          description: errorData?.message,
+        });
       }
     }
   });
@@ -100,9 +114,20 @@ const Applicationz = () => {
         navigate(generatePath(ROUTES.APPLICATIONZ, {
           applicationzId: data._id,
         }));
+      },
+      onError(errorData) {
+        toast({
+          variant: "destructive",
+          title: "Ошибка",
+          description: errorData?.message,
+        });
       }
     }
   });
+
+  const isCommonLoading = useMemo(() => (
+    isPendingPostMessages || isPendingPostApplicationZs || isLoadingMessages || applicationZ?.pending || isLoadingConfig || isPendingPromtAnalyze
+  ), [applicationZ?.pending, isLoadingConfig, isLoadingMessages, isPendingPostApplicationZs, isPendingPostMessages, isPendingPromtAnalyze]);
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({
@@ -227,7 +252,7 @@ const Applicationz = () => {
                     <>
                       <ChatMessage text="Привет! Я помогу вам создать веб-приложение. Что бы вы хотели сделать?" isAI />
                       {messages?.map((msg, index) => <ChatMessage key={index} text={msg.previewContent || msg.content} isAI={msg.role === 'assistant'}  />)}
-                      {(isPendingPostMessages || applicationZ?.pending) && <LoadingMessage loadingPercent={applicationZ?.pendingPercent} />}
+                      {isCommonLoading && <LoadingMessage loadingPercent={applicationZ?.pendingPercent} />}
                       {applicationZ?.error && (
                         <ChatMessage text={`Ошика: ${applicationZ?.errorText}`} isAI />
                       )}
@@ -238,7 +263,7 @@ const Applicationz = () => {
 
                 <ChatInput 
                   handleSendMessage={handleSendMessage} 
-                  isProcessing={isPendingPostMessages || isPendingPostApplicationZs || isLoadingMessages || applicationZ?.pending} 
+                  isProcessing={isCommonLoading} 
                 />
               </div>
             </div>
@@ -332,7 +357,7 @@ const Applicationz = () => {
                   <>
                     <ChatMessage text="Привет! Я помогу вам создать веб-приложение. Что бы вы хотели сделать?" isAI />
                     {messages?.map((msg, index) => <ChatMessage key={index} text={msg.previewContent || msg.content} isAI={msg.role === 'assistant'}  />)}
-                    {(isPendingPostMessages || applicationZ?.pending) && <LoadingMessage />}
+                    {isCommonLoading && <LoadingMessage />}
                     <div ref={messagesEndRef} />
                   </>
                 )}
@@ -340,7 +365,7 @@ const Applicationz = () => {
 
               <ChatInput 
                 handleSendMessage={handleSendMessage} 
-                isProcessing={isPendingPostMessages || isPendingPostApplicationZs || isLoadingMessages || applicationZ?.pending} 
+                isProcessing={isCommonLoading} 
               />
             </div>
           </div>

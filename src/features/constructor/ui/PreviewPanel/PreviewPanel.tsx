@@ -46,13 +46,17 @@ export const PreviewPanel = memo(({
         <div
           className={`w-full h-full transition-all duration-300 ${isMobileView || isMobileDisplay ? 'max-w-[375px] mx-auto' : ''}`}
         >
-          <iframe
-            key={keyIframe}
-            id="preview-iframe"
-            src={`${import.meta.env.VITE_HOST_URL}/${dir}/index.html`}
-            className="w-full h-full rounded-lg bg-white/5"
-            title="Preview"
-          />
+          {dir ? (
+            <iframe
+              key={keyIframe}
+              id="preview-iframe"
+              src={`${import.meta.env.VITE_HOST_URL}/${dir}/index.html`}
+              className="w-full h-full rounded-lg bg-white/5"
+              title="Preview"
+            />
+          ) : (
+            <div className='h-full flex justify-center' />
+          )}
         </div>
       </div>
     </div>

@@ -37,7 +37,7 @@ export const ChatInput = memo(({
           value={message}
           onChange={handleInputChange}
           onKeyDown={handleKeyPress}
-          placeholder={isProcessing ? "Sending message..." : "Type your message..."}
+          placeholder={isProcessing ? "Sending message..." : "Жду ваш запрос..."}
           className="flex-1 bg-transparent px-3 py-2 text-white/90 placeholder:text-white/40 focus:outline-none text-sm min-h-[44px] max-h-[96px] resize-none overflow-y-auto disabled:opacity-70"
           disabled={isProcessing}
           rows={1}
@@ -53,7 +53,7 @@ export const ChatInput = memo(({
           {isProcessing ? (
             <>
               <Loader2 size={16} className="animate-spin text-white" />
-              <span className="absolute -top-10 right-0 text-xs text-white/70 whitespace-nowrap bg-black/50 px-2 py-1 rounded-md">
+              <span className="absolute -top-[55px] right-0 text-xs text-white/70 whitespace-nowrap bg-black/50 px-2 py-1 rounded-md">
                 Обрабатывается...
               </span>
             </>
