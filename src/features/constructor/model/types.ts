@@ -16,5 +16,6 @@ export interface PreviewPanelProps {
   handleReloadDemo: () => void;
   isMobileDisplay?: boolean;
 
+  template?: string;
   dir?: string;
 }

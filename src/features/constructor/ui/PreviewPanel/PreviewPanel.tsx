@@ -1,5 +1,5 @@
 
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { RefreshCw, ExternalLink, Smartphone } from 'lucide-react';
 import type { PreviewPanelProps } from '../../model/types';
 import { UI_ELEMENTS } from '@/shared/config/ui';
@@ -8,15 +8,21 @@ import { Button } from '@/shared/ui/button/Button';
 
 export const PreviewPanel = memo(({
   dir,
+  template,
+
   keyIframe,
   isMobileView,
   toggleMobileView,
   handleReloadDemo,
   isMobileDisplay = false,
 }: PreviewPanelProps) => {
+  const parsedDir = useMemo(() => (
+    `${import.meta.env.VITE_HOST_URL}/${template}/dirs/${dir}/index.html`
+  ), [dir, template]);
+
   const handleOpenInNewWindow = useCallback(() => {
-    window.open(`${import.meta.env.VITE_HOST_URL}/${dir}/index.html`, '_blank');
-  }, [dir]);
+    window.open(parsedDir, '_blank');
+  }, [parsedDir]);
 
   const renderButton = useCallback((icon: React.ReactNode, onClick: () => void, title: string, isActive?: boolean) => (
     <Button
@@ -50,9 +56,10 @@ export const PreviewPanel = memo(({
             <iframe
               key={keyIframe}
               id="preview-iframe"
-              src={`${import.meta.env.VITE_HOST_URL}/${dir}/index.html`}
+              src={parsedDir}
               className="w-full h-full rounded-lg bg-white/5"
-              title="Preview"
+              title="Превью"
+              sandbox="allow-scripts allow-forms"
             />
           ) : (
             <div className='h-full flex justify-center' />

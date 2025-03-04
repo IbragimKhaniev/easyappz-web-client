@@ -274,6 +274,7 @@ const Applicationz = () => {
           <ResizablePanel defaultSize={67} minSize={30}>
             <PreviewPanel
               dir={applicationZ?.dir}
+              template={applicationZ?.template}
               keyIframe={keyIframe}
               isMobileView={isMobileView} 
               toggleMobileView={toggleMobileView} 
