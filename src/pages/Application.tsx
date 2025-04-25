@@ -20,18 +20,18 @@ import {
   usePostPromtsAnalyze,
   useGetConfig,
   PostPromtsAnalyze200,
-  useGetApplicationZsApplicationzIdMessages,
-  usePostApplicationZsApplicationzIdMessages,
-  usePostApplicationZs,
-  useGetApplicationZsId
+  useGetApplicationsApplicationIdMessages,
+  usePostApplicationsApplicationIdMessages,
+  usePostApplications,
+  useGetApplicationsId
 } from '@/api/core';
 import { ROUTES } from '@/constants/routes';
 import { useQueryClient } from '@tanstack/react-query';
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 
-const Applicationz = () => {
+const Application = () => {
   const navigate = useNavigate();
-  const { applicationzId } = useParams();
+  const { applicationId } = useParams();
   const queryClient = useQueryClient();
   const isMobile = useMobile();
 
@@ -51,18 +51,18 @@ const Applicationz = () => {
 
   const { data: config, isLoading: isLoadingConfig } = useGetConfig();
 
-  const { data: messages, isLoading: isLoadingMessages } = useGetApplicationZsApplicationzIdMessages(applicationzId, {
+  const { data: messages, isLoading: isLoadingMessages } = useGetApplicationsApplicationIdMessages(applicationId, {
     query: {
-      enabled: Boolean(applicationzId),
-      queryKey: ['getMessagesKey', applicationzId],
+      enabled: Boolean(applicationId),
+      queryKey: ['getMessagesKey', applicationId],
       refetchInterval: 3000,
     }
   });
 
-  const { data: applicationZ } = useGetApplicationZsId(applicationzId, {
+  const { data: application } = useGetApplicationsId(applicationId, {
     query: {
-      enabled: Boolean(applicationzId),
-      queryKey: ['getApplicationZKey', applicationzId],
+      enabled: Boolean(applicationId),
+      queryKey: ['getApplicationKey', applicationId],
       refetchInterval: 3000,
     }
   });
@@ -83,11 +83,11 @@ const Applicationz = () => {
     }
   });
 
-  const { mutate: postMessages, mutateAsync: postMessagesAsync, isPending: isPendingPostMessages } = usePostApplicationZsApplicationzIdMessages({
+  const { mutate: postMessages, mutateAsync: postMessagesAsync, isPending: isPendingPostMessages } = usePostApplicationsApplicationIdMessages({
     mutation: {
       onSuccess() {
         queryClient.invalidateQueries({ queryKey: ['getMessagesKey'], });
-        queryClient.invalidateQueries({ queryKey: ['getApplicationZKey'], });
+        queryClient.invalidateQueries({ queryKey: ['getApplicationKey'], });
       },
       onError(errorData) {
         toast({
@@ -99,20 +99,20 @@ const Applicationz = () => {
     }
   });
 
-  const { mutate: postApplicationZs, isPending: isPendingPostApplicationZs } = usePostApplicationZs({
+  const { mutate: postApplications, isPending: isPendingPostApplications } = usePostApplications({
     mutation: {
       async onSuccess(data) {
         if (!firstMessage) return;
 
         await postMessagesAsync({
-          applicationzId: data._id,
+          applicationId: data._id,
           data: {
             content: firstMessage,
           }
         });
 
-        navigate(generatePath(ROUTES.APPLICATIONZ, {
-          applicationzId: data._id,
+        navigate(generatePath(ROUTES.APPLICATION, {
+          applicationId: data._id,
         }));
       },
       onError(errorData) {
@@ -126,8 +126,8 @@ const Applicationz = () => {
   });
 
   const isCommonLoading = useMemo(() => (
-    isPendingPostMessages || isPendingPostApplicationZs || isLoadingMessages || applicationZ?.pending || isLoadingConfig || isPendingPromtAnalyze
-  ), [applicationZ?.pending, isLoadingConfig, isLoadingMessages, isPendingPostApplicationZs, isPendingPostMessages, isPendingPromtAnalyze]);
+    isPendingPostMessages || isPendingPostApplications || isLoadingMessages || application?.pending || isLoadingConfig || isPendingPromtAnalyze
+  ), [application?.pending, isLoadingConfig, isLoadingMessages, isPendingPostApplications, isPendingPostMessages, isPendingPromtAnalyze]);
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({
@@ -146,19 +146,19 @@ const Applicationz = () => {
   }, []);
 
   useEffect(() => {
-    if (applicationZ) {
+    if (application) {
       handleReloadDemo();
     }
-  }, [applicationZ, handleReloadDemo]);
+  }, [application, handleReloadDemo]);
 
   /**
    * При указании нужных настроек создаем приложение
    */
   const handleConfigSubmit = useCallback((settings: PostPromtsAnalyze200) => {
-    postApplicationZs({
+    postApplications({
       data: settings,
     });
-  }, [postApplicationZs]);
+  }, [postApplications]);
 
   /**
    * Обработка отправки первого сообщения
@@ -176,13 +176,13 @@ const Applicationz = () => {
     /**
      * Если приложение еще не создано
      */
-    if (!applicationzId) {
+    if (!applicationId) {
       handleFirstMessage(value);
       return;
     }
 
     postMessages({
-      applicationzId: applicationzId,
+      applicationId: applicationId,
       data: {
         content: value,
       }
@@ -193,7 +193,7 @@ const Applicationz = () => {
       setShowChat(false);
       setShowPreview(true);
     }
-  }, [applicationzId, handleFirstMessage, postMessages, isMobile]);
+  }, [applicationId, handleFirstMessage, postMessages, isMobile]);
 
   const toggleView = () => {
     setShowChat(!showChat);
@@ -203,7 +203,7 @@ const Applicationz = () => {
   // Используем ResizablePanelGroup только на десктопах
   if (!isMobile) {
     return (
-      <div className="h-screen w-full p-4 applicationz-page">
+      <div className="h-screen w-full p-4 application-page">
         {showConfig && promtSettings && config && (
           <ConfigurationDialog 
             open={showConfig} 
@@ -252,9 +252,9 @@ const Applicationz = () => {
                     <>
                       <ChatMessage text="Привет! Я помогу вам создать веб-приложение. Что бы вы хотели сделать?" isAI />
                       {messages?.map((msg, index) => <ChatMessage key={index} text={msg.previewContent || msg.content} isAI={msg.role === 'assistant'}  />)}
-                      {isCommonLoading && <LoadingMessage loadingPercent={applicationZ?.pendingPercent} />}
-                      {applicationZ?.error && (
-                        <ChatMessage text={`Ошика: ${applicationZ?.errorText}`} isAI />
+                      {isCommonLoading && <LoadingMessage loadingPercent={application?.pendingPercent} />}
+                      {application?.error && (
+                        <ChatMessage text={`Ошика: ${application?.errorText}`} isAI />
                       )}
                       <div ref={messagesEndRef} />
                     </>
@@ -273,8 +273,8 @@ const Applicationz = () => {
 
           <ResizablePanel defaultSize={67} minSize={30}>
             <PreviewPanel
-              dir={applicationZ?.dir}
-              template={applicationZ?.template}
+              dir={application?.dir}
+              template={application?.template}
               keyIframe={keyIframe}
               isMobileView={isMobileView} 
               toggleMobileView={toggleMobileView} 
@@ -288,7 +288,7 @@ const Applicationz = () => {
 
   // Мобильная версия использует переключение между чатом и превью
   return (
-    <div className="h-screen w-full p-2 applicationz-page">
+    <div className="h-screen w-full p-2 application-page">
       {showConfig && promtSettings && config && (
         <ConfigurationDialog 
           open={showConfig} 
@@ -372,10 +372,10 @@ const Applicationz = () => {
           </div>
         )}
 
-        {showPreview && applicationZ && (
+        {showPreview && application && (
           <div className="h-full">
             <PreviewPanel
-              dir={applicationZ.dir}
+              dir={application.dir}
               keyIframe={keyIframe}
               isMobileView={true} 
               toggleMobileView={() => {}} 
@@ -389,6 +389,6 @@ const Applicationz = () => {
   );
 };
 
-Applicationz.displayName = 'Applicationz';
+Application.displayName = 'Application';
 
-export default Applicationz;
+export default Application;

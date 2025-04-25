@@ -60,31 +60,31 @@
     z-index: 1;
   }
 
-  /* Profile/applicationz page styling */
-  .profile-page, .applicationz-page {
+  /* Profile/application page styling */
+  .profile-page, .application-page {
     background: #141414;
     color: #ffffff;
   }
 
-  .profile-card, .applicationz-card {
+  .profile-card, .application-card {
     background: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-  .profile-text, .applicationz-text {
+  .profile-text, .application-text {
     color: #ffffff;
   }
 
-  .profile-label, .applicationz-label {
+  .profile-label, .application-label {
     color: rgba(255, 255, 255, 0.6);
   }
 
-  .profile-tab-header, .applicationz-tab-header {
+  .profile-tab-header, .application-tab-header {
     background: rgba(26, 31, 44, 0.8);
   }
 
-  .profile-tab-trigger, .applicationz-tab-trigger {
+  .profile-tab-trigger, .application-tab-trigger {
     color: #ffffff;
   }
 

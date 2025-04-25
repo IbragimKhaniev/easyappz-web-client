@@ -8,14 +8,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useMobile } from "@/hooks/use-mobile";
 
 import { useGetUser } from "@/api/core";
-import { useGetApplicationZs } from "@/api/core";
+import { useGetApplications } from "@/api/core";
 
 const Profile = () => {
   const navigate = useNavigate();
   const isMobile = useMobile();
 
   const { data: user, isLoading: isLoadingUser } = useGetUser();
-  const { data: applicationZs, isLoading: isLoadingApplicationZs } = useGetApplicationZs();
+  const { data: applications, isLoading: isLoadingApplications } = useGetApplications();
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center px-4 py-8 profile-page">
@@ -72,8 +72,8 @@ const Profile = () => {
             <div className="space-y-4">
               <button
                 onClick={() => {
-                  navigate(generatePath(ROUTES.APPLICATIONZ, {
-                    applicationzId: '',
+                  navigate(generatePath(ROUTES.APPLICATION, {
+                    applicationId: '',
                   }));
                 }}
                 className="w-full profile-card p-5 flex items-center justify-center gap-2 profile-text hover:bg-white/10 transition-colors duration-200 rounded-lg"
@@ -82,18 +82,18 @@ const Profile = () => {
                 <span className="text-base">Создать новое приложение</span>
               </button>
 
-              {isLoadingApplicationZs ? (
+              {isLoadingApplications ? (
                 <>
                   <Skeleton className="h-[100px] w-full rounded-lg" />
                   <Skeleton className="h-[100px] w-full rounded-lg" />
                 </>
               ) : (
-                applicationZs?.applications.map((app) => (
+                applications?.applications.map((app) => (
                   <button
                     key={app._id}
                     onClick={() => {
-                      navigate(generatePath(ROUTES.APPLICATIONZ, {
-                        applicationzId: app._id,
+                      navigate(generatePath(ROUTES.APPLICATION, {
+                        applicationId: app._id,
                       }));
                     }}
                     className="w-full text-left profile-card p-5 hover:bg-white/10 transition-colors duration-200 rounded-lg"
