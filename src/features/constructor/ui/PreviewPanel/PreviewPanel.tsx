@@ -1,6 +1,6 @@
 
-import { memo, useCallback, useMemo } from 'react';
-import { RefreshCw, ExternalLink, Smartphone } from 'lucide-react';
+import { memo, useCallback, useMemo, useState } from 'react';
+import { RefreshCw, ExternalLink, Smartphone, CodeXml, Component } from 'lucide-react';
 import type { PreviewPanelProps } from '../../model/types';
 import { UI_ELEMENTS } from '@/shared/config/ui';
 import { cn } from '@/shared/lib/utils/common';
@@ -16,6 +16,8 @@ export const PreviewPanel = memo(({
   handleReloadDemo,
   isMobileDisplay = false,
 }: PreviewPanelProps) => {
+  const [codeEditorOpened, setCodeEditorOpened] = useState(false);
+
   const parsedDir = useMemo(() => (
     `${import.meta.env.VITE_HOST_URL}/${dir}/index.html`
   ), [dir]);
@@ -23,6 +25,14 @@ export const PreviewPanel = memo(({
   const handleOpenInNewWindow = useCallback(() => {
     window.open(parsedDir, '_blank');
   }, [parsedDir]);
+
+  const handleOpenCodeEditor = useCallback(() => {
+    setCodeEditorOpened(true);
+  }, []);
+
+  const handleOpenPreviewPanel = useCallback(() => {
+    setCodeEditorOpened(false);
+  }, []);
 
   const renderButton = useCallback((icon: React.ReactNode, onClick: () => void, title: string, isActive?: boolean) => (
     <Button
@@ -45,6 +55,8 @@ export const PreviewPanel = memo(({
           {renderButton(<RefreshCw className="w-5 h-5 text-white" />, handleReloadDemo, "Reload preview")}
           {renderButton(<ExternalLink className="w-5 h-5 text-white" />, handleOpenInNewWindow, "Open in new window")}
           {!isMobileDisplay && renderButton(<Smartphone className="w-5 h-5 text-white" />, toggleMobileView, "Toggle mobile view", isMobileView)}
+          {!codeEditorOpened && renderButton(<CodeXml className="w-5 h-5 text-white" />, handleOpenCodeEditor, "Open code editor")}
+          {codeEditorOpened && renderButton(<Component className="w-5 h-5 text-white" />, handleOpenPreviewPanel, "Open preview")}
         </div>
       </div>
  
