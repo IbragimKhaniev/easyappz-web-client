@@ -17,8 +17,8 @@ export const PreviewPanel = memo(({
   isMobileDisplay = false,
 }: PreviewPanelProps) => {
   const parsedDir = useMemo(() => (
-    `${import.meta.env.VITE_HOST_URL}/${template}/dirs/${dir}/index.html`
-  ), [dir, template]);
+    `${import.meta.env.VITE_HOST_URL}/${dir}/index.html`
+  ), [dir]);
 
   const handleOpenInNewWindow = useCallback(() => {
     window.open(parsedDir, '_blank');
