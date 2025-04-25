@@ -16,7 +16,7 @@ export * from './getApplications401';
 export * from './getApplications500';
 export * from './getApplicationsApplicationIdFilesFile200';
 export * from './getApplicationsApplicationIdFilesFile500';
-export * from './getApplicationsApplicationIdFilesFileBody';
+export * from './getApplicationsApplicationIdFilesFileParams';
 export * from './getApplicationsApplicationIdMessages404';
 export * from './getApplicationsApplicationIdMessages500';
 export * from './getApplicationsId404';

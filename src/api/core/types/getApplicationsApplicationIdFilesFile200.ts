@@ -7,6 +7,5 @@
  */
 
 export type GetApplicationsApplicationIdFilesFile200 = {
-  /** Содержимое файла. */
   content?: string;
 };

@@ -28,7 +28,7 @@ import type {
   DeleteApplicationsApplicationIdFilesFileBody,
   GetApplicationsApplicationIdFilesFile200,
   GetApplicationsApplicationIdFilesFile500,
-  GetApplicationsApplicationIdFilesFileBody,
+  GetApplicationsApplicationIdFilesFileParams,
   GetApplicationsIdFiles200,
   GetApplicationsIdFiles500,
   PutApplicationsApplicationIdFilesFile200,
@@ -113,41 +113,41 @@ export const useDeleteApplicationsApplicationIdFilesFile = <TError = DeleteAppli
       return useMutation(mutationOptions);
     }
     /**
- * Возвращает содержимое указанного файла для данного приложения.
+ * Возвращает содержимое указанного файла для заданного приложения. Путь к файлу передается через query параметр filePath.
  * @summary Получение содержимого файла приложения
  */
 export const getApplicationsApplicationIdFilesFile = (
     applicationId: string,
-    getApplicationsApplicationIdFilesFileBody: GetApplicationsApplicationIdFilesFileBody,
+    params: GetApplicationsApplicationIdFilesFileParams,
  signal?: AbortSignal
 ) => {
       
       
       return getApplicationsApplicationIdFilesFileMutator<GetApplicationsApplicationIdFilesFile200>(
       {url: `/applications/${applicationId}/files/file`, method: 'GET',
-      headers: {'Content-Type': 'application/json', }, signal
+        params, signal
     },
       );
     }
   
 
 export const getGetApplicationsApplicationIdFilesFileQueryKey = (applicationId: string,
-    getApplicationsApplicationIdFilesFileBody: GetApplicationsApplicationIdFilesFileBody,) => {
-    return [`/applications/${applicationId}/files/file`, getApplicationsApplicationIdFilesFileBody] as const;
+    params: GetApplicationsApplicationIdFilesFileParams,) => {
+    return [`/applications/${applicationId}/files/file`, ...(params ? [params]: [])] as const;
     }
 
     
 export const getGetApplicationsApplicationIdFilesFileQueryOptions = <TData = Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>, TError = GetApplicationsApplicationIdFilesFileErrorType<GetApplicationsApplicationIdFilesFile500>>(applicationId: string,
-    getApplicationsApplicationIdFilesFileBody: GetApplicationsApplicationIdFilesFileBody, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>, TError, TData>>, }
+    params: GetApplicationsApplicationIdFilesFileParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApplicationsApplicationIdFilesFileQueryKey(applicationId,getApplicationsApplicationIdFilesFileBody);
+  const queryKey =  queryOptions?.queryKey ?? getGetApplicationsApplicationIdFilesFileQueryKey(applicationId,params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>> = ({ signal }) => getApplicationsApplicationIdFilesFile(applicationId,getApplicationsApplicationIdFilesFileBody, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>> = ({ signal }) => getApplicationsApplicationIdFilesFile(applicationId,params, signal);
 
       
 
@@ -162,7 +162,7 @@ export type GetApplicationsApplicationIdFilesFileQueryError = GetApplicationsApp
 
 export function useGetApplicationsApplicationIdFilesFile<TData = Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>, TError = GetApplicationsApplicationIdFilesFileErrorType<GetApplicationsApplicationIdFilesFile500>>(
  applicationId: string,
-    getApplicationsApplicationIdFilesFileBody: GetApplicationsApplicationIdFilesFileBody, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>, TError, TData>> & Pick<
+    params: GetApplicationsApplicationIdFilesFileParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>,
           TError,
@@ -173,7 +173,7 @@ export function useGetApplicationsApplicationIdFilesFile<TData = Awaited<ReturnT
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetApplicationsApplicationIdFilesFile<TData = Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>, TError = GetApplicationsApplicationIdFilesFileErrorType<GetApplicationsApplicationIdFilesFile500>>(
  applicationId: string,
-    getApplicationsApplicationIdFilesFileBody: GetApplicationsApplicationIdFilesFileBody, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>, TError, TData>> & Pick<
+    params: GetApplicationsApplicationIdFilesFileParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>,
           TError,
@@ -184,7 +184,7 @@ export function useGetApplicationsApplicationIdFilesFile<TData = Awaited<ReturnT
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetApplicationsApplicationIdFilesFile<TData = Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>, TError = GetApplicationsApplicationIdFilesFileErrorType<GetApplicationsApplicationIdFilesFile500>>(
  applicationId: string,
-    getApplicationsApplicationIdFilesFileBody: GetApplicationsApplicationIdFilesFileBody, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>, TError, TData>>, }
+    params: GetApplicationsApplicationIdFilesFileParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
@@ -193,11 +193,11 @@ export function useGetApplicationsApplicationIdFilesFile<TData = Awaited<ReturnT
 
 export function useGetApplicationsApplicationIdFilesFile<TData = Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>, TError = GetApplicationsApplicationIdFilesFileErrorType<GetApplicationsApplicationIdFilesFile500>>(
  applicationId: string,
-    getApplicationsApplicationIdFilesFileBody: GetApplicationsApplicationIdFilesFileBody, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>, TError, TData>>, }
+    params: GetApplicationsApplicationIdFilesFileParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdFilesFile>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  const queryOptions = getGetApplicationsApplicationIdFilesFileQueryOptions(applicationId,getApplicationsApplicationIdFilesFileBody,options)
+  const queryOptions = getGetApplicationsApplicationIdFilesFileQueryOptions(applicationId,params,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
