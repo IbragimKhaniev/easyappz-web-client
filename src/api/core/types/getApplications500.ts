@@ -6,8 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type GetApplicationZsApplicationzIdMessages404 = {
+export type GetApplications500 = {
   error?: boolean;
-  /** Сообщение об ошибке */
   message?: string;
 };

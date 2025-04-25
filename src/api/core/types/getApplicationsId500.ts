@@ -6,7 +6,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PostApplicationZs500 = {
+export type GetApplicationsId500 = {
+  /** Статус ошибки */
   error?: boolean;
+  /** Сообщение об ошибке */
   message?: string;
 };

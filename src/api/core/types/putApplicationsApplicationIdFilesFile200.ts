@@ -6,7 +6,6 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PostApplicationZsApplicationzIdMessagesBody = {
-  /** Содержимое сообщения */
-  content?: string;
+export type PutApplicationsApplicationIdFilesFile200 = {
+  message?: string;
 };

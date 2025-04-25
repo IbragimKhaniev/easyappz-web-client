@@ -12,7 +12,7 @@ export interface IMongoModelMessage {
   /** Идентификатор сообщения */
   _id?: string;
   /** Идентификатор приложения */
-  applicationz?: string;
+  application?: string;
   /** Содержимое сообщения */
   content?: string;
   /** Роль отправителя сообщения */

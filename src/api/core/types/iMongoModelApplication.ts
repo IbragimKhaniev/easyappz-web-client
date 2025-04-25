@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export interface IMongoModelApplicationZ {
+export interface IMongoModelApplication {
   /** Идентификатор приложения */
   _id?: string;
   /** Название приложения */

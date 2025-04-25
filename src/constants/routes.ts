@@ -3,5 +3,5 @@ export const ROUTES = {
   WELCOME: '/welcome',
   PROFILE: '/profile',
   VERIFY: '/verify',
-  APPLICATIONZ: '/applicationz/:applicationzId?',
+  APPLICATION: '/application/:applicationId?',
 } as const;

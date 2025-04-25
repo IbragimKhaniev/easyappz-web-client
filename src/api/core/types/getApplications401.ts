@@ -6,9 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type GetApplicationZsId500 = {
-  /** Статус ошибки */
+export type GetApplications401 = {
   error?: boolean;
-  /** Сообщение об ошибке */
   message?: string;
 };

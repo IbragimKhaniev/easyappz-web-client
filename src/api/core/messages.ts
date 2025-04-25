@@ -23,18 +23,18 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query'
 import type {
-  GetApplicationZsApplicationzIdMessages404,
-  GetApplicationZsApplicationzIdMessages500,
+  GetApplicationsApplicationIdMessages404,
+  GetApplicationsApplicationIdMessages500,
   IMongoModelMessage,
-  PostApplicationZsApplicationzIdMessages200,
-  PostApplicationZsApplicationzIdMessages400,
-  PostApplicationZsApplicationzIdMessages500,
-  PostApplicationZsApplicationzIdMessagesBody
+  PostApplicationsApplicationIdMessages200,
+  PostApplicationsApplicationIdMessages400,
+  PostApplicationsApplicationIdMessages500,
+  PostApplicationsApplicationIdMessagesBody
 } from './types'
-import getApplicationZsApplicationzIdMessagesMutator from '../axios';
-import type { ErrorType as GetApplicationZsApplicationzIdMessagesErrorType } from '../axios';
-import postApplicationZsApplicationzIdMessagesMutator from '../axios';
-import type { ErrorType as PostApplicationZsApplicationzIdMessagesErrorType } from '../axios';
+import getApplicationsApplicationIdMessagesMutator from '../axios';
+import type { ErrorType as GetApplicationsApplicationIdMessagesErrorType } from '../axios';
+import postApplicationsApplicationIdMessagesMutator from '../axios';
+import type { ErrorType as PostApplicationsApplicationIdMessagesErrorType } from '../axios';
 
 
 
@@ -43,80 +43,80 @@ import type { ErrorType as PostApplicationZsApplicationzIdMessagesErrorType } fr
  * Возвращает список сообщений для указанного приложения.
  * @summary Получение сообщений для приложения
  */
-export const getApplicationZsApplicationzIdMessages = (
-    applicationzId: string,
+export const getApplicationsApplicationIdMessages = (
+    applicationId: string,
  signal?: AbortSignal
 ) => {
       
       
-      return getApplicationZsApplicationzIdMessagesMutator<IMongoModelMessage[]>(
-      {url: `/applicationZs/${applicationzId}/messages`, method: 'GET', signal
+      return getApplicationsApplicationIdMessagesMutator<IMongoModelMessage[]>(
+      {url: `/applications/${applicationId}/messages`, method: 'GET', signal
     },
       );
     }
   
 
-export const getGetApplicationZsApplicationzIdMessagesQueryKey = (applicationzId: string,) => {
-    return [`/applicationZs/${applicationzId}/messages`] as const;
+export const getGetApplicationsApplicationIdMessagesQueryKey = (applicationId: string,) => {
+    return [`/applications/${applicationId}/messages`] as const;
     }
 
     
-export const getGetApplicationZsApplicationzIdMessagesQueryOptions = <TData = Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>, TError = GetApplicationZsApplicationzIdMessagesErrorType<GetApplicationZsApplicationzIdMessages404 | GetApplicationZsApplicationzIdMessages500>>(applicationzId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>, TError, TData>>, }
+export const getGetApplicationsApplicationIdMessagesQueryOptions = <TData = Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>, TError = GetApplicationsApplicationIdMessagesErrorType<GetApplicationsApplicationIdMessages404 | GetApplicationsApplicationIdMessages500>>(applicationId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApplicationZsApplicationzIdMessagesQueryKey(applicationzId);
+  const queryKey =  queryOptions?.queryKey ?? getGetApplicationsApplicationIdMessagesQueryKey(applicationId);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>> = ({ signal }) => getApplicationZsApplicationzIdMessages(applicationzId, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>> = ({ signal }) => getApplicationsApplicationIdMessages(applicationId, signal);
 
       
 
       
 
-   return  { queryKey, queryFn, enabled: !!(applicationzId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+   return  { queryKey, queryFn, enabled: !!(applicationId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
-export type GetApplicationZsApplicationzIdMessagesQueryResult = NonNullable<Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>>
-export type GetApplicationZsApplicationzIdMessagesQueryError = GetApplicationZsApplicationzIdMessagesErrorType<GetApplicationZsApplicationzIdMessages404 | GetApplicationZsApplicationzIdMessages500>
+export type GetApplicationsApplicationIdMessagesQueryResult = NonNullable<Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>>
+export type GetApplicationsApplicationIdMessagesQueryError = GetApplicationsApplicationIdMessagesErrorType<GetApplicationsApplicationIdMessages404 | GetApplicationsApplicationIdMessages500>
 
 
-export function useGetApplicationZsApplicationzIdMessages<TData = Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>, TError = GetApplicationZsApplicationzIdMessagesErrorType<GetApplicationZsApplicationzIdMessages404 | GetApplicationZsApplicationzIdMessages500>>(
- applicationzId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>, TError, TData>> & Pick<
+export function useGetApplicationsApplicationIdMessages<TData = Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>, TError = GetApplicationsApplicationIdMessagesErrorType<GetApplicationsApplicationIdMessages404 | GetApplicationsApplicationIdMessages500>>(
+ applicationId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>,
+          Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>,
           TError,
-          Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>
+          Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>
         > , 'initialData'
       >, }
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetApplicationZsApplicationzIdMessages<TData = Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>, TError = GetApplicationZsApplicationzIdMessagesErrorType<GetApplicationZsApplicationzIdMessages404 | GetApplicationZsApplicationzIdMessages500>>(
- applicationzId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>, TError, TData>> & Pick<
+export function useGetApplicationsApplicationIdMessages<TData = Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>, TError = GetApplicationsApplicationIdMessagesErrorType<GetApplicationsApplicationIdMessages404 | GetApplicationsApplicationIdMessages500>>(
+ applicationId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>,
+          Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>,
           TError,
-          Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>
+          Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>
         > , 'initialData'
       >, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetApplicationZsApplicationzIdMessages<TData = Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>, TError = GetApplicationZsApplicationzIdMessagesErrorType<GetApplicationZsApplicationzIdMessages404 | GetApplicationZsApplicationzIdMessages500>>(
- applicationzId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>, TError, TData>>, }
+export function useGetApplicationsApplicationIdMessages<TData = Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>, TError = GetApplicationsApplicationIdMessagesErrorType<GetApplicationsApplicationIdMessages404 | GetApplicationsApplicationIdMessages500>>(
+ applicationId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Получение сообщений для приложения
  */
 
-export function useGetApplicationZsApplicationzIdMessages<TData = Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>, TError = GetApplicationZsApplicationzIdMessagesErrorType<GetApplicationZsApplicationzIdMessages404 | GetApplicationZsApplicationzIdMessages500>>(
- applicationzId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationZsApplicationzIdMessages>>, TError, TData>>, }
+export function useGetApplicationsApplicationIdMessages<TData = Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>, TError = GetApplicationsApplicationIdMessagesErrorType<GetApplicationsApplicationIdMessages404 | GetApplicationsApplicationIdMessages500>>(
+ applicationId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdMessages>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  const queryOptions = getGetApplicationZsApplicationzIdMessagesQueryOptions(applicationzId,options)
+  const queryOptions = getGetApplicationsApplicationIdMessagesQueryOptions(applicationId,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
@@ -131,28 +131,28 @@ export function useGetApplicationZsApplicationzIdMessages<TData = Awaited<Return
  * Создает новое сообщение для указанного приложения.
  * @summary Создание сообщения для приложения
  */
-export const postApplicationZsApplicationzIdMessages = (
-    applicationzId: string,
-    postApplicationZsApplicationzIdMessagesBody: PostApplicationZsApplicationzIdMessagesBody,
+export const postApplicationsApplicationIdMessages = (
+    applicationId: string,
+    postApplicationsApplicationIdMessagesBody: PostApplicationsApplicationIdMessagesBody,
  signal?: AbortSignal
 ) => {
       
       
-      return postApplicationZsApplicationzIdMessagesMutator<PostApplicationZsApplicationzIdMessages200>(
-      {url: `/applicationZs/${applicationzId}/messages`, method: 'POST',
+      return postApplicationsApplicationIdMessagesMutator<PostApplicationsApplicationIdMessages200>(
+      {url: `/applications/${applicationId}/messages`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
-      data: postApplicationZsApplicationzIdMessagesBody, signal
+      data: postApplicationsApplicationIdMessagesBody, signal
     },
       );
     }
   
 
 
-export const getPostApplicationZsApplicationzIdMessagesMutationOptions = <TError = PostApplicationZsApplicationzIdMessagesErrorType<PostApplicationZsApplicationzIdMessages400 | PostApplicationZsApplicationzIdMessages500>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApplicationZsApplicationzIdMessages>>, TError,{applicationzId: string;data: PostApplicationZsApplicationzIdMessagesBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postApplicationZsApplicationzIdMessages>>, TError,{applicationzId: string;data: PostApplicationZsApplicationzIdMessagesBody}, TContext> => {
+export const getPostApplicationsApplicationIdMessagesMutationOptions = <TError = PostApplicationsApplicationIdMessagesErrorType<PostApplicationsApplicationIdMessages400 | PostApplicationsApplicationIdMessages500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApplicationsApplicationIdMessages>>, TError,{applicationId: string;data: PostApplicationsApplicationIdMessagesBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postApplicationsApplicationIdMessages>>, TError,{applicationId: string;data: PostApplicationsApplicationIdMessagesBody}, TContext> => {
     
-const mutationKey = ['postApplicationZsApplicationzIdMessages'];
+const mutationKey = ['postApplicationsApplicationIdMessages'];
 const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -162,10 +162,10 @@ const {mutation: mutationOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApplicationZsApplicationzIdMessages>>, {applicationzId: string;data: PostApplicationZsApplicationzIdMessagesBody}> = (props) => {
-          const {applicationzId,data} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApplicationsApplicationIdMessages>>, {applicationId: string;data: PostApplicationsApplicationIdMessagesBody}> = (props) => {
+          const {applicationId,data} = props ?? {};
 
-          return  postApplicationZsApplicationzIdMessages(applicationzId,data,)
+          return  postApplicationsApplicationIdMessages(applicationId,data,)
         }
 
         
@@ -173,23 +173,23 @@ const {mutation: mutationOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApplicationZsApplicationzIdMessagesMutationResult = NonNullable<Awaited<ReturnType<typeof postApplicationZsApplicationzIdMessages>>>
-    export type PostApplicationZsApplicationzIdMessagesMutationBody = PostApplicationZsApplicationzIdMessagesBody
-    export type PostApplicationZsApplicationzIdMessagesMutationError = PostApplicationZsApplicationzIdMessagesErrorType<PostApplicationZsApplicationzIdMessages400 | PostApplicationZsApplicationzIdMessages500>
+    export type PostApplicationsApplicationIdMessagesMutationResult = NonNullable<Awaited<ReturnType<typeof postApplicationsApplicationIdMessages>>>
+    export type PostApplicationsApplicationIdMessagesMutationBody = PostApplicationsApplicationIdMessagesBody
+    export type PostApplicationsApplicationIdMessagesMutationError = PostApplicationsApplicationIdMessagesErrorType<PostApplicationsApplicationIdMessages400 | PostApplicationsApplicationIdMessages500>
 
     /**
  * @summary Создание сообщения для приложения
  */
-export const usePostApplicationZsApplicationzIdMessages = <TError = PostApplicationZsApplicationzIdMessagesErrorType<PostApplicationZsApplicationzIdMessages400 | PostApplicationZsApplicationzIdMessages500>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApplicationZsApplicationzIdMessages>>, TError,{applicationzId: string;data: PostApplicationZsApplicationzIdMessagesBody}, TContext>, }
+export const usePostApplicationsApplicationIdMessages = <TError = PostApplicationsApplicationIdMessagesErrorType<PostApplicationsApplicationIdMessages400 | PostApplicationsApplicationIdMessages500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApplicationsApplicationIdMessages>>, TError,{applicationId: string;data: PostApplicationsApplicationIdMessagesBody}, TContext>, }
 ): UseMutationResult<
-        Awaited<ReturnType<typeof postApplicationZsApplicationzIdMessages>>,
+        Awaited<ReturnType<typeof postApplicationsApplicationIdMessages>>,
         TError,
-        {applicationzId: string;data: PostApplicationZsApplicationzIdMessagesBody},
+        {applicationId: string;data: PostApplicationsApplicationIdMessagesBody},
         TContext
       > => {
 
-      const mutationOptions = getPostApplicationZsApplicationzIdMessagesMutationOptions(options);
+      const mutationOptions = getPostApplicationsApplicationIdMessagesMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

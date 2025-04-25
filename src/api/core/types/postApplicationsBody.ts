@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PostApplicationZsBody = {
+export type PostApplicationsBody = {
   /** Название приложения */
   name?: string;
   /** Описание приложения */

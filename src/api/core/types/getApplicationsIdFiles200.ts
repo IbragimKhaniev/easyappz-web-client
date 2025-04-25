@@ -5,8 +5,8 @@
  * API documentation for EasyAppz
  * OpenAPI spec version: 1.0.0
  */
+import type { FileSystemItem } from './fileSystemItem';
 
-export type PostApplicationZs400 = {
-  error?: boolean;
-  message?: string;
+export type GetApplicationsIdFiles200 = {
+  files?: FileSystemItem[];
 };

@@ -6,9 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type GetUser200 = {
-  /** Email пользователя */
-  email?: string;
-  /** Имя пользователя */
-  name?: string;
+export type PostApplications400 = {
+  error?: boolean;
+  message?: string;
 };
