@@ -7,8 +7,6 @@
  */
 
 export type GetApplicationsId500 = {
-  /** Статус ошибки */
   error?: boolean;
-  /** Сообщение об ошибке */
   message?: string;
 };

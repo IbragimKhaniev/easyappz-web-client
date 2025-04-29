@@ -8,6 +8,5 @@
 
 export type GetApplicationsApplicationIdMessages500 = {
   error?: boolean;
-  /** Сообщение об ошибке */
   message?: string;
 };

@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { Loader2 } from 'lucide-react';
 import type { ChatMessage as ChatMessageType } from '../../model/types';
 
-export const ChatMessage = memo(({ text, isAI }: ChatMessageType) => (
+export const ChatMessage = memo(({ text, isAI, isLoading = false }: ChatMessageType) => (
   <div className={`flex ${isAI ? 'justify-start' : 'justify-end'}`}>
     <div
       className={`max-w-[80%] p-3 rounded-2xl ${
@@ -12,7 +12,13 @@ export const ChatMessage = memo(({ text, isAI }: ChatMessageType) => (
           : 'bg-[#4FD1C5] text-black'
       }`}
     >
-      {text}
+      <div>{text}</div>
+      {isLoading && (
+        <div className="flex items-center gap-2 text-[#f2f2f2]">
+          <Loader2 size={16} className="animate-spin" />
+          <span>Обрабатывается...</span>
+        </div>
+      )}
     </div>
   </div>
 ));

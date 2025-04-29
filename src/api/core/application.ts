@@ -26,108 +26,16 @@ import type {
   GetApplications200,
   GetApplications401,
   GetApplications500,
-  GetApplicationsId404,
-  GetApplicationsId500,
   IMongoModelApplication,
   PostApplications400,
   PostApplications500,
   PostApplicationsBody
 } from './types'
-import getApplicationsIdMutator from '../axios';
-import type { ErrorType as GetApplicationsIdErrorType } from '../axios';
 import getApplicationsMutator from '../axios';
 import type { ErrorType as GetApplicationsErrorType } from '../axios';
 import postApplicationsMutator from '../axios';
 import type { ErrorType as PostApplicationsErrorType } from '../axios';
 
-
-
-
-/**
- * Возвращает приложение по указанному ID.
- * @summary Получение приложения по ID
- */
-export const getApplicationsId = (
-    id: string,
- signal?: AbortSignal
-) => {
-      
-      
-      return getApplicationsIdMutator<IMongoModelApplication>(
-      {url: `/applications/${id}`, method: 'GET', signal
-    },
-      );
-    }
-  
-
-export const getGetApplicationsIdQueryKey = (id: string,) => {
-    return [`/applications/${id}`] as const;
-    }
-
-    
-export const getGetApplicationsIdQueryOptions = <TData = Awaited<ReturnType<typeof getApplicationsId>>, TError = GetApplicationsIdErrorType<GetApplicationsId404 | GetApplicationsId500>>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsId>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetApplicationsIdQueryKey(id);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApplicationsId>>> = ({ signal }) => getApplicationsId(id, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApplicationsId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
-}
-
-export type GetApplicationsIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApplicationsId>>>
-export type GetApplicationsIdQueryError = GetApplicationsIdErrorType<GetApplicationsId404 | GetApplicationsId500>
-
-
-export function useGetApplicationsId<TData = Awaited<ReturnType<typeof getApplicationsId>>, TError = GetApplicationsIdErrorType<GetApplicationsId404 | GetApplicationsId500>>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApplicationsId>>,
-          TError,
-          Awaited<ReturnType<typeof getApplicationsId>>
-        > , 'initialData'
-      >, }
-
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetApplicationsId<TData = Awaited<ReturnType<typeof getApplicationsId>>, TError = GetApplicationsIdErrorType<GetApplicationsId404 | GetApplicationsId500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApplicationsId>>,
-          TError,
-          Awaited<ReturnType<typeof getApplicationsId>>
-        > , 'initialData'
-      >, }
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetApplicationsId<TData = Awaited<ReturnType<typeof getApplicationsId>>, TError = GetApplicationsIdErrorType<GetApplicationsId404 | GetApplicationsId500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsId>>, TError, TData>>, }
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-/**
- * @summary Получение приложения по ID
- */
-
-export function useGetApplicationsId<TData = Awaited<ReturnType<typeof getApplicationsId>>, TError = GetApplicationsIdErrorType<GetApplicationsId404 | GetApplicationsId500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsId>>, TError, TData>>, }
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-
-  const queryOptions = getGetApplicationsIdQueryOptions(id,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
 
 
 

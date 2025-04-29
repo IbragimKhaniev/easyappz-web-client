@@ -251,7 +251,7 @@ const Application = () => {
                   ) : (
                     <>
                       <ChatMessage text="Привет! Я помогу вам создать веб-приложение. Что бы вы хотели сделать?" isAI />
-                      {messages?.map((msg, index) => <ChatMessage key={index} text={msg.previewContent || msg.content} isAI={msg.role === 'assistant'}  />)}
+                      {messages?.map((msg, index) => <ChatMessage key={index} text={msg.content} isAI={msg.role === 'assistant'} isLoading={msg.status === 'processing'} />)}
                       {isCommonLoading && <LoadingMessage loadingPercent={application?.pendingPercent} />}
                       {application?.error && (
                         <ChatMessage text={`Ошика: ${application?.errorText}`} isAI />
@@ -274,7 +274,7 @@ const Application = () => {
           <ResizablePanel defaultSize={67} minSize={30}>
             <PreviewPanel
               dir={application?.dir}
-              template={application?.template}
+              applicationId={applicationId}
               keyIframe={keyIframe}
               isMobileView={isMobileView} 
               toggleMobileView={toggleMobileView} 
@@ -357,7 +357,7 @@ const Application = () => {
                 ) : (
                   <>
                     <ChatMessage text="Привет! Я помогу вам создать веб-приложение. Что бы вы хотели сделать?" isAI />
-                    {messages?.map((msg, index) => <ChatMessage key={index} text={msg.previewContent || msg.content} isAI={msg.role === 'assistant'}  />)}
+                    {messages?.map((msg, index) => <ChatMessage key={index} text={msg.content} isAI={msg.role === 'assistant'} isLoading={msg.status === 'processing'} />)}
                     {isCommonLoading && <LoadingMessage />}
                     <div ref={messagesEndRef} />
                   </>
@@ -375,7 +375,8 @@ const Application = () => {
         {showPreview && application && (
           <div className="h-full">
             <PreviewPanel
-              dir={application.dir}
+              dir={application?.dir}
+              applicationId={applicationId}
               keyIframe={keyIframe}
               isMobileView={true} 
               toggleMobileView={() => {}} 

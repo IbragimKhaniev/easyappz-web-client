@@ -2,6 +2,7 @@
 export interface ChatMessage {
   text: string;
   isAI: boolean;
+  isLoading: boolean;
 }
 
 export interface ChatInputProps {
@@ -10,12 +11,13 @@ export interface ChatInputProps {
 }
 
 export interface PreviewPanelProps {
+  applicationId: string;
+
   keyIframe: number;
   isMobileView: boolean;
   toggleMobileView: () => void;
   handleReloadDemo: () => void;
   isMobileDisplay?: boolean;
 
-  template?: string;
   dir?: string;
 }

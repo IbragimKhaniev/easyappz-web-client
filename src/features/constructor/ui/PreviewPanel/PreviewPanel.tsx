@@ -6,9 +6,11 @@ import { UI_ELEMENTS } from '@/shared/config/ui';
 import { cn } from '@/shared/lib/utils/common';
 import { Button } from '@/shared/ui/button/Button';
 
+import { CodeEditor } from './components/CodeEditor';
+
 export const PreviewPanel = memo(({
   dir,
-  template,
+  applicationId,
 
   keyIframe,
   isMobileView,
@@ -64,7 +66,9 @@ export const PreviewPanel = memo(({
         <div
           className={`w-full h-full transition-all duration-300 ${isMobileView || isMobileDisplay ? 'max-w-[375px] mx-auto' : ''}`}
         >
-          {dir ? (
+          {codeEditorOpened ? (
+            <CodeEditor applicationId={applicationId} />
+          ) : dir ? (
             <iframe
               key={keyIframe}
               id="preview-iframe"
