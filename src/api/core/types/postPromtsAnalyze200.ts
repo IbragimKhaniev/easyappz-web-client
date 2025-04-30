@@ -13,6 +13,6 @@ export type PostPromtsAnalyze200 = {
   description?: string;
   /** Выбранный шаблон */
   template?: string;
-  /** Выбранный сервис */
-  service?: string;
+  /** Выбранный искуственный интелект */
+  modelAi?: string;
 };

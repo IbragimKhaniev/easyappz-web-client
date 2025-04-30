@@ -6,9 +6,10 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { GetConfig200TemplatesItem } from './getConfig200TemplatesItem';
-import type { GetConfig200ServicesItem } from './getConfig200ServicesItem';
 
 export type GetConfig200 = {
+  /** Список шаблонов приложения. */
   templates?: GetConfig200TemplatesItem[];
-  services?: GetConfig200ServicesItem[];
+  /** Список ключей (идентификаторов) моделей AI. */
+  modelsAi?: string[];
 };

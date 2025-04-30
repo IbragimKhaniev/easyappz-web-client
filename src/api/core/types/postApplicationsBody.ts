@@ -13,6 +13,6 @@ export type PostApplicationsBody = {
   description?: string;
   /** Шаблон приложения */
   template?: string;
-  /** Сервис приложения */
-  service?: string;
+  /** Модель искуственного интелекта */
+  modelAi?: string;
 };

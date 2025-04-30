@@ -29,8 +29,8 @@ import type { ErrorType as GetConfigErrorType } from '../axios';
 
 
 /**
- * Возвращает возможные варианты templates и services.
- * @summary Получение конфигурации
+ * Возвращает конфигурацию, содержащую список шаблонов и список моделей AI.
+ * @summary Получение конфигурации приложения
  */
 export const getConfig = (
     
@@ -97,7 +97,7 @@ export function useGetConfig<TData = Awaited<ReturnType<typeof getConfig>>, TErr
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
- * @summary Получение конфигурации
+ * @summary Получение конфигурации приложения
  */
 
 export function useGetConfig<TData = Awaited<ReturnType<typeof getConfig>>, TError = GetConfigErrorType<GetConfig500>>(

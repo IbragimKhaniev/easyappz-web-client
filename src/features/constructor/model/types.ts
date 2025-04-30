@@ -2,7 +2,7 @@
 export interface ChatMessage {
   text: string;
   isAI: boolean;
-  isLoading: boolean;
+  status?: string;
 }
 
 export interface ChatInputProps {

@@ -251,8 +251,9 @@ const Application = () => {
                   ) : (
                     <>
                       <ChatMessage text="Привет! Я помогу вам создать веб-приложение. Что бы вы хотели сделать?" isAI />
-                      {messages?.map((msg, index) => <ChatMessage key={index} text={msg.content} isAI={msg.role === 'assistant'} isLoading={msg.status === 'processing'} />)}
-                      {isCommonLoading && <LoadingMessage loadingPercent={application?.pendingPercent} />}
+                      {messages?.map((msg, index) => (
+                        <ChatMessage key={index} text={msg.content} isAI={msg.role === 'assistant'} status={msg.status} />
+                      ))}
                       {application?.error && (
                         <ChatMessage text={`Ошика: ${application?.errorText}`} isAI />
                       )}
@@ -357,7 +358,7 @@ const Application = () => {
                 ) : (
                   <>
                     <ChatMessage text="Привет! Я помогу вам создать веб-приложение. Что бы вы хотели сделать?" isAI />
-                    {messages?.map((msg, index) => <ChatMessage key={index} text={msg.content} isAI={msg.role === 'assistant'} isLoading={msg.status === 'processing'} />)}
+                    {messages?.map((msg, index) => <ChatMessage key={index} text={msg.content} isAI={msg.role === 'assistant'} status={msg.status} />)}
                     {isCommonLoading && <LoadingMessage />}
                     <div ref={messagesEndRef} />
                   </>

@@ -24,7 +24,6 @@ export * from './getApplicationsId500';
 export * from './getApplicationsIdFiles200';
 export * from './getApplicationsIdFiles500';
 export * from './getConfig200';
-export * from './getConfig200ServicesItem';
 export * from './getConfig200TemplatesItem';
 export * from './getConfig500';
 export * from './getUser200';

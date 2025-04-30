@@ -36,7 +36,7 @@ export function ConfigurationDialog({
   onOpenChange,
   onSubmit,
 }: ConfigurationDialogProps) {
-  const [model, setModel] = React.useState(settings.service);
+  const [model, setModel] = React.useState(settings.modelAi);
   const [appType, setAppType] = React.useState(settings.template);
   const [appName, setAppName] = React.useState(settings.name);
   const [appDescription, setAppDescription] = React.useState(settings.description);
@@ -47,7 +47,7 @@ export function ConfigurationDialog({
       description: appDescription,
 
       template: appType,
-      service: model,
+      modelAi: model,
     });
 
     onOpenChange(false);
@@ -95,8 +95,8 @@ export function ConfigurationDialog({
                 <SelectValue placeholder="Выберите модель" />
               </SelectTrigger>
               <SelectContent>
-                {config.services.map((currentService) => (
-                  <SelectItem value={currentService.id}>{currentService.description}</SelectItem>
+                {config.modelsAi.map((currentModelAi) => (
+                  <SelectItem value={currentModelAi}>{currentModelAi}</SelectItem>
                 ))}
               </SelectContent>
             </Select>

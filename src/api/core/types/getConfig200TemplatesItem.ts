@@ -7,8 +7,8 @@
  */
 
 export type GetConfig200TemplatesItem = {
-  /** Идентификатор шаблона */
+  /** Идентификатор шаблона. */
   id?: string;
-  /** Описание шаблона */
+  /** Описание шаблона. */
   description?: string;
 };
