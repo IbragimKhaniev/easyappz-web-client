@@ -21,7 +21,7 @@ export const PreviewPanel = memo(({
   const [codeEditorOpened, setCodeEditorOpened] = useState(false);
 
   const parsedDir = useMemo(() => (
-    `${import.meta.env.VITE_HOST_URL}/${dir}/index.html`
+    `${import.meta.env.VITE_HOST_URL}/${dir}/frontend/index.html`
   ), [dir]);
 
   const handleOpenInNewWindow = useCallback(() => {
@@ -73,7 +73,7 @@ export const PreviewPanel = memo(({
               key={keyIframe}
               id="preview-iframe"
               src={parsedDir}
-              className="w-full h-full rounded-lg bg-white/5"
+              className="w-full h-full rounded-lg bg-white"
               title="Превью"
               sandbox="allow-scripts allow-forms"
             />
