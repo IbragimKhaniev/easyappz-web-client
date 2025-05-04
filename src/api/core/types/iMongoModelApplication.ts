@@ -13,7 +13,8 @@ export interface IMongoModelApplication {
   name?: string;
   /** Описание приложения. */
   description?: string;
-  usedTokens?: number;
+  usedTokensInput?: number;
+  usedTokensOutput?: number;
   /** Директория приложения. */
   dir?: string;
   /** Шаблон приложения. */
