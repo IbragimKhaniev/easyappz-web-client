@@ -5,12 +5,17 @@
  * API documentation for EasyAppz
  * OpenAPI spec version: 1.0.0
  */
+import type { GetApplicationsApplicationIdMessages200ItemPromtsItem } from './getApplicationsApplicationIdMessages200ItemPromtsItem';
 
 export type GetApplicationsApplicationIdMessages200Item = {
-  /** Содержимое сообщения или промта. */
+  /** Идентификатор сообщения. */
+  id?: string;
+  /** Содержимое сообщения. */
   content?: string;
   /** Роль отправителя (user или assistant). */
   role?: string;
-  /** Статус сообщения или промта. */
+  /** Статус сообщения. */
   status?: string;
+  /** Список промтов, связанных с сообщением. */
+  promts?: GetApplicationsApplicationIdMessages200ItemPromtsItem[];
 };

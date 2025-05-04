@@ -1,6 +1,7 @@
 export * from './application-files';
 export * from './applications';
 export * from './application';
+export * from './message';
 export * from './application-messages';
 export * from './messages';
 export * from './config';

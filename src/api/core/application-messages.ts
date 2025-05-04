@@ -29,7 +29,8 @@ import type { ErrorType as GetApplicationsApplicationIdMessagesErrorType } from 
 
 
 /**
- * Возвращает объединённый и отсортированный по времени создания список сообщений и промтов для указанного приложения.
+ * Возвращает массив сообщений для указанного приложения. Каждое сообщение включает поля id, content, role, status и вложенный массив promts, содержащий объекты с полями content, result и status.
+
  * @summary Получение сообщений и промтов для приложения
  */
 export const getApplicationsApplicationIdMessages = (

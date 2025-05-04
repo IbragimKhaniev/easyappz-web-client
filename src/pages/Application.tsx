@@ -250,12 +250,11 @@ const Application = () => {
                     </>
                   ) : (
                     <>
-                      <ChatMessage text="Привет! Я помогу вам создать веб-приложение. Что бы вы хотели сделать?" isAI />
                       {messages?.map((msg, index) => (
-                        <ChatMessage key={index} text={msg.content} isAI={msg.role === 'assistant'} status={msg.status} />
+                        <ChatMessage key={index} data={msg} applicationId={applicationId} />
                       ))}
                       {application?.error && (
-                        <ChatMessage text={`Ошика: ${application?.errorText}`} isAI />
+                        <div>Ошика: {application?.errorText}</div>
                       )}
                       <div ref={messagesEndRef} />
                     </>
@@ -357,8 +356,7 @@ const Application = () => {
                   </>
                 ) : (
                   <>
-                    <ChatMessage text="Привет! Я помогу вам создать веб-приложение. Что бы вы хотели сделать?" isAI />
-                    {messages?.map((msg, index) => <ChatMessage key={index} text={msg.content} isAI={msg.role === 'assistant'} status={msg.status} />)}
+                    {messages?.map((msg, index) => <ChatMessage key={index} data={msg} applicationId={applicationId} />)}
                     {isCommonLoading && <LoadingMessage />}
                     <div ref={messagesEndRef} />
                   </>

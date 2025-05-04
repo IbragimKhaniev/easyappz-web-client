@@ -1,8 +1,8 @@
+import { GetApplicationsApplicationIdMessages200Item } from "@/api/core";
 
 export interface ChatMessage {
-  text: string;
-  isAI: boolean;
-  status?: string;
+  data: GetApplicationsApplicationIdMessages200Item;
+  applicationId: string;
 }
 
 export interface ChatInputProps {
