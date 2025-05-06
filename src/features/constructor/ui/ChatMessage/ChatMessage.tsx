@@ -30,9 +30,26 @@ export const ChatMessage = memo(({ data, applicationId }: ChatMessageType) => {
         <div>{data.content}</div>
         <div>status: {data.status}</div>
         {data.promts?.map((currentPromt, index) => (
-          <div key={index} className="flex items-center gap-2 text-[#f2f2f2]">
+          <div key={index} className="flex items-center gap-2 text-[#f2f2f2]"
+            style={{
+              backgroundColor: currentPromt.status === 'error' ? '#FF4C4C' : '#ccc',
+              padding: '5px',
+              borderRadius: '10px',
+              marginTop: '5px',
+              color: currentPromt.status === 'error' ? '#fff' : '#000',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: '100%',
+              fontSize: '14px',
+              fontWeight: '500',
+              lineHeight: '20px',
+            }}
+          >
             <span>{currentPromt.result || currentPromt.content}</span>
-            <span>{currentPromt.status}</span>
+            <span style={{
+              background: '#ccc',
+            }}>{currentPromt.status}</span>
           </div>
         ))}
         {data.status === 'error' && (

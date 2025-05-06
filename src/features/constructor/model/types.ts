@@ -1,4 +1,5 @@
 import { GetApplicationsApplicationIdMessages200Item } from "@/api/core";
+import { IMongoModelApplication } from '@/api/core';
 
 export interface ChatMessage {
   data: GetApplicationsApplicationIdMessages200Item;
@@ -11,13 +12,11 @@ export interface ChatInputProps {
 }
 
 export interface PreviewPanelProps {
-  applicationId: string;
-
+  application: IMongoModelApplication;
+  
   keyIframe: number;
   isMobileView: boolean;
   toggleMobileView: () => void;
   handleReloadDemo: () => void;
   isMobileDisplay?: boolean;
-
-  dir?: string;
 }

@@ -101,6 +101,8 @@ const Profile = () => {
                     <h3 className="text-xl font-medium profile-text">{app.name}</h3>
                     <p className="profile-label mt-2">{app.description}</p>
                     <p className="profile-label mt-2">Модель ИИ: {app.service}</p>
+                    <p className="profile-label mt-2">Порт: {app.port}</p>
+                    <p className="profile-label mt-2">Сервер обновлен: {app.serverIsUpToDate ? "да" : "нет"}</p>
                     <p className="profile-label mt-2">Использовано токенов input: {app.usedTokensInput}</p>
                     <p className="profile-label mt-2">Использовано токенов output: {app.usedTokensOutput}</p>
                     {app.pending && (

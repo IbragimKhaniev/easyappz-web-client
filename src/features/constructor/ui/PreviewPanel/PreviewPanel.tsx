@@ -9,9 +9,7 @@ import { Button } from '@/shared/ui/button/Button';
 import { CodeEditor } from './components/CodeEditor';
 
 export const PreviewPanel = memo(({
-  dir,
-  applicationId,
-
+  application,
   keyIframe,
   isMobileView,
   toggleMobileView,
@@ -21,8 +19,8 @@ export const PreviewPanel = memo(({
   const [codeEditorOpened, setCodeEditorOpened] = useState(false);
 
   const parsedDir = useMemo(() => (
-    `${import.meta.env.VITE_HOST_URL}/${dir}/frontend/index.html`
-  ), [dir]);
+    `${import.meta.env.VITE_HOST_URL}/application/${application._id}/client/index.html`
+  ), [application._id]);
 
   const handleOpenInNewWindow = useCallback(() => {
     window.open(parsedDir, '_blank');
@@ -67,8 +65,8 @@ export const PreviewPanel = memo(({
           className={`w-full h-full transition-all duration-300 ${isMobileView || isMobileDisplay ? 'max-w-[375px] mx-auto' : ''}`}
         >
           {codeEditorOpened ? (
-            <CodeEditor applicationId={applicationId} />
-          ) : dir ? (
+            <CodeEditor applicationId={application._id} />
+          ) : application.dir ? (
             <iframe
               key={keyIframe}
               id="preview-iframe"

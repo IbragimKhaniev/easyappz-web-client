@@ -15,6 +15,8 @@ export interface IMongoModelApplication {
   description?: string;
   usedTokensInput?: number;
   usedTokensOutput?: number;
+  port?: number;
+  serverIsUpToDate?: boolean;
   /** Директория приложения. */
   dir?: string;
   /** Шаблон приложения. */

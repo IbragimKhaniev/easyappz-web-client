@@ -272,14 +272,15 @@ const Application = () => {
           <ResizableHandle withHandle className="bg-transparent" />
 
           <ResizablePanel defaultSize={67} minSize={30}>
-            <PreviewPanel
-              dir={application?.dir}
-              applicationId={applicationId}
-              keyIframe={keyIframe}
-              isMobileView={isMobileView} 
-              toggleMobileView={toggleMobileView} 
-              handleReloadDemo={handleReloadDemo} 
-            />
+            {application && (
+              <PreviewPanel
+                application={application}
+                keyIframe={keyIframe}
+                isMobileView={isMobileView} 
+                toggleMobileView={toggleMobileView} 
+                handleReloadDemo={handleReloadDemo} 
+              />
+            )}
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>
@@ -374,8 +375,7 @@ const Application = () => {
         {showPreview && application && (
           <div className="h-full">
             <PreviewPanel
-              dir={application?.dir}
-              applicationId={applicationId}
+              application={application}
               keyIframe={keyIframe}
               isMobileView={true} 
               toggleMobileView={() => {}} 
