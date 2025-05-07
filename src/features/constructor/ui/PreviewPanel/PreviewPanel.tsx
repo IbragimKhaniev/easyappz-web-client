@@ -19,7 +19,7 @@ export const PreviewPanel = memo(({
   const [codeEditorOpened, setCodeEditorOpened] = useState(false);
 
   const parsedDir = useMemo(() => (
-    `${import.meta.env.VITE_HOST_URL}/application/${application._id}/`
+    `${import.meta.env.VITE_HOST_URL}/applications/${application._id}/`
   ), [application._id]);
 
   const handleOpenInNewWindow = useCallback(() => {
