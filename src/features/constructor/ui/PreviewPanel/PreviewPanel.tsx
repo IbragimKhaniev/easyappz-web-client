@@ -18,7 +18,7 @@ export const PreviewPanel = memo(({
 }: PreviewPanelProps) => {
   const [codeEditorOpened, setCodeEditorOpened] = useState(false);
 
-  const parsedDir = useMemo(() => application.domain, [application.domain]);
+  const parsedDir = useMemo(() => `https://${application.domain}.easyappz.ru`, [application.domain]);
 
   const handleOpenInNewWindow = useCallback(() => {
     window.open(parsedDir, '_blank');
