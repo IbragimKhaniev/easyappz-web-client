@@ -19,6 +19,7 @@ export interface IMongoModelApplication {
   serverIsUpToDate?: boolean;
   /** Директория приложения. */
   dir?: string;
+  domain?: string;
   /** Шаблон приложения. */
   template?: string;
   /** Статус ожидания приложения. */
