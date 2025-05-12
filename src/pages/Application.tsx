@@ -247,6 +247,9 @@ const Application = () => {
                         </div>
                       </div>
                     )}
+                    {application?.deploying && (
+                      <div>Приложение деплоится ...</div>
+                    )}
                     <div ref={messagesEndRef} />
                   </>
                 )}
