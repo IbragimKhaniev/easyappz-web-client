@@ -23,13 +23,13 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query'
 import type {
+  BadRequestResponse,
   GetApplications200,
   GetApplications401,
   GetApplications500,
   IMongoModelApplication,
-  PostApplications400,
-  PostApplications500,
-  PostApplicationsBody
+  PostApplicationsBody,
+  ServerErrorResponse
 } from './types'
 import getApplicationsMutator from '../axios';
 import type { ErrorType as GetApplicationsErrorType } from '../axios';
@@ -147,7 +147,7 @@ export const postApplications = (
   
 
 
-export const getPostApplicationsMutationOptions = <TError = PostApplicationsErrorType<PostApplications400 | PostApplications500>,
+export const getPostApplicationsMutationOptions = <TError = PostApplicationsErrorType<BadRequestResponse | ServerErrorResponse>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApplications>>, TError,{data: PostApplicationsBody}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof postApplications>>, TError,{data: PostApplicationsBody}, TContext> => {
     
@@ -174,12 +174,12 @@ const {mutation: mutationOptions} = options ?
 
     export type PostApplicationsMutationResult = NonNullable<Awaited<ReturnType<typeof postApplications>>>
     export type PostApplicationsMutationBody = PostApplicationsBody
-    export type PostApplicationsMutationError = PostApplicationsErrorType<PostApplications400 | PostApplications500>
+    export type PostApplicationsMutationError = PostApplicationsErrorType<BadRequestResponse | ServerErrorResponse>
 
     /**
  * @summary Создание нового приложения
  */
-export const usePostApplications = <TError = PostApplicationsErrorType<PostApplications400 | PostApplications500>,
+export const usePostApplications = <TError = PostApplicationsErrorType<BadRequestResponse | ServerErrorResponse>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApplications>>, TError,{data: PostApplicationsBody}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof postApplications>>,

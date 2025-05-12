@@ -13,29 +13,26 @@ export interface IMongoModelApplication {
   name?: string;
   /** Описание приложения. */
   description?: string;
+  /** Количество использованных входящих токенов. */
   usedTokensInput?: number;
+  /** Количество использованных исходящих токенов. */
   usedTokensOutput?: number;
+  /** Порт, на котором запущено приложение. */
   port?: number;
-  serverIsUpToDate?: boolean;
   /** Директория приложения. */
   dir?: string;
+  /** Домен приложения. */
   domain?: string;
   /** Шаблон приложения. */
   template?: string;
-  /** Статус ожидания приложения. */
+  /** Статус ожидания (pending) приложения. */
   pending?: boolean;
-  /** Процент выполнения загрузки приложения. */
-  pendingPercent?: number;
-  /** Флаг ошибки приложения. */
-  error?: boolean;
-  /** Сервис, используемый приложением. */
-  service?: string;
-  /** Идентификатор потока ChatGPT. */
-  chatgptThreadId?: string;
-  /** Время истечения действия потока ChatGPT. */
-  chatgptThreadExpiredTime?: string;
-  /** Текст ошибки создания приложения. */
-  errorText?: string;
+  /** Модель искусственного интеллекта. */
+  modelAi?: string;
+  /** Версия приложения. */
+  version?: string;
+  /** Текст ошибки при создании или работе приложения (если есть). */
+  error?: string;
   /** Идентификатор пользователя, создавшего приложение. */
   user?: string;
   /** Дата и время создания приложения. */

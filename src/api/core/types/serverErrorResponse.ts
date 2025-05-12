@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PostApplications500 = {
+export type ServerErrorResponse = {
   error?: boolean;
   message?: string;
 };

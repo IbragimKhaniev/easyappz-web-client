@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PostApplications400 = {
+export type BadRequestResponse = {
   error?: boolean;
   message?: string;
 };
