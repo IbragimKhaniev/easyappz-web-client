@@ -254,7 +254,7 @@ const Application = () => {
                         <ChatMessage key={index} data={msg} applicationId={applicationId} />
                       ))}
                       {application?.error && (
-                        <div>Ошика: {application?.errorText}</div>
+                        <div>Ошибка: {application?.error}</div>
                       )}
                       <div ref={messagesEndRef} />
                     </>
