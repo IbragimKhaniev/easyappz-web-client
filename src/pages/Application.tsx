@@ -3,7 +3,7 @@ import { Menu, User, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { useToast } from "@/hooks/use-toast";
 import { ConfigurationDialog } from "@/components/ConfigurationDialog";
-import { ChatMessage, LoadingMessage } from "@/features/constructor/ui/ChatMessage/ChatMessage";
+import { ChatMessage } from "@/features/constructor/ui/ChatMessage/ChatMessage";
 import { ChatInput } from "@/features/constructor/ui/ChatInput/ChatInput";
 import { PreviewPanel } from "@/features/constructor/ui/PreviewPanel/PreviewPanel";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -41,8 +41,6 @@ const Application = () => {
   const [showConfig, setShowConfig] = useState(false);
   const [firstMessage, setFirstMessage] = useState<string | null>();
   const [keyIframe, setKeyIframe] = useState<number>(0);
-  const [showChat, setShowChat] = useState(!isMobile);
-  const [showPreview, setShowPreview] = useState(isMobile);
 
   /**
    * Характеристики основанные первом сообщении
@@ -125,6 +123,17 @@ const Application = () => {
     }
   });
 
+  const handleFixDeployingError = useCallback(() => {
+    if (application?.deployingError) {
+      postMessages({
+        applicationId: applicationId,
+        data: {
+          content: `Исправь ошибку: ${application.deployingError}`,
+        },
+      });
+    }
+  }, [application, applicationId, postMessages]);
+
   const isCommonLoading = useMemo(() => (
     isPendingPostMessages || isPendingPostApplications || isLoadingMessages || application?.pending || isLoadingConfig || isPendingPromtAnalyze
   ), [application?.pending, isLoadingConfig, isLoadingMessages, isPendingPostApplications, isPendingPostMessages, isPendingPromtAnalyze]);
@@ -187,109 +196,10 @@ const Application = () => {
         content: value,
       }
     });
+  }, [applicationId, handleFirstMessage, postMessages]);
 
-    // Автоматически переключаемся на превью на мобильных устройствах
-    if (isMobile) {
-      setShowChat(false);
-      setShowPreview(true);
-    }
-  }, [applicationId, handleFirstMessage, postMessages, isMobile]);
-
-  const toggleView = () => {
-    setShowChat(!showChat);
-    setShowPreview(!showPreview);
-  };
-
-  // Используем ResizablePanelGroup только на десктопах
-  if (!isMobile) {
-    return (
-      <div className="h-screen w-full p-4 application-page">
-        {showConfig && promtSettings && config && (
-          <ConfigurationDialog 
-            open={showConfig} 
-            settings={promtSettings}
-            config={config}
-            onOpenChange={setShowConfig} 
-            onSubmit={handleConfigSubmit} 
-          />
-        )}
-        <ResizablePanelGroup direction="horizontal" className="h-full rounded-lg overflow-hidden">
-          <ResizablePanel defaultSize={33} minSize={25}>
-            <div className="h-full flex flex-col">
-              <div className="bg-[#282828e6] bg-opacity-90 flex-1 overflow-hidden flex flex-col rounded-lg shadow-lg">
-                <div className="flex items-center p-4 border-b border-white/10">
-                  <div className="relative mr-4">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <button className="bg-[#3A4055] p-2 rounded-lg hover:bg-[#4A5065] transition-colors duration-200">
-                          <Menu size={20} className="text-white/80" />
-                        </button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="start" className="w-[200px] p-2 bg-[#282828e6] rounded-lg mt-1 border border-white/10">
-                        <DropdownMenuItem 
-                          className="flex items-center gap-2 text-white/70 hover:text-white py-2 px-3 rounded-lg hover:bg-[#3A4055] transition-colors duration-200 cursor-pointer"
-                          onClick={() => navigate(ROUTES.PROFILE)}
-                        >
-                          <User size={16} />
-                          <span>Профиль</span>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                  <h2 className="text-xl font-medium text-white/95">Чат с ИИ</h2>
-                </div>
-
-                <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#282828e6]">
-                  {isLoadingMessages ? (
-                    <>
-                      <Skeleton className="h-[60px] w-[80%] bg-[#3A4055]" />
-                      <div className="flex justify-end">
-                        <Skeleton className="h-[40px] w-[60%] bg-[#3A4055]" />
-                      </div>
-                      <Skeleton className="h-[60px] w-[70%] bg-[#3A4055]" />
-                    </>
-                  ) : (
-                    <>
-                      {messages?.map((msg, index) => (
-                        <ChatMessage key={index} data={msg} applicationId={applicationId} />
-                      ))}
-                      {application?.error && (
-                        <div>Ошибка: {application?.error}</div>
-                      )}
-                      <div ref={messagesEndRef} />
-                    </>
-                  )}
-                </div>
-
-                <ChatInput 
-                  handleSendMessage={handleSendMessage} 
-                  isProcessing={isCommonLoading} 
-                />
-              </div>
-            </div>
-          </ResizablePanel>
-
-          <ResizableHandle withHandle className="bg-transparent" />
-
-          <ResizablePanel defaultSize={67} minSize={30}>
-            {application && (
-              <PreviewPanel
-                application={application}
-                keyIframe={keyIframe}
-                isMobileView={isMobileView} 
-                toggleMobileView={toggleMobileView} 
-                handleReloadDemo={handleReloadDemo} 
-              />
-            )}
-          </ResizablePanel>
-        </ResizablePanelGroup>
-      </div>
-    );
-  }
-
-  // Мобильная версия использует переключение между чатом и превью
   return (
-    <div className="h-screen w-full p-2 application-page">
+    <div className="h-screen w-full p-4 application-page">
       {showConfig && promtSettings && config && (
         <ConfigurationDialog 
           open={showConfig} 
@@ -299,54 +209,15 @@ const Application = () => {
           onSubmit={handleConfigSubmit} 
         />
       )}
-      
-      {/* Переключатель между чатом и превью */}
-      <div className="bg-[#282828e6] bg-opacity-90 mb-2 p-2 flex justify-between items-center rounded-lg shadow-md">
-        <div className="flex items-center">
-          <div className="relative mr-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="bg-[#3A4055] p-2 rounded-lg hover:bg-[#4A5065] transition-colors duration-200">
-                  <Menu size={20} className="text-white/80" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-[200px] p-2 bg-[#282828e6] rounded-lg mt-1 border border-white/10">
-                <DropdownMenuItem 
-                  className="flex items-center gap-2 text-white/70 hover:text-white py-2 px-3 rounded-lg hover:bg-[#3A4055] transition-colors duration-200 cursor-pointer"
-                  onClick={() => navigate(ROUTES.PROFILE)}
-                >
-                  <User size={16} />
-                  <span>Профиль</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          <h2 className="text-lg font-medium text-white/95">EasyappZ</h2>
-        </div>
-        <button
-          onClick={toggleView}
-          className="bg-[#3A4055] p-2 rounded-lg hover:bg-[#4A5065] transition-colors duration-200 flex items-center gap-1"
-        >
-          {showChat ? (
-            <>
-              <span className="text-sm text-white/80 mr-1">Превью</span>
-              <ChevronRight size={16} className="text-white/80" />
-            </>
-          ) : (
-            <>
-              <ChevronLeft size={16} className="text-white/80" />
-              <span className="text-sm text-white/80 ml-1">Чат</span>
-            </>
-          )}
-        </button>
-      </div>
-
-      {/* Содержимое будет переключаться между чатом и превью */}
-      <div className="h-[calc(100vh-66px)]">
-        {showChat && (
+      <ResizablePanelGroup direction="horizontal" className="h-full rounded-lg overflow-hidden">
+        <ResizablePanel defaultSize={33} minSize={25}>
           <div className="h-full flex flex-col">
             <div className="bg-[#282828e6] bg-opacity-90 flex-1 overflow-hidden flex flex-col rounded-lg shadow-lg">
-              <div className="flex-1 overflow-y-auto p-3 space-y-3">
+              <div className="flex items-center p-4 border-b border-white/10">
+                {/* ...existing header... */}
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#282828e6]">
                 {isLoadingMessages ? (
                   <>
                     <Skeleton className="h-[60px] w-[80%] bg-[#3A4055]" />
@@ -357,8 +228,25 @@ const Application = () => {
                   </>
                 ) : (
                   <>
-                    {messages?.map((msg, index) => <ChatMessage key={index} data={msg} applicationId={applicationId} />)}
-                    {isCommonLoading && <LoadingMessage />}
+                    {messages?.map((msg, index) => (
+                      <ChatMessage key={index} data={msg} applicationId={applicationId} />
+                    ))}
+                    {application?.error && (
+                      <div>Ошибка: {application?.error}</div>
+                    )}
+                    {application?.deployingError && (
+                      <div className="flex justify-start">
+                        <div className="max-w-[80%] p-3 rounded-2xl bg-red-500 text-white">
+                          <div>При запуске сервера произошла ошибка, давайте попробуем исправить.</div>
+                          <button 
+                            onClick={handleFixDeployingError} 
+                            className="mt-2 px-4 py-2 bg-white text-red-500 rounded"
+                          >
+                            Попробовать исправить
+                          </button>
+                        </div>
+                      </div>
+                    )}
                     <div ref={messagesEndRef} />
                   </>
                 )}
@@ -370,21 +258,22 @@ const Application = () => {
               />
             </div>
           </div>
-        )}
+        </ResizablePanel>
 
-        {showPreview && application && (
-          <div className="h-full">
+        <ResizableHandle withHandle className="bg-transparent" />
+
+        <ResizablePanel defaultSize={67} minSize={30}>
+          {application && (
             <PreviewPanel
               application={application}
               keyIframe={keyIframe}
-              isMobileView={true} 
-              toggleMobileView={() => {}} 
-              handleReloadDemo={handleReloadDemo}
-              isMobileDisplay={true}
+              isMobileView={isMobileView} 
+              toggleMobileView={toggleMobileView} 
+              handleReloadDemo={handleReloadDemo} 
             />
-          </div>
-        )}
-      </div>
+          )}
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </div>
   );
 };
