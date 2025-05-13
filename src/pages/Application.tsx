@@ -144,6 +144,17 @@ const Application = () => {
     }
   }, [application, applicationId, postMessages]);
 
+  const handleFixCodeError = useCallback(() => {
+    if (application?.deployingError) {
+      postMessages({
+        applicationId: applicationId,
+        data: {
+          content: `Исправь ошибку: ${application.error}`,
+        },
+      });
+    }
+  }, [application, applicationId, postMessages]);
+
   const isCommonLoading = useMemo(() => (
     isPendingPostMessages || isPendingPostApplications || isLoadingMessages || application?.pending || isLoadingConfig || isPendingPromtAnalyze
   ), [application?.pending, isLoadingConfig, isLoadingMessages, isPendingPostApplications, isPendingPostMessages, isPendingPromtAnalyze]);
@@ -250,6 +261,19 @@ const Application = () => {
                           <div>При запуске сервера произошла ошибка, давайте попробуем исправить.</div>
                           <button 
                             onClick={handleFixDeployingError} 
+                            className="mt-2 px-4 py-2 bg-white text-red-500 rounded"
+                          >
+                            Попробовать исправить
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    {application?.deployingError && (
+                      <div className="flex justify-start">
+                        <div className="max-w-[80%] p-3 rounded-2xl bg-red-500 text-white">
+                          <div>При написании кода возникла ошибка, давайте попробуем исправить.</div>
+                          <button
+                            onClick={handleFixCodeError} 
                             className="mt-2 px-4 py-2 bg-white text-red-500 rounded"
                           >
                             Попробовать исправить
