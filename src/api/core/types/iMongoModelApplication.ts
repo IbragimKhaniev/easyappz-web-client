@@ -33,6 +33,7 @@ export interface IMongoModelApplication {
   version?: string;
   /** Текст ошибки при создании или работе приложения (если есть). */
   error?: string;
+  warning?: string;
   /** Идентификатор пользователя, создавшего приложение. */
   user?: string;
   /** Дата и время создания приложения. */
