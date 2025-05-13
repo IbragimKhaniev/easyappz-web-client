@@ -268,7 +268,7 @@ const Application = () => {
                         </div>
                       </div>
                     )}
-                    {application?.deployingError && (
+                    {application?.error && (
                       <div className="flex justify-start">
                         <div className="max-w-[80%] p-3 rounded-2xl bg-red-500 text-white">
                           <div>При написании кода возникла ошибка, давайте попробуем исправить.</div>
