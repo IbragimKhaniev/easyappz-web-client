@@ -252,9 +252,6 @@ const Application = () => {
                     {messages?.map((msg, index) => (
                       <ChatMessage key={index} data={msg} applicationId={applicationId} />
                     ))}
-                    {application?.error && (
-                      <div>Ошибка: {application?.error}</div>
-                    )}
                     {application?.deployingError && (
                       <div className="flex justify-start">
                         <div className="max-w-[80%] p-3 rounded-2xl bg-red-500 text-white">
