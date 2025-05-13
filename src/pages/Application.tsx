@@ -261,6 +261,19 @@ const Application = () => {
                         </div>
                       </div>
                     )}
+                    {application?.warning && (
+                      <div className="flex justify-start">
+                        <div className="max-w-[80%] p-3 rounded-2xl bg-red-300 text-white">
+                          <div>На сервере есть предупреждение, можно исправить.</div>
+                          <button
+                            onClick={handleFixCodeError} 
+                            className="mt-2 px-4 py-2 bg-white text-red-300 rounded"
+                          >
+                            Попробовать исправить
+                          </button>
+                        </div>
+                      </div>
+                    )}
                     {application?.deploying && (
                       <div>Приложение деплоится ...</div>
                     )}
