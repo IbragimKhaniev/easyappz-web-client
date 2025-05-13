@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef, useCallback, memo, useMemo } from 'react';
-import { Menu, User, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { useToast } from "@/hooks/use-toast";
 import { ConfigurationDialog } from "@/components/ConfigurationDialog";
@@ -9,12 +8,6 @@ import { PreviewPanel } from "@/features/constructor/ui/PreviewPanel/PreviewPane
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToggle } from '@/shared/lib/hooks/useToggle';
 import { useMobile } from "@/hooks/use-mobile";
-import { 
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
 
 import { 
   usePostPromtsAnalyze,
@@ -24,7 +17,6 @@ import {
   usePostApplicationsApplicationIdMessages,
   usePostApplications,
   useGetApplicationsId,
-  usePostApplicationsApplicationIdMessagesMessageIdRetry
 } from '@/api/core';
 import { ROUTES } from '@/constants/routes';
 import { useQueryClient } from '@tanstack/react-query';
@@ -123,15 +115,6 @@ const Application = () => {
       }
     }
   });
-
-  const { mutateAsync: retryMessage } = usePostApplicationsApplicationIdMessagesMessageIdRetry(); // для retry запроса
-
-  const handleRetry = useCallback((messageId: string) => {
-    retryMessage({
-      messageId,
-      applicationId,
-    });
-  }, [retryMessage, applicationId]);
 
   const handleFixDeployingError = useCallback(() => {
     if (application?.deployingError) {
@@ -277,22 +260,6 @@ const Application = () => {
                           </button>
                         </div>
                       </div>
-                    )}
-                    {messages && messages.length > 0 && messages[messages.length - 1].promts &&
-                      messages[messages.length - 1].promts.some((prompt) => prompt.status === 'error') && (
-                        <div className="flex justify-start">
-                          <div className="max-w-[80%] p-3 rounded-2xl bg-yellow-500 text-black">
-                            <div>
-                              В последнем сообщении обнаружена ошибка. Вы можете попробовать ещё раз обработать это сообщение.
-                            </div>
-                            <button
-                              onClick={() => handleRetry(messages[messages.length - 1].id)}
-                              className="mt-2 px-4 py-2 bg-white text-black rounded"
-                            >
-                              Попробовать ещё раз
-                            </button>
-                          </div>
-                        </div>
                     )}
                     {application?.deploying && (
                       <div>Приложение деплоится ...</div>

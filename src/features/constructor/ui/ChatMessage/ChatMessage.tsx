@@ -53,7 +53,12 @@ export const ChatMessage = memo(({ data, applicationId }: ChatMessageType) => {
           </div>
         ))}
         {data.status === 'error' && (
-          <button onClick={onClickRetry}>Попробовать еще раз</button>
+          <button
+          onClick={onClickRetry}
+            className="mt-2 px-4 py-2 bg-white text-black rounded"
+          >
+            Попробовать ещё раз
+          </button>
         )}
       </div>
     </div>
