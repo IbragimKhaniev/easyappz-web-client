@@ -29,8 +29,14 @@ import type {
   GetApplications500,
   IMongoModelApplication,
   PostApplicationsBody,
+  PostApplicationsIdRestart200,
+  PostApplicationsIdRestart400,
+  PostApplicationsIdRestart404,
+  PostApplicationsIdRestart500,
   ServerErrorResponse
 } from './types'
+import postApplicationsIdRestartMutator from '../axios';
+import type { ErrorType as PostApplicationsIdRestartErrorType } from '../axios';
 import getApplicationsMutator from '../axios';
 import type { ErrorType as GetApplicationsErrorType } from '../axios';
 import postApplicationsMutator from '../axios';
@@ -40,6 +46,69 @@ import type { ErrorType as PostApplicationsErrorType } from '../axios';
 
 
 /**
+ * Очищает поле deployingError у указанного приложения, сигнализируя о том, что ошибка деплоя устранена.
+ * @summary Перезагрузить приложение
+ */
+export const postApplicationsIdRestart = (
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return postApplicationsIdRestartMutator<PostApplicationsIdRestart200>(
+      {url: `/applications/${id}/restart`, method: 'POST', signal
+    },
+      );
+    }
+  
+
+
+export const getPostApplicationsIdRestartMutationOptions = <TError = PostApplicationsIdRestartErrorType<PostApplicationsIdRestart400 | PostApplicationsIdRestart404 | PostApplicationsIdRestart500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApplicationsIdRestart>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postApplicationsIdRestart>>, TError,{id: string}, TContext> => {
+    
+const mutationKey = ['postApplicationsIdRestart'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApplicationsIdRestart>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  postApplicationsIdRestart(id,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostApplicationsIdRestartMutationResult = NonNullable<Awaited<ReturnType<typeof postApplicationsIdRestart>>>
+    
+    export type PostApplicationsIdRestartMutationError = PostApplicationsIdRestartErrorType<PostApplicationsIdRestart400 | PostApplicationsIdRestart404 | PostApplicationsIdRestart500>
+
+    /**
+ * @summary Перезагрузить приложение
+ */
+export const usePostApplicationsIdRestart = <TError = PostApplicationsIdRestartErrorType<PostApplicationsIdRestart400 | PostApplicationsIdRestart404 | PostApplicationsIdRestart500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApplicationsIdRestart>>, TError,{id: string}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof postApplicationsIdRestart>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+
+      const mutationOptions = getPostApplicationsIdRestartMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Возвращает список всех приложений, принадлежащих аутентифицированному пользователю (req.user).
  * @summary Получение списка приложений для пользователя
  */

@@ -17,6 +17,7 @@ import {
   usePostApplicationsApplicationIdMessages,
   usePostApplications,
   useGetApplicationsId,
+  useGetApplicationsIdLogs,
 } from '@/api/core';
 import { ROUTES } from '@/constants/routes';
 import { useQueryClient } from '@tanstack/react-query';
@@ -41,6 +42,14 @@ const Application = () => {
   const [promtSettings, setPromtSettings] = useState<PostPromtsAnalyze200 | null>(null);
 
   const { data: config, isLoading: isLoadingConfig } = useGetConfig();
+
+  const { data: logs } = useGetApplicationsIdLogs(applicationId, {
+    query: {
+      enabled: Boolean(applicationId),
+      queryKey: ['getLogsKey', applicationId],
+      refetchInterval: 3000,
+    }
+  });
 
   const { data: messages, isLoading: isLoadingMessages } = useGetApplicationsApplicationIdMessages(applicationId, {
     query: {
@@ -274,19 +283,6 @@ const Application = () => {
                           <button
                             onClick={handleFixCodeError} 
                             className="mt-2 px-4 py-2 bg-white text-red-500 rounded"
-                          >
-                            Попробовать исправить
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                    {application?.warning && (
-                      <div className="flex justify-start">
-                        <div className="max-w-[80%] p-3 rounded-2xl bg-red-300 text-white">
-                          <div>На сервере есть предупреждение, можно исправить.</div>
-                          <button
-                            onClick={handleFixCodeWarning} 
-                            className="mt-2 px-4 py-2 bg-white text-red-300 rounded"
                           >
                             Попробовать исправить
                           </button>
