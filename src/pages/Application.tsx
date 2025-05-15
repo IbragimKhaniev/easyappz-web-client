@@ -137,7 +137,7 @@ const Application = () => {
         },
       });
     }
-  }, [application.deployingError, applicationId, logs.logs, postMessages]);
+  }, [application?.deployingError, applicationId, logs.logs, postMessages]);
 
   const handleFixCodeWarning = useCallback(() => {
     const warningLogs = logs?.logs.filter((log) => log.type === 'warning' || log.type === 'error');
