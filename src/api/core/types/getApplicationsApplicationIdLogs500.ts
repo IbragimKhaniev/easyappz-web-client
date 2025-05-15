@@ -5,8 +5,8 @@
  * API documentation for EasyAppz
  * OpenAPI spec version: 1.0.0
  */
-import type { IMongoModelLog } from './iMongoModelLog';
 
-export type GetApplicationsIdLogs200 = {
-  logs?: IMongoModelLog[];
+export type GetApplicationsApplicationIdLogs500 = {
+  error?: boolean;
+  message?: string;
 };

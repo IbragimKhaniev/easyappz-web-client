@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type GetApplicationsIdLogs400 = {
+export type GetApplicationsApplicationIdLogs400 = {
   error?: boolean;
   message?: string;
 };

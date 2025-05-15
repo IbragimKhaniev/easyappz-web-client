@@ -19,12 +19,12 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query'
 import type {
-  GetApplicationsIdLogs200,
-  GetApplicationsIdLogs400,
-  GetApplicationsIdLogs500
+  GetApplicationsApplicationIdLogs200,
+  GetApplicationsApplicationIdLogs400,
+  GetApplicationsApplicationIdLogs500
 } from './types'
-import getApplicationsIdLogsMutator from '../axios';
-import type { ErrorType as GetApplicationsIdLogsErrorType } from '../axios';
+import getApplicationsApplicationIdLogsMutator from '../axios';
+import type { ErrorType as GetApplicationsApplicationIdLogsErrorType } from '../axios';
 
 
 
@@ -33,80 +33,80 @@ import type { ErrorType as GetApplicationsIdLogsErrorType } from '../axios';
  * Возвращает список логов для указанного приложения.
  * @summary Получить логи приложения
  */
-export const getApplicationsIdLogs = (
-    id: string,
+export const getApplicationsApplicationIdLogs = (
+    applicationId: string,
  signal?: AbortSignal
 ) => {
       
       
-      return getApplicationsIdLogsMutator<GetApplicationsIdLogs200>(
-      {url: `/applications/${id}/logs`, method: 'GET', signal
+      return getApplicationsApplicationIdLogsMutator<GetApplicationsApplicationIdLogs200>(
+      {url: `/applications/${applicationId}/logs`, method: 'GET', signal
     },
       );
     }
   
 
-export const getGetApplicationsIdLogsQueryKey = (id: string,) => {
-    return [`/applications/${id}/logs`] as const;
+export const getGetApplicationsApplicationIdLogsQueryKey = (applicationId: string,) => {
+    return [`/applications/${applicationId}/logs`] as const;
     }
 
     
-export const getGetApplicationsIdLogsQueryOptions = <TData = Awaited<ReturnType<typeof getApplicationsIdLogs>>, TError = GetApplicationsIdLogsErrorType<GetApplicationsIdLogs400 | GetApplicationsIdLogs500>>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsIdLogs>>, TError, TData>>, }
+export const getGetApplicationsApplicationIdLogsQueryOptions = <TData = Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>, TError = GetApplicationsApplicationIdLogsErrorType<GetApplicationsApplicationIdLogs400 | GetApplicationsApplicationIdLogs500>>(applicationId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApplicationsIdLogsQueryKey(id);
+  const queryKey =  queryOptions?.queryKey ?? getGetApplicationsApplicationIdLogsQueryKey(applicationId);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApplicationsIdLogs>>> = ({ signal }) => getApplicationsIdLogs(id, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>> = ({ signal }) => getApplicationsApplicationIdLogs(applicationId, signal);
 
       
 
       
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApplicationsIdLogs>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+   return  { queryKey, queryFn, enabled: !!(applicationId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
-export type GetApplicationsIdLogsQueryResult = NonNullable<Awaited<ReturnType<typeof getApplicationsIdLogs>>>
-export type GetApplicationsIdLogsQueryError = GetApplicationsIdLogsErrorType<GetApplicationsIdLogs400 | GetApplicationsIdLogs500>
+export type GetApplicationsApplicationIdLogsQueryResult = NonNullable<Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>>
+export type GetApplicationsApplicationIdLogsQueryError = GetApplicationsApplicationIdLogsErrorType<GetApplicationsApplicationIdLogs400 | GetApplicationsApplicationIdLogs500>
 
 
-export function useGetApplicationsIdLogs<TData = Awaited<ReturnType<typeof getApplicationsIdLogs>>, TError = GetApplicationsIdLogsErrorType<GetApplicationsIdLogs400 | GetApplicationsIdLogs500>>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsIdLogs>>, TError, TData>> & Pick<
+export function useGetApplicationsApplicationIdLogs<TData = Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>, TError = GetApplicationsApplicationIdLogsErrorType<GetApplicationsApplicationIdLogs400 | GetApplicationsApplicationIdLogs500>>(
+ applicationId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApplicationsIdLogs>>,
+          Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>,
           TError,
-          Awaited<ReturnType<typeof getApplicationsIdLogs>>
+          Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>
         > , 'initialData'
       >, }
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetApplicationsIdLogs<TData = Awaited<ReturnType<typeof getApplicationsIdLogs>>, TError = GetApplicationsIdLogsErrorType<GetApplicationsIdLogs400 | GetApplicationsIdLogs500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsIdLogs>>, TError, TData>> & Pick<
+export function useGetApplicationsApplicationIdLogs<TData = Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>, TError = GetApplicationsApplicationIdLogsErrorType<GetApplicationsApplicationIdLogs400 | GetApplicationsApplicationIdLogs500>>(
+ applicationId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApplicationsIdLogs>>,
+          Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>,
           TError,
-          Awaited<ReturnType<typeof getApplicationsIdLogs>>
+          Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>
         > , 'initialData'
       >, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetApplicationsIdLogs<TData = Awaited<ReturnType<typeof getApplicationsIdLogs>>, TError = GetApplicationsIdLogsErrorType<GetApplicationsIdLogs400 | GetApplicationsIdLogs500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsIdLogs>>, TError, TData>>, }
+export function useGetApplicationsApplicationIdLogs<TData = Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>, TError = GetApplicationsApplicationIdLogsErrorType<GetApplicationsApplicationIdLogs400 | GetApplicationsApplicationIdLogs500>>(
+ applicationId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Получить логи приложения
  */
 
-export function useGetApplicationsIdLogs<TData = Awaited<ReturnType<typeof getApplicationsIdLogs>>, TError = GetApplicationsIdLogsErrorType<GetApplicationsIdLogs400 | GetApplicationsIdLogs500>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsIdLogs>>, TError, TData>>, }
+export function useGetApplicationsApplicationIdLogs<TData = Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>, TError = GetApplicationsApplicationIdLogsErrorType<GetApplicationsApplicationIdLogs400 | GetApplicationsApplicationIdLogs500>>(
+ applicationId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApplicationsApplicationIdLogs>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  const queryOptions = getGetApplicationsIdLogsQueryOptions(id,options)
+  const queryOptions = getGetApplicationsApplicationIdLogsQueryOptions(applicationId,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 

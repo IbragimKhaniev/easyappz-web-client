@@ -1,4 +1,4 @@
-import { GetApplicationsApplicationIdMessages200Item } from "@/api/core";
+import { GetApplicationsApplicationIdMessages200Item, GetApplicationsApplicationIdLogs200 } from "@/api/core";
 import { IMongoModelApplication } from '@/api/core';
 
 export interface ChatMessage {
@@ -19,4 +19,6 @@ export interface PreviewPanelProps {
   toggleMobileView: () => void;
   handleReloadDemo: () => void;
   isMobileDisplay?: boolean;
+
+  logs?: GetApplicationsApplicationIdLogs200;
 }

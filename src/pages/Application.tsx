@@ -17,7 +17,7 @@ import {
   usePostApplicationsApplicationIdMessages,
   usePostApplications,
   useGetApplicationsId,
-  useGetApplicationsIdLogs,
+  useGetApplicationsApplicationIdLogs,
 } from '@/api/core';
 import { ROUTES } from '@/constants/routes';
 import { useQueryClient } from '@tanstack/react-query';
@@ -43,7 +43,7 @@ const Application = () => {
 
   const { data: config, isLoading: isLoadingConfig } = useGetConfig();
 
-  const { data: logs } = useGetApplicationsIdLogs(applicationId, {
+  const { data: logs } = useGetApplicationsApplicationIdLogs(applicationId, {
     query: {
       enabled: Boolean(applicationId),
       queryKey: ['getLogsKey', applicationId],
@@ -148,15 +148,26 @@ const Application = () => {
   }, [application, applicationId, postMessages]);
 
   const handleFixCodeWarning = useCallback(() => {
-    if (application?.warning) {
-      postMessages({
-        applicationId: applicationId,
-        data: {
-          content: `Исправь ошибку: ${application.warning}`,
-        },
-      });
-    }
-  }, [application, applicationId, postMessages]);
+    const warningLogs = logs?.logs.filter((log) => log.type === 'warning' || log.type === 'error');
+    const lastWarning = warningLogs[warningLogs.length - 1];
+
+    postMessages({
+      applicationId: applicationId,
+      data: {
+        content: `
+        Исправь ошибку: ${lastWarning.content}
+        Для контекста, вот последние 10 строк лога:
+        ${warningLogs.slice(-10).map((log) => `${log.createdAt}: ${log.content}`).join('\n')}
+      `,
+      },
+    });
+  }, [applicationId, logs?.logs, postMessages]);
+
+  const warningLogs = useMemo(() => {
+    if (!logs) return [];
+
+    return logs.logs.filter((log) => log.type === 'warning' || log.type === 'error');
+  }, [logs]);
 
   const isCommonLoading = useMemo(() => (
     isPendingPostMessages || isPendingPostApplications || isLoadingMessages || application?.pending || isLoadingConfig || isPendingPromtAnalyze
@@ -276,12 +287,12 @@ const Application = () => {
                         </div>
                       </div>
                     )}
-                    {application?.error && (
+                    {warningLogs.length && (
                       <div className="flex justify-start">
                         <div className="max-w-[80%] p-3 rounded-2xl bg-red-500 text-white">
-                          <div>При написании кода возникла ошибка, давайте попробуем исправить.</div>
+                          <div>На сервере есть ошибки, можем попробовать их исправить.</div>
                           <button
-                            onClick={handleFixCodeError} 
+                            onClick={handleFixCodeWarning} 
                             className="mt-2 px-4 py-2 bg-white text-red-500 rounded"
                           >
                             Попробовать исправить
@@ -312,6 +323,7 @@ const Application = () => {
               isMobileView={isMobileView} 
               toggleMobileView={toggleMobileView} 
               handleReloadDemo={handleReloadDemo} 
+              logs={logs}
             />
           )}
         </ResizablePanel>

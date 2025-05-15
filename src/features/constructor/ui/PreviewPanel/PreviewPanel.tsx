@@ -15,8 +15,10 @@ export const PreviewPanel = memo(({
   toggleMobileView,
   handleReloadDemo,
   isMobileDisplay = false,
+  logs,
 }: PreviewPanelProps) => {
   const [codeEditorOpened, setCodeEditorOpened] = useState(false);
+  const [logsOpened, setLogsOpened] = useState(false);
 
   const parsedDir = useMemo(() => `https://${application.domain}.easyappz.ru`, [application.domain]);
 
@@ -30,6 +32,10 @@ export const PreviewPanel = memo(({
 
   const handleOpenPreviewPanel = useCallback(() => {
     setCodeEditorOpened(false);
+  }, []);
+
+  const toggleOpenLogs = useCallback(() => {
+    setLogsOpened((logsOpened) => !logsOpened);
   }, []);
 
   const renderButton = useCallback((icon: React.ReactNode, onClick: () => void, title: string, isActive?: boolean) => (
@@ -55,6 +61,7 @@ export const PreviewPanel = memo(({
           {!isMobileDisplay && renderButton(<Smartphone className="w-5 h-5 text-white" />, toggleMobileView, "Toggle mobile view", isMobileView)}
           {!codeEditorOpened && renderButton(<CodeXml className="w-5 h-5 text-white" />, handleOpenCodeEditor, "Open code editor")}
           {codeEditorOpened && renderButton(<Component className="w-5 h-5 text-white" />, handleOpenPreviewPanel, "Open preview")}
+          {renderButton(<Component className="w-5 h-5 text-white" />, toggleOpenLogs, "Open logs")}
         </div>
       </div>
  
@@ -77,6 +84,25 @@ export const PreviewPanel = memo(({
             <div className='h-full flex justify-center' />
           )}
         </div>
+        {logsOpened && (
+          <div className="fixed bottom-0 left-0 right-0 bg-[#000] p-4 rounded-lg z-999">
+            <h2 className="text-lg font-semibold text-white">Logs</h2>
+            <div className="overflow-y-auto max-h-[200px]">
+              {logs.logs.map((log, index) => (
+                <div key={index} className="text-white">
+                  <p
+                    className={cn(
+                      'text-sm',
+                      log.type === 'error' ? 'text-red-500' : log.type === 'warning' ? 'text-gray-100' : 'text-white'
+                    )}
+                  >
+                    {log.createdAt}: {log.content}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

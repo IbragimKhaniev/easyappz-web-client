@@ -12,9 +12,9 @@ export interface IMongoModelLog {
   /** Идентификатор приложения, к которому привязан лог. */
   application?: string;
   /** Сообщение лога. */
-  message?: string;
-  /** Уровень логирования. */
-  level?: string;
+  content?: string;
+  type?: string;
+  status?: string;
   /** Дата и время создания лога. */
   createdAt?: string;
 }
