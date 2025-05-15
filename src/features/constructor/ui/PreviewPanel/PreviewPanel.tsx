@@ -93,8 +93,10 @@ export const PreviewPanel = memo(({
                   <p
                     className={cn(
                       'text-sm',
-                      log.type === 'error' ? 'text-red-500' : log.type === 'warning' ? 'text-gray-100' : 'text-white'
                     )}
+                    style={{
+                      color: log.type === 'error' ? 'red' : log.type === 'warning' ? 'yellow' : 'white'
+                    }}
                   >
                     {log.createdAt}: {log.content}
                   </p>
