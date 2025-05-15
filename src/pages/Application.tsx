@@ -18,6 +18,7 @@ import {
   usePostApplications,
   useGetApplicationsId,
   useGetApplicationsApplicationIdLogs,
+  usePostApplicationsIdRestart,
 } from '@/api/core';
 import { ROUTES } from '@/constants/routes';
 import { useQueryClient } from '@tanstack/react-query';
@@ -124,6 +125,16 @@ const Application = () => {
       }
     }
   });
+
+  const { mutate: restartApp } = usePostApplicationsIdRestart();
+
+  const onClickRestart = useCallback(() => {
+    if (!applicationId) return;
+
+    restartApp({
+      id: applicationId,
+    });
+  }, [applicationId, restartApp]);
 
   const handleFixDeployingError = useCallback(() => {
     if (application?.deployingError) {
@@ -273,6 +284,19 @@ const Application = () => {
                             className="mt-2 px-4 py-2 bg-white text-red-500 rounded"
                           >
                             Попробовать исправить
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    {application?.deployingError && (
+                      <div className="flex justify-start">
+                        <div className="max-w-[80%] p-3 rounded-2xl bg-red-500 text-white">
+                          <div>При запуске сервера произошла ошибка, можно попробовать перезапустить.</div>
+                          <button 
+                            onClick={onClickRestart} 
+                            className="mt-2 px-4 py-2 bg-white text-red-500 rounded"
+                          >
+                            Перезапустить сервер
                           </button>
                         </div>
                       </div>
