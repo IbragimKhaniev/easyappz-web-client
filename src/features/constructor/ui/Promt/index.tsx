@@ -10,7 +10,7 @@ interface PromtProps {
 
 export const Promt = memo(({ data, typing }: PromtProps) => {
   return (
-    <div className="mt-1 ml-4 p-2 rounded text-gray-100 text-left">
+    <div className="mt-1 rounded text-gray-100 text-left">
       {data.result && typing ? <Typing content={data.result} /> : <div>{data.result}</div>}
     </div>
   );
