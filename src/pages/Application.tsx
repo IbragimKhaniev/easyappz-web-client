@@ -130,22 +130,14 @@ const Application = () => {
       postMessages({
         applicationId: applicationId,
         data: {
-          content: `Исправь ошибку: ${application.deployingError}`,
+          content: `
+            Исправь ошибку: ${application.deployingError}
+            Для контекста все логи: ${logs.logs.join('\n')}
+          `,
         },
       });
     }
-  }, [application, applicationId, postMessages]);
-
-  const handleFixCodeError = useCallback(() => {
-    if (application?.error) {
-      postMessages({
-        applicationId: applicationId,
-        data: {
-          content: `Исправь ошибку: ${application.error}`,
-        },
-      });
-    }
-  }, [application, applicationId, postMessages]);
+  }, [application.deployingError, applicationId, logs.logs, postMessages]);
 
   const handleFixCodeWarning = useCallback(() => {
     const warningLogs = logs?.logs.filter((log) => log.type === 'warning' || log.type === 'error');
