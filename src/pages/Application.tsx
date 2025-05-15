@@ -148,8 +148,7 @@ const Application = () => {
       data: {
         content: `
         Исправь ошибку: ${lastWarning.content}
-        Для контекста, вот последние 10 строк лога:
-        ${warningLogs.slice(-10).map((log) => `${log.createdAt}: ${log.content}`).join('\n')}
+        Для контекста все логи: ${logs.logs.join('\n')}
       `,
       },
     });
