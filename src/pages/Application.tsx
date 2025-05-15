@@ -132,7 +132,7 @@ const Application = () => {
         data: {
           content: `
             Исправь ошибку: ${application.deployingError}
-            Для контекста все логи: ${logs.logs.join('\n')}
+            Для контекста все логи: ${logs.logs.map(log => log.content).join(';')}
           `,
         },
       });
@@ -141,14 +141,13 @@ const Application = () => {
 
   const handleFixCodeWarning = useCallback(() => {
     const warningLogs = logs?.logs.filter((log) => log.type === 'warning' || log.type === 'error');
-    const lastWarning = warningLogs[warningLogs.length - 1];
 
     postMessages({
       applicationId: applicationId,
       data: {
         content: `
-        Исправь ошибку: ${lastWarning.content}
-        Для контекста все логи: ${logs.logs.join('\n')}
+        Исправь ошибки: ${warningLogs.map(log => log.content).join(';')}
+        Для контекста все логи: ${logs.logs.map(log => log.content).join(';')}
       `,
       },
     });
@@ -278,7 +277,7 @@ const Application = () => {
                         </div>
                       </div>
                     )}
-                    {warningLogs.length && (
+                    {warningLogs.length ? (
                       <div className="flex justify-start">
                         <div className="max-w-[80%] p-3 rounded-2xl bg-red-500 text-white">
                           <div>На сервере есть ошибки, можем попробовать их исправить.</div>
@@ -290,7 +289,7 @@ const Application = () => {
                           </button>
                         </div>
                       </div>
-                    )}
+                    ) : null}
                     <div ref={messagesEndRef} />
                   </>
                 )}

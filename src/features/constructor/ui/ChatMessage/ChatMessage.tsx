@@ -13,7 +13,6 @@ interface IChatMessageProps {
 }
 
 export const ChatMessage = memo(({ data, applicationId, isLast }: IChatMessageProps) => {
-  const [firstLoaded, setFirstLoaded] = useState(0);
   const { mutateAsync } = usePostApplicationsApplicationIdMessagesMessageIdRetry();
 
   const onClickRetry = useCallback(() => {
@@ -26,12 +25,6 @@ export const ChatMessage = memo(({ data, applicationId, isLast }: IChatMessagePr
   const isAI = useMemo(() => (
     data.role === 'assistant'
   ), [data.role]);
-
-  useEffect(() => {
-    if (data) {
-      setFirstLoaded((firstLoaded) => firstLoaded + 1);
-    }
-  }, [data]);
 
   return (
     <>
@@ -51,7 +44,7 @@ export const ChatMessage = memo(({ data, applicationId, isLast }: IChatMessagePr
           <Promt
             key={index}
             data={currentPromt}
-            typing={isLast && Boolean(index === data.promts.length - 1) && firstLoaded === 2}
+            typing={isLast && Boolean(index === data.promts.length - 1)}
           />
         ))}
         {(data.status === 'processing' || data.status === 'created') && (
