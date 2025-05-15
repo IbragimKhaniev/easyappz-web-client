@@ -57,10 +57,7 @@ export const ChatMessage = memo(({ data, applicationId, isLast }: IChatMessagePr
         )}
         {data.status === 'error' && (
           <div className="flex justify-start">
-            <div className="flex items-center gap-2 bg-red-500 text-white/90 p-3 rounded-2xl">
-              <Loader2 size={16} className="animate-spin" />
-              <span>Ошибка обработки</span>
-            </div>
+            <span>Ошибка обработки</span>
           </div>
         )}
         {data.status === 'error' && (
