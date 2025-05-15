@@ -128,11 +128,22 @@ const Application = () => {
   }, [application, applicationId, postMessages]);
 
   const handleFixCodeError = useCallback(() => {
-    if (application?.deployingError) {
+    if (application?.error) {
       postMessages({
         applicationId: applicationId,
         data: {
           content: `Исправь ошибку: ${application.error}`,
+        },
+      });
+    }
+  }, [application, applicationId, postMessages]);
+
+  const handleFixCodeWarning = useCallback(() => {
+    if (application?.warning) {
+      postMessages({
+        applicationId: applicationId,
+        data: {
+          content: `Исправь ошибку: ${application.warning}`,
         },
       });
     }
@@ -233,8 +244,16 @@ const Application = () => {
                 ) : (
                   <>
                     {messages?.map((msg, index) => (
-                      <ChatMessage key={index} data={msg} applicationId={applicationId} />
+                      <ChatMessage
+                        key={index}
+                        data={msg}
+                        applicationId={applicationId}
+                        isLast={index === messages.length - 1}
+                      />
                     ))}
+                    {application?.deploying && (
+                      <div>Приложение деплоится ...</div>
+                    )}
                     {application?.deployingError && (
                       <div className="flex justify-start">
                         <div className="max-w-[80%] p-3 rounded-2xl bg-red-500 text-white">
@@ -266,16 +285,13 @@ const Application = () => {
                         <div className="max-w-[80%] p-3 rounded-2xl bg-red-300 text-white">
                           <div>На сервере есть предупреждение, можно исправить.</div>
                           <button
-                            onClick={handleFixCodeError} 
+                            onClick={handleFixCodeWarning} 
                             className="mt-2 px-4 py-2 bg-white text-red-300 rounded"
                           >
                             Попробовать исправить
                           </button>
                         </div>
                       </div>
-                    )}
-                    {application?.deploying && (
-                      <div>Приложение деплоится ...</div>
                     )}
                     <div ref={messagesEndRef} />
                   </>

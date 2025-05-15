@@ -2,10 +2,17 @@
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import type { ChatMessage as ChatMessageType } from '../../model/types';
-import { usePostApplicationsApplicationIdMessagesMessageIdRetry } from '@/api/core';
+import { GetApplicationsApplicationIdMessages200Item, usePostApplicationsApplicationIdMessagesMessageIdRetry } from '@/api/core';
 import { Promt } from '../Promt';
 
-export const ChatMessage = memo(({ data, applicationId }: ChatMessageType) => {
+interface IChatMessageProps {
+  data: GetApplicationsApplicationIdMessages200Item;
+  applicationId: string;
+
+  isLast?: boolean;
+}
+
+export const ChatMessage = memo(({ data, applicationId, isLast }: IChatMessageProps) => {
   const [firstLoaded, setFirstLoaded] = useState(0);
   const { mutateAsync } = usePostApplicationsApplicationIdMessagesMessageIdRetry();
 
@@ -44,14 +51,14 @@ export const ChatMessage = memo(({ data, applicationId }: ChatMessageType) => {
           <Promt
             key={index}
             data={currentPromt}
-            typing={Boolean(index === data.promts.length - 1) && firstLoaded === 2}
+            typing={isLast && Boolean(index === data.promts.length - 1) && firstLoaded === 2}
           />
         ))}
         {(data.status === 'processing' || data.status === 'created') && (
           <div className="flex justify-start">
             <div className="flex items-center gap-2 bg-white/5 text-white/90 p-3 rounded-2xl">
               <Loader2 size={16} className="animate-spin" />
-              <span>Обрабатывается...</span>
+              <span>Думаю</span>
             </div>
           </div>
         )}
