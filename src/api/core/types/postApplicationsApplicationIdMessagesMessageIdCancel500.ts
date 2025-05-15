@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PostApplicationsIdRestart500 = {
+export type PostApplicationsApplicationIdMessagesMessageIdCancel500 = {
   error?: boolean;
   message?: string;
 };

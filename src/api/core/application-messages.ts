@@ -6,22 +6,31 @@
  * OpenAPI spec version: 1.0.0
  */
 import {
+  useMutation,
   useQuery
 } from '@tanstack/react-query'
 import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
+  MutationFunction,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
 import type {
   GetApplicationsApplicationIdMessages200Item,
-  GetApplicationsApplicationIdMessages500
+  GetApplicationsApplicationIdMessages500,
+  PostApplicationsApplicationIdMessagesMessageIdCancel200,
+  PostApplicationsApplicationIdMessagesMessageIdCancel404,
+  PostApplicationsApplicationIdMessagesMessageIdCancel500
 } from './types'
+import postApplicationsApplicationIdMessagesMessageIdCancelMutator from '../axios';
+import type { ErrorType as PostApplicationsApplicationIdMessagesMessageIdCancelErrorType } from '../axios';
 import getApplicationsApplicationIdMessagesMutator from '../axios';
 import type { ErrorType as GetApplicationsApplicationIdMessagesErrorType } from '../axios';
 
@@ -29,6 +38,70 @@ import type { ErrorType as GetApplicationsApplicationIdMessagesErrorType } from 
 
 
 /**
+ * Отменяет все необработанные промты для указанного сообщения, устанавливает статус сообщения в "completed" и очищает ошибку приложения.
+ * @summary Отменить промты сообщения
+ */
+export const postApplicationsApplicationIdMessagesMessageIdCancel = (
+    applicationId: string,
+    messageId: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return postApplicationsApplicationIdMessagesMessageIdCancelMutator<PostApplicationsApplicationIdMessagesMessageIdCancel200>(
+      {url: `/applications/${applicationId}/messages/${messageId}/cancel`, method: 'POST', signal
+    },
+      );
+    }
+  
+
+
+export const getPostApplicationsApplicationIdMessagesMessageIdCancelMutationOptions = <TError = PostApplicationsApplicationIdMessagesMessageIdCancelErrorType<PostApplicationsApplicationIdMessagesMessageIdCancel404 | PostApplicationsApplicationIdMessagesMessageIdCancel500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApplicationsApplicationIdMessagesMessageIdCancel>>, TError,{applicationId: string;messageId: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postApplicationsApplicationIdMessagesMessageIdCancel>>, TError,{applicationId: string;messageId: string}, TContext> => {
+    
+const mutationKey = ['postApplicationsApplicationIdMessagesMessageIdCancel'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApplicationsApplicationIdMessagesMessageIdCancel>>, {applicationId: string;messageId: string}> = (props) => {
+          const {applicationId,messageId} = props ?? {};
+
+          return  postApplicationsApplicationIdMessagesMessageIdCancel(applicationId,messageId,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostApplicationsApplicationIdMessagesMessageIdCancelMutationResult = NonNullable<Awaited<ReturnType<typeof postApplicationsApplicationIdMessagesMessageIdCancel>>>
+    
+    export type PostApplicationsApplicationIdMessagesMessageIdCancelMutationError = PostApplicationsApplicationIdMessagesMessageIdCancelErrorType<PostApplicationsApplicationIdMessagesMessageIdCancel404 | PostApplicationsApplicationIdMessagesMessageIdCancel500>
+
+    /**
+ * @summary Отменить промты сообщения
+ */
+export const usePostApplicationsApplicationIdMessagesMessageIdCancel = <TError = PostApplicationsApplicationIdMessagesMessageIdCancelErrorType<PostApplicationsApplicationIdMessagesMessageIdCancel404 | PostApplicationsApplicationIdMessagesMessageIdCancel500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApplicationsApplicationIdMessagesMessageIdCancel>>, TError,{applicationId: string;messageId: string}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof postApplicationsApplicationIdMessagesMessageIdCancel>>,
+        TError,
+        {applicationId: string;messageId: string},
+        TContext
+      > => {
+
+      const mutationOptions = getPostApplicationsApplicationIdMessagesMessageIdCancelMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Возвращает массив сообщений для указанного приложения. Каждое сообщение включает поля id, content, role, status и вложенный массив promts, содержащий объекты с полями content, result и status.
 
  * @summary Получение сообщений и промтов для приложения

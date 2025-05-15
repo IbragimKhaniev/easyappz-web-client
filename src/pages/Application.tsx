@@ -18,7 +18,7 @@ import {
   usePostApplications,
   useGetApplicationsId,
   useGetApplicationsApplicationIdLogs,
-  usePostApplicationsIdRestart,
+  usePostApplicationsApplicationIdRestart,
 } from '@/api/core';
 import { ROUTES } from '@/constants/routes';
 import { useQueryClient } from '@tanstack/react-query';
@@ -126,13 +126,13 @@ const Application = () => {
     }
   });
 
-  const { mutate: restartApp } = usePostApplicationsIdRestart();
+  const { mutate: restartApp } = usePostApplicationsApplicationIdRestart();
 
   const onClickRestart = useCallback(() => {
     if (!applicationId) return;
 
     restartApp({
-      id: applicationId,
+      applicationId: applicationId,
     });
   }, [applicationId, restartApp]);
 

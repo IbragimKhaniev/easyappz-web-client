@@ -28,15 +28,15 @@ import type {
   GetApplications401,
   GetApplications500,
   IMongoModelApplication,
+  PostApplicationsApplicationIdRestart200,
+  PostApplicationsApplicationIdRestart400,
+  PostApplicationsApplicationIdRestart404,
+  PostApplicationsApplicationIdRestart500,
   PostApplicationsBody,
-  PostApplicationsIdRestart200,
-  PostApplicationsIdRestart400,
-  PostApplicationsIdRestart404,
-  PostApplicationsIdRestart500,
   ServerErrorResponse
 } from './types'
-import postApplicationsIdRestartMutator from '../axios';
-import type { ErrorType as PostApplicationsIdRestartErrorType } from '../axios';
+import postApplicationsApplicationIdRestartMutator from '../axios';
+import type { ErrorType as PostApplicationsApplicationIdRestartErrorType } from '../axios';
 import getApplicationsMutator from '../axios';
 import type { ErrorType as GetApplicationsErrorType } from '../axios';
 import postApplicationsMutator from '../axios';
@@ -49,25 +49,25 @@ import type { ErrorType as PostApplicationsErrorType } from '../axios';
  * Очищает поле deployingError у указанного приложения, сигнализируя о том, что ошибка деплоя устранена.
  * @summary Перезагрузить приложение
  */
-export const postApplicationsIdRestart = (
-    id: string,
+export const postApplicationsApplicationIdRestart = (
+    applicationId: string,
  signal?: AbortSignal
 ) => {
       
       
-      return postApplicationsIdRestartMutator<PostApplicationsIdRestart200>(
-      {url: `/applications/${id}/restart`, method: 'POST', signal
+      return postApplicationsApplicationIdRestartMutator<PostApplicationsApplicationIdRestart200>(
+      {url: `/applications/${applicationId}/restart`, method: 'POST', signal
     },
       );
     }
   
 
 
-export const getPostApplicationsIdRestartMutationOptions = <TError = PostApplicationsIdRestartErrorType<PostApplicationsIdRestart400 | PostApplicationsIdRestart404 | PostApplicationsIdRestart500>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApplicationsIdRestart>>, TError,{id: string}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postApplicationsIdRestart>>, TError,{id: string}, TContext> => {
+export const getPostApplicationsApplicationIdRestartMutationOptions = <TError = PostApplicationsApplicationIdRestartErrorType<PostApplicationsApplicationIdRestart400 | PostApplicationsApplicationIdRestart404 | PostApplicationsApplicationIdRestart500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApplicationsApplicationIdRestart>>, TError,{applicationId: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postApplicationsApplicationIdRestart>>, TError,{applicationId: string}, TContext> => {
     
-const mutationKey = ['postApplicationsIdRestart'];
+const mutationKey = ['postApplicationsApplicationIdRestart'];
 const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -77,10 +77,10 @@ const {mutation: mutationOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApplicationsIdRestart>>, {id: string}> = (props) => {
-          const {id} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApplicationsApplicationIdRestart>>, {applicationId: string}> = (props) => {
+          const {applicationId} = props ?? {};
 
-          return  postApplicationsIdRestart(id,)
+          return  postApplicationsApplicationIdRestart(applicationId,)
         }
 
         
@@ -88,23 +88,23 @@ const {mutation: mutationOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApplicationsIdRestartMutationResult = NonNullable<Awaited<ReturnType<typeof postApplicationsIdRestart>>>
+    export type PostApplicationsApplicationIdRestartMutationResult = NonNullable<Awaited<ReturnType<typeof postApplicationsApplicationIdRestart>>>
     
-    export type PostApplicationsIdRestartMutationError = PostApplicationsIdRestartErrorType<PostApplicationsIdRestart400 | PostApplicationsIdRestart404 | PostApplicationsIdRestart500>
+    export type PostApplicationsApplicationIdRestartMutationError = PostApplicationsApplicationIdRestartErrorType<PostApplicationsApplicationIdRestart400 | PostApplicationsApplicationIdRestart404 | PostApplicationsApplicationIdRestart500>
 
     /**
  * @summary Перезагрузить приложение
  */
-export const usePostApplicationsIdRestart = <TError = PostApplicationsIdRestartErrorType<PostApplicationsIdRestart400 | PostApplicationsIdRestart404 | PostApplicationsIdRestart500>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApplicationsIdRestart>>, TError,{id: string}, TContext>, }
+export const usePostApplicationsApplicationIdRestart = <TError = PostApplicationsApplicationIdRestartErrorType<PostApplicationsApplicationIdRestart400 | PostApplicationsApplicationIdRestart404 | PostApplicationsApplicationIdRestart500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApplicationsApplicationIdRestart>>, TError,{applicationId: string}, TContext>, }
 ): UseMutationResult<
-        Awaited<ReturnType<typeof postApplicationsIdRestart>>,
+        Awaited<ReturnType<typeof postApplicationsApplicationIdRestart>>,
         TError,
-        {id: string},
+        {applicationId: string},
         TContext
       > => {
 
-      const mutationOptions = getPostApplicationsIdRestartMutationOptions(options);
+      const mutationOptions = getPostApplicationsApplicationIdRestartMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

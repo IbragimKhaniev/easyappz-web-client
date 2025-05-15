@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PostApplicationsIdRestart200 = {
+export type PostApplicationsApplicationIdRestart500 = {
   error?: boolean;
   message?: string;
 };
