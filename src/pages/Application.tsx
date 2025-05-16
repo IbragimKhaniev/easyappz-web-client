@@ -338,6 +338,7 @@ const Application = () => {
               toggleMobileView={toggleMobileView} 
               handleReloadDemo={handleReloadDemo} 
               logs={logs}
+              onClickRestart={onClickRestart}
             />
           )}
         </ResizablePanel>

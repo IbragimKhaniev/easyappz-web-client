@@ -16,6 +16,7 @@ export const PreviewPanel = memo(({
   handleReloadDemo,
   isMobileDisplay = false,
   logs,
+  onClickRestart,
 }: PreviewPanelProps) => {
   const [codeEditorOpened, setCodeEditorOpened] = useState(false);
   const [logsOpened, setLogsOpened] = useState(false);
@@ -62,6 +63,7 @@ export const PreviewPanel = memo(({
           {!codeEditorOpened && renderButton(<CodeXml className="w-5 h-5 text-white" />, handleOpenCodeEditor, "Open code editor")}
           {codeEditorOpened && renderButton(<Component className="w-5 h-5 text-white" />, handleOpenPreviewPanel, "Open preview")}
           {renderButton(<Component className="w-5 h-5 text-white" />, toggleOpenLogs, "Open logs")}
+          {renderButton(<Component className="w-5 h-5 text-white" />, onClickRestart, "Restart docker")}
         </div>
       </div>
  

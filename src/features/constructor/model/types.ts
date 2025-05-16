@@ -20,5 +20,7 @@ export interface PreviewPanelProps {
   handleReloadDemo: () => void;
   isMobileDisplay?: boolean;
 
+  onClickRestart: VoidFunction;
+
   logs?: GetApplicationsApplicationIdLogs200;
 }
