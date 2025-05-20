@@ -62,8 +62,8 @@ export const PreviewPanel = memo(({
           {!isMobileDisplay && renderButton(<Smartphone className="w-5 h-5 text-white" />, toggleMobileView, "Toggle mobile view", isMobileView)}
           {!codeEditorOpened && renderButton(<CodeXml className="w-5 h-5 text-white" />, handleOpenCodeEditor, "Open code editor")}
           {codeEditorOpened && renderButton(<Component className="w-5 h-5 text-white" />, handleOpenPreviewPanel, "Open preview")}
-          {renderButton(<Component className="w-5 h-5 text-white" />, toggleOpenLogs, "Open logs")}
-          {renderButton(<Component className="w-5 h-5 text-white" />, onClickRestart, "Restart docker")}
+          {renderButton(<button className="w-5 h-5 text-white">Открыть логи</button>, toggleOpenLogs, "Open logs")}
+          {renderButton(<button className="w-5 h-5 text-white">Перезапустить сервер</button>, onClickRestart, "Restart docker")}
         </div>
       </div>
  
